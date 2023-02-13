@@ -6,4 +6,4 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<h2>Home Page</h2>
+<h2>Hiiiiiiiiii</h2>
