@@ -38,10 +38,10 @@ public class UserController extends HttpServlet {
         
         switch(action) {
             case "login":
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
                 break;
             case "signup":
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
                 break;
             default:
                 request.setAttribute("controller", "error");

@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Beyond Nguyen
  */
-@WebServlet(name = "RevenueController", urlPatterns = {"/revenue"})
-public class RevenueController extends HttpServlet {
+@WebServlet(name = "CartController", urlPatterns = {"/cart"})
+public class CartController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,26 +32,23 @@ public class RevenueController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
         switch (action) {
             case "index":
-                //Processing code here
-                //Forward request & response to the main layout
+
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
-            case "aboutus":
-                //Processing code here
-                //Forward request & response to the main layout
+            case "checkout":
+
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             default:
-                //Show error page
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "error404");
                 request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
-
         }
     }
 
