@@ -32,24 +32,20 @@
                 <div class="product__details__pic">
                     <div class="product__details__pic__left product__thumb nice-scroll">
                         <a class="pt active" href="#product-1">
-                            <img src="<c:url value="/assets/img/product/details/product-1.jpg"/>" alt="">
+                            <img src="<c:url value="/assets/img/product/product-6_1.jpg"/>" alt="">
                         </a>
                         <a class="pt" href="#product-2">
-                            <img src="<c:url value="/assets/img/product/details/product-2.jpg"/>" alt="">
+                            <img src="<c:url value="/assets/img/product/product-6_2.jpg"/>" alt="">
                         </a>
                         <a class="pt" href="#product-3">
-                            <img src="<c:url value="/assets/img/product/details/product-3.jpg"/>" alt="">
-                        </a>
-                        <a class="pt" href="#product-4">
-                            <img src="<c:url value="/assets/img/product/details/product-4.jpg"/>" alt="">
+                            <img src="<c:url value="/assets/img/product/product-6_3.jpg"/>" alt="">
                         </a>
                     </div>
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
-                            <img data-hash="product-1" class="product__big__img" src="<c:url value="/assets/img/product/details/product-1.jpg"/>" alt="">
-                            <img data-hash="product-2" class="product__big__img" src="<c:url value="/assets/img/product/details/product-2.jpg"/>" alt="">
-                            <img data-hash="product-3" class="product__big__img" src="<c:url value="/assets/img/product/details/product-3.jpg"/>" alt="">
-                            <img data-hash="product-4" class="product__big__img" src="<c:url value="/assets/img/product/details/product-4.jpg"/>" alt="">
+                            <img data-hash="product-1" class="product__big__img" src="<c:url value="/assets/img/product/product-6_1.jpg"/>" alt="">
+                            <img data-hash="product-2" class="product__big__img" src="<c:url value="/assets/img/product/product-6_2.jpg"/>" alt="">
+                            <img data-hash="product-3" class="product__big__img" src="<c:url value="/assets/img/product/product-6_3.jpg"/>" alt="">
                         </div>
                     </div>
                 </div>
@@ -135,10 +131,10 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-1.jpg">
+                    <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-10_1.jpg"/>">
                         <div class="label new">New</div>
                         <ul class="product__hover">
-                            <li><a href="img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a href="<c:url value="/assets/img/product/product-10_1.jpg"/>" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
@@ -158,9 +154,9 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-2.jpg">
+                    <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-10_1.jpg"/>">
                         <ul class="product__hover">
-                            <li><a href="img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a href="<c:url value="/assets/img/product/product-10_1.jpg"/>" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
@@ -180,10 +176,10 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-3.jpg">
+                    <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-10_1.jpg"/>">
                         <div class="label stockout">out of stock</div>
                         <ul class="product__hover">
-                            <li><a href="img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a href="<c:url value="/assets/img/product/product-10_1.jpg"/>" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
@@ -203,9 +199,9 @@
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="img/product/related/rp-4.jpg">
+                    <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-10_1.jpg"/>">
                         <ul class="product__hover">
-                            <li><a href="img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a href="<c:url value="/assets/img/product/product-10_1.jpg"/>" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>

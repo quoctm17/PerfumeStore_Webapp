@@ -4,10 +4,11 @@
     Author     : Beyond Nguyen
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--list danh sach product de admin CRUD-->
 
-<div class="container-xl p-lg-5">
+<div class="container-fluid p-lg-5">
     <div class="table-responsive">
         <div class="table-wrapper">
             <div class="table-title">
@@ -24,67 +25,76 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                       
+                        <th style="width: 100px"></th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Actions</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Discount</th>
+                        <th>Category</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                       
-                        <td>Thomas Hardy</td>
-                        <td>thomashardy@mail.com</td>
-                        <td>89 Chiaroscuro Rd, Portland, USA</td>
-                        <td>(171) 555-2222</td>
+                        <td><img src="<c:url value="/assets/img/product/product-5_1.jpg" />" ></td>
+                        <td>Thomas Hardy Thomas Hardy Thomas Hardy Thomas Hardy</td>
+                        <td class="line-clamp">lorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad</td>
+                        <td>5700000</td>
+                        <td>0.2</td>
+                        <td>Chanel</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                         </td>
                     </tr>
                     <tr>
-                        
-                        <td>Dominique Perrier</td>
-                        <td>dominiqueperrier@mail.com</td>
-                        <td>Obere Str. 57, Berlin, Germany</td>
-                        <td>(313) 555-5735</td>
+                        <td><img src="<c:url value="/assets/img/product/product-5_1.jpg" />" ></td>
+                        <td>Thomas Hardy Thomas Hardy Thomas Hardy Thomas Hardy</td>
+                        <td class="line-clamp">lorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad</td>
+                        <td>5700000</td>
+                        <td>0.2</td>
+                        <td>Chanel</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                         </td>
                     </tr>
                     <tr>
-                        <td>Maria Anders</td>
-                        <td>mariaanders@mail.com</td>
-                        <td>25, rue Lauriston, Paris, France</td>
-                        <td>(503) 555-9931</td>
+                        <td><img src="<c:url value="/assets/img/product/product-5_1.jpg" />" ></td>
+                        <td>Thomas Hardy Thomas Hardy Thomas Hardy Thomas Hardy</td>
+                        <td class="line-clamp">lorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad</td>
+                        <td>5700000</td>
+                        <td>0.2</td>
+                        <td>Chanel</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                         </td>
                     </tr>
                     <tr>
-                        <td>Fran Wilson</td>
-                        <td>franwilson@mail.com</td>
-                        <td>C/ Araquil, 67, Madrid, Spain</td>
-                        <td>(204) 619-5731</td>
+                        <td><img src="<c:url value="/assets/img/product/product-5_1.jpg" />" ></td>
+                        <td>Thomas Hardy Thomas Hardy Thomas Hardy Thomas Hardy</td>
+                        <td class="line-clamp">lorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad</td>
+                        <td>5700000</td>
+                        <td>0.2</td>
+                        <td>Chanel</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                         </td>
-                    </tr>					
+                    </tr>
                     <tr>
-                        <td>Martin Blank</td>
-                        <td>martinblank@mail.com</td>
-                        <td>Via Monte Bianco 34, Turin, Italy</td>
-                        <td>(480) 631-2097</td>
+                        <td><img src="<c:url value="/assets/img/product/product-5_1.jpg" />" ></td>
+                        <td>Thomas Hardy Thomas Hardy Thomas Hardy Thomas Hardy</td>
+                        <td class="line-clamp">lorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad lorem ispum sadasd sdas das das  das d sdsa d sadlorem ispum sadasd sdas das das  das d sdsa d sad</td>
+                        <td>5700000</td>
+                        <td>0.2</td>
+                        <td>Chanel</td>
                         <td>
                             <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
                             <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                         </td>
-                    </tr> 
+                    </tr>
                 </tbody>
             </table>
             <div class="clearfix">

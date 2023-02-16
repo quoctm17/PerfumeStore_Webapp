@@ -105,12 +105,12 @@
                 <div class="product__item">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <div class="label new">New</div>
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>
@@ -131,11 +131,11 @@
                 <div class="product__item">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>
@@ -156,12 +156,12 @@
                 <div class="product__item">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <div class="label stockout">out of stock</div>
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>
@@ -182,11 +182,11 @@
                 <div class="product__item">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>
@@ -207,11 +207,11 @@
                 <div class="product__item">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>
@@ -234,12 +234,12 @@
                 <div class="product__item sale">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <div class="label sale">Sale</div>
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>
@@ -262,11 +262,11 @@
                 <div class="product__item">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>
@@ -289,12 +289,12 @@
                 <div class="product__item sale">
                     <div
                         class="product__item__pic set-bg"
-                        data-setbg="<c:url value="assets/img/product/product-1.jpg" />"
+                        data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
                         >
                         <div class="label">Sale</div>
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1.jpg" />" class="image-popup"
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
                                    ><span class="arrow_expand"></span
                                     ></a>
                             </li>

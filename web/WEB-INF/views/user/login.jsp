@@ -36,17 +36,21 @@
                         </div>
                         <form action="#" class="signin-form">
                             <div class="form-group mb-3">
-                                <label class="label" for="name">Username</label>
+                                <label class="label" for="email">Email</label>
                                 <input
+                                    id="email"
+                                    name="email"
                                     type="text"
                                     class="form-control"
-                                    placeholder="Username"
+                                    placeholder="Email"
                                     required
                                     />
                             </div>
                             <div class="form-group mb-3">
                                 <label class="label" for="password">Password</label>
                                 <input
+                                    id="password"
+                                    name="password"
                                     type="password"
                                     class="form-control"
                                     placeholder="Password"

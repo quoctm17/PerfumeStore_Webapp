@@ -43,7 +43,7 @@
                             <tbody>
                                 <tr>
                                     <td class="cart__product__item">
-                                        <img src="<c:url value="/assets/img/shop-cart/cp-1.jpg" />" alt="">
+                                        <img src="<c:url value="/assets/img/product/product-4_2.jpg" />" alt="">
                                         <div class="cart__product__item__title">
                                             <h6>Chain bucket bag</h6>
                                         </div>
@@ -59,7 +59,7 @@
                                 </tr>
                                 <tr>
                                     <td class="cart__product__item">
-                                        <img src="<c:url value="/assets/img/shop-cart/cp-1.jpg" />" alt="">
+                                        <img src="<c:url value="/assets/img/product/product-4_2.jpg" />" alt="">
                                         <div class="cart__product__item__title">
                                             <h6>Chain bucket bag</h6>
                                         </div>
@@ -75,7 +75,7 @@
                                 </tr>
                                 <tr>
                                     <td class="cart__product__item">
-                                        <img src="<c:url value="/assets/img/shop-cart/cp-1.jpg" />" alt="">
+                                        <img src="<c:url value="/assets/img/product/product-4_2.jpg" />" alt="">
                                         <div class="cart__product__item__title">
                                             <h6>Chain bucket bag</h6>
                                         </div>
@@ -91,7 +91,7 @@
                                 </tr>
                                 <tr>
                                     <td class="cart__product__item">
-                                        <img src="<c:url value="/assets/img/shop-cart/cp-1.jpg" />" alt="">
+                                        <img src="<c:url value="/assets/img/product/product-4_2.jpg" />" alt="">
                                         <div class="cart__product__item__title">
                                             <h6>Chain bucket bag</h6>
                                         </div>

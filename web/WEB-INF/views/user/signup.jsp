@@ -37,17 +37,54 @@
                         </div>
                         <form action="#" class="signin-form">
                             <div class="form-group mb-3">
-                                <label class="label" for="name">Username</label>
+                                <label class="label" for="name">Your name</label>
                                 <input
+                                    id="name"
+                                    name="name"
                                     type="text"
                                     class="form-control"
-                                    placeholder="Username"
+                                    placeholder="Name"
+                                    required
+                                    />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="addr">Address</label>
+                                <input
+                                    id="addr"
+                                    name="address"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Address"
+                                    required
+                                    />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="phone">Phone</label>
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Phone"
+                                    required
+                                    />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="email">Email</label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Email"
                                     required
                                     />
                             </div>
                             <div class="form-group mb-3">
                                 <label class="label" for="password">Password</label>
                                 <input
+                                    id="password"
+                                    name="password"
                                     type="password"
                                     class="form-control"
                                     placeholder="Password"
