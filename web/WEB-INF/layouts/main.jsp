@@ -48,7 +48,7 @@
             <ul class="offcanvas__widget">
                 <li><span class="icon_search search-switch"></span></li>
                 <li>
-                    <a href="<c:url value="/product/shopping.do"/>"
+                    <a href="<c:url value="/shop/list.do"/>"
                        ><span class="icon_bag_alt"></span>
                         <div class="tip">2</div>
                     </a>
@@ -79,11 +79,11 @@
                             <ul>
                                 <li class="active"><a href="<c:url value="/"/>">Home</a></li>
                                 <li><a href="<c:url value="/home/aboutus.do"/>">About us</a></li>
-                                <li><a href="<c:url value="/product/shopping.do"/>">Shop</a></li>
+                                <li><a href="<c:url value="/shop/list.do"/>">Shop</a></li>
                                 <li><a href="./contact.html">Contact</a></li>
                                 <li><a href="#">Admin pages</a>
                                     <ul class="dropdown">
-                                        <li><a href="<c:url value="/product/manage.do"/>">Manage</a></li>
+                                        <li><a href="<c:url value="/product/list.do"/>">Manage</a></li>
                                         <li><a href="<c:url value="/product/revenue.do"/>">Revenue</a></li>
                                     </ul>
                                 </li>

@@ -106,13 +106,11 @@
                     <div
                         class="product__item__pic set-bg"
                         data-setbg="<c:url value="assets/img/product/product-1_1.jpg" />"
-                        >
+                    >
                         <div class="label new">New</div>
                         <ul class="product__hover">
                             <li>
-                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"
-                                   ><span class="arrow_expand"></span
-                                    ></a>
+                                <a href="<c:url value="assets/img/product/product-1_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a>
                             </li>
 
                             <li>
@@ -314,7 +312,7 @@
 
         </div>
         <div class="row d-flex justify-content-center">
-            <a class="btn primary-btn text-white" href="<c:url value="/product/shopping.do" />">
+            <a class="btn primary-btn text-white" href="<c:url value="/shop/list.do" />">
                 More? Go to shop
                 <i class="arrow_right"></i>
             </a>
