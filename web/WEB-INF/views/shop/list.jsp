@@ -101,148 +101,33 @@
             </div>
             <div class="col-lg-9 col-md-9">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
+                    <c:forEach var="product" items="${displayList}">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />">
+                                    <div class="label new">New</div>
+                                    <ul class="product__hover">
+                                        <li><a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="<c:url value="/shop/detail.do?id=${product.id}"/>">${product.name}</a></h6>
+                                    <div class="product__price">${product.price} VND</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-2_1.jpg" />">
-                                <div class="label new">New</div>
-                                <ul class="product__hover">
-                                    <li><a href="<c:url value="/assets/img/product/product-2_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Furry hooded parka</a></h6>
-                                <div class="product__price">$ 59.0</div>
-                            </div>
-                        </div>
-                    </div>
+                    </c:forEach>
+
+
 
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">                            
                             <a href="#"><i class="fa fa-angle-left"></i></a>
-                            <a href="#">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
+                                <c:forEach var="page" begin="1" end="${numOfPages}">
+                                <a href="<c:url value="/shop/list.do?page=${page}"/>">${page}</a>
+                            </c:forEach>
+
                             <a href="#"><i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>

@@ -5,8 +5,12 @@
  */
 package controllers;
 
+import db.Product;
+import db.ProductFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,13 +39,37 @@ public class ShopController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
+        ProductFacade pf = new ProductFacade();
         switch (action) {
             case "list":
-                
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                try {
+                    List<Product> list = pf.selectAll();
+                    List<Product> displayList = null;
+                    int numOfPages = (int) Math.ceil(list.size() / 9.0);
+                    int page = 0;
+                    if (request.getParameter("page") == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(request.getParameter("page"));
+                    }
+                    if (page < numOfPages) {
+                        displayList = list.subList(9 * (page - 1), 9 * page);
+                    } else {
+                        displayList = list.subList(9 * (page - 1), list.size());
+                    }    
+                    request.setAttribute("displayList", displayList);
+                    request.setAttribute("numOfPages", numOfPages);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    //Hien trang thong bao loi
+                    ex.printStackTrace(); //in thong báo loi chi tiet cho developer
+                    request.setAttribute("message", ex.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                }
                 break;
+
             case "detail":
-                
+
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             default:

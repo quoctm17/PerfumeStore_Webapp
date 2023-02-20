@@ -27,7 +27,14 @@ public class ProductFacade {
         ResultSet rs = stm.executeQuery("select * from product");
         list = new ArrayList<>();
         while (rs.next()) {
-           
+           Product p = new Product();
+           p.setId(rs.getInt("id"));
+           p.setName(rs.getString("name"));
+           p.setDescription(rs.getString("description"));
+           p.setPrice(rs.getDouble("price"));
+           p.setDiscount(rs.getDouble("discount"));
+           p.setCategoryId(rs.getInt("categoryId"));
+           list.add(p);
         }
         con.close();
         return list;
@@ -86,4 +93,5 @@ public class ProductFacade {
         int count = pstm.executeUpdate();
         con.close();
     }
+
 }
