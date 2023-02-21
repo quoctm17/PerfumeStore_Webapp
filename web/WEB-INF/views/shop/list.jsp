@@ -36,32 +36,18 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-heading active">
-                                        <a>All</a>
+                                        <a href="<c:url value="/shop/list.do"/>">All</a>
                                     </div>  
                                 </div>
-                                <div class="card">
+                                <c:forEach var="category" items="${cList}">
+                                    <div class="card">
                                     <div class="card-heading">
-                                        <a>Chanel</a>
+                                        <a href="<c:url value="/shop/list.do?category=${category.id}"/>">${category.name}</a>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a>Gucci</a>
-                                    </div>
-
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a >Accessories</a>
-                                    </div>
-
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a >Cosmetic</a>
-                                    </div>
-
-                                </div>
+                                </c:forEach>
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -123,12 +109,12 @@
 
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">                            
-                            <a href="#"><i class="fa fa-angle-left"></i></a>
+                            <a href="<c:url value="/shop/list.do?page=${currentPage-1}"/>"><i class="fa fa-angle-left"></i></a>
                                 <c:forEach var="page" begin="1" end="${numOfPages}">
-                                <a href="<c:url value="/shop/list.do?page=${page}"/>">${page}</a>
+                                <a href="<c:url value="/shop/list.do?page=${page}&category=${categoryId}"/>">${page}</a>
                             </c:forEach>
 
-                            <a href="#"><i class="fa fa-angle-right"></i></a>
+                            <a href="<c:url value="/shop/list.do?page=${currentPage+1}"/>"><i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
