@@ -15,8 +15,8 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="<c:url value="/" />"><i class="fa fa-home"></i> Home</a>
-                    <a href="<c:url value="/product/shopping.do"/>">Product </a>
-                    <span>Essential structured blazer</span>
+                    <a href="<c:url value="/shop/list.do"/>">Product </a>
+                    <span>${p.name}</span>
                 </div>
             </div>
         </div>
@@ -29,30 +29,32 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
+                 <!--<div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />">-->
                 <div class="product__details__pic">
                     <div class="product__details__pic__left product__thumb nice-scroll">
                         <a class="pt active" href="#product-1">
-                            <img src="<c:url value="/assets/img/product/product-6_1.jpg"/>" alt="">
+                            <img src="<c:url value="/assets/img/product/product-${p.id}_1.jpg" />" alt="">
                         </a>
                         <a class="pt" href="#product-2">
-                            <img src="<c:url value="/assets/img/product/product-6_2.jpg"/>" alt="">
+                            <img src="<c:url value="/assets/img/product/product-${p.id}_2.jpg" />" alt="">
                         </a>
                         <a class="pt" href="#product-3">
-                            <img src="<c:url value="/assets/img/product/product-6_3.jpg"/>" alt="">
+                            <img src="<c:url value="/assets/img/product/product-${p.id}_3.jpg" />" alt="">
                         </a>
                     </div>
                     <div class="product__details__slider__content">
                         <div class="product__details__pic__slider owl-carousel">
-                            <img data-hash="product-1" class="product__big__img" src="<c:url value="/assets/img/product/product-6_1.jpg"/>" alt="">
-                            <img data-hash="product-2" class="product__big__img" src="<c:url value="/assets/img/product/product-6_2.jpg"/>" alt="">
-                            <img data-hash="product-3" class="product__big__img" src="<c:url value="/assets/img/product/product-6_3.jpg"/>" alt="">
+                            <img data-hash="product-1" class="product__big__img" src="<c:url value="/assets/img/product/product-${p.id}_1.jpg"/>" alt="">
+                            <img data-hash="product-2" class="product__big__img" src="<c:url value="/assets/img/product/product-${p.id}_2.jpg"/>" alt="">
+                            <img data-hash="product-3" class="product__big__img" src="<c:url value="/assets/img/product/product-${p.id}_3.jpg"/>" alt="">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="product__details__text">
-                    <h3>Essential structured blazer <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
+                    <h3>${p.name} <span>Brand: ${categoryName}</span></h3>
+                    <!--rating-->
                     <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -61,9 +63,8 @@
                         <i class="fa fa-star"></i>
                         <span>( 138 reviews )</span>
                     </div>
-                    <div class="product__details__price">$ 75.0 <span>$ 83.0</span></div>
-                    <p>Nemo enim ipsam voluptatem quia aspernatur aut odit aut loret fugit, sed quia consequuntur
-                        magni lores eos qui ratione voluptatem sequi nesciunt.</p>
+                    <div class="product__details__price">${p.afterDiscount()}  <span>${p.price}</span></div>
+                    <p>${p.description}</p>
                     <div class="product__details__button">
                         <div class="quantity">
                             <span>Quantity:</span>
@@ -107,16 +108,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
+                            ${p.description}
                         </div>
 
                     </div>

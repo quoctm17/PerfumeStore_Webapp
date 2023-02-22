@@ -5,6 +5,8 @@
  */
 package controllers;
 
+import db.Category;
+import db.CategoryFacade;
 import db.Product;
 import db.ProductFacade;
 import java.io.IOException;
@@ -56,7 +58,7 @@ public class ShopController extends HttpServlet {
                         displayList = list.subList(9 * (page - 1), 9 * page);
                     } else {
                         displayList = list.subList(9 * (page - 1), list.size());
-                    }    
+                    }
                     request.setAttribute("displayList", displayList);
                     request.setAttribute("numOfPages", numOfPages);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
@@ -69,8 +71,26 @@ public class ShopController extends HttpServlet {
                 break;
 
             case "detail":
-
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                try {                  
+                    String id = request.getParameter("id");
+                    
+                    Product p = null;
+                    
+                    ProductFacade pf1 = new ProductFacade();
+                    p = pf1.read(id);
+                    CategoryFacade cf = new CategoryFacade();
+                    
+                    Category c = cf.read(String.valueOf(p.getCategoryId()));
+                    String categoryName = c.getName();
+                    //TODO
+                    request.setAttribute("p", p);
+                    request.setAttribute("categoryName", categoryName);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                } catch (IOException | SQLException | ServletException ex) {
+                    ex.printStackTrace(); //in thong báo loi chi tiet cho developer
+                    request.setAttribute("message", ex.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                }
                 break;
             default:
                 request.setAttribute("controller", "error");

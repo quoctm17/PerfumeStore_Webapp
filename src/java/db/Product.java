@@ -20,7 +20,7 @@ public class Product {
   
     public Product() {
     }
-
+    
     public Product(int id, String name, String description, double price, double discount, int categoryId) {
         this.id = id;
         this.name = name;
@@ -65,7 +65,9 @@ public class Product {
     public double getDiscount() {
         return discount;
     }
-
+    public double afterDiscount(){
+        return price - price*discount;
+    }
     public void setDiscount(double discount) {
         this.discount = discount;
     }
