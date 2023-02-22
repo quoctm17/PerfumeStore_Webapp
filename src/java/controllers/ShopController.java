@@ -96,7 +96,7 @@ public class ShopController extends HttpServlet {
                     
                     ProductFacade pf1 = new ProductFacade();
                     p = pf1.read(id);
-                    CategoryFacade cf = new CategoryFacade();
+                    cf = new CategoryFacade();
                     
                     Category c = cf.read(String.valueOf(p.getCategoryId()));
                     String categoryName = c.getName();
