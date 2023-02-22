@@ -28,7 +28,10 @@ public class CategoryFacade {
         ResultSet rs = stm.executeQuery("select * from category");
         list = new ArrayList<>();
         while (rs.next()) {
-
+           Category c = new Category();
+           c.setId(rs.getInt("id"));
+           c.setName(rs.getString("name"));
+           list.add(c);
         }
         con.close();
         return list;
