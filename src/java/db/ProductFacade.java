@@ -40,6 +40,27 @@ public class ProductFacade {
         con.close();
         return list;
     }
+    
+    public List<Product> selectNewest() throws SQLException {
+        List<Product> list = null;
+        Connection con = DBContext.getConnection();
+
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select * from product order by id desc");
+        list = new ArrayList<>();
+        while (rs.next()) {
+            Product p = new Product();
+            p.setId(rs.getInt("id"));
+            p.setName(rs.getString("name"));
+            p.setDescription(rs.getString("description"));
+            p.setPrice(rs.getDouble("price"));
+            p.setDiscount(rs.getDouble("discount"));
+            p.setCategoryId(rs.getInt("categoryId"));
+            list.add(p);
+        }
+        con.close();
+        return list;
+    }
 
     public List<Product> selectWithCategory(int id) throws SQLException {
         List<Product> list = null;

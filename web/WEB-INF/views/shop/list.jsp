@@ -59,7 +59,7 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-heading active">
-                                        <a>Newest</a>
+                                        <a href="<c:url value="/shop/list.do?sort=newest"/>">Newest</a>
                                     </div>  
                                 </div>
                                 <div class="card">

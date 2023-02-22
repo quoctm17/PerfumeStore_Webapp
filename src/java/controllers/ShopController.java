@@ -46,34 +46,53 @@ public class ShopController extends HttpServlet {
         switch (action) {
             case "list":
                 try {
-                    List<Category> cList = cf.selectAll();;
+                    List<Category> cList = cf.selectAll();
                     List<Product> productList = null;
                     List<Product> displayList = null;
                     int categoryId = 0;
-                    
-                    
+
                     if (request.getParameter("category") == null || request.getParameter("category").equals("0")) {
                         productList = pf.selectAll();
                     } else {
                         categoryId = Integer.parseInt(request.getParameter("category"));
                         productList = pf.selectWithCategory(categoryId);
                     }
-                    
-                    
+
+                    if (request.getParameter("sort") != null) {
+                        String sortOptions = request.getParameter("sort");
+
+                        switch (sortOptions) {
+                            case "newest":
+
+                                break;
+                            case "popular":
+
+                                break;
+                            case "price_low":
+
+                                break;
+                            case "price_high":
+
+                                break;
+
+                        }
+
+                    }
+
                     int page = 0;
                     if (request.getParameter("page") == null) {
                         page = 1;
                     } else {
                         page = Integer.parseInt(request.getParameter("page"));
                     }
-                    
+
                     int numOfPages = (int) Math.ceil(productList.size() / 9.0);
                     if (page < numOfPages) {
                         displayList = productList.subList(9 * (page - 1), 9 * page);
                     } else {
                         displayList = productList.subList(9 * (page - 1), productList.size());
-                    }    
-                    
+                    }
+
                     request.setAttribute("cList", cList);
                     request.setAttribute("displayList", displayList);
                     request.setAttribute("numOfPages", numOfPages);
