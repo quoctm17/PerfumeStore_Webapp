@@ -5,8 +5,8 @@
  */
 package controllers;
 
-import db.Product;
-import db.ProductFacade;
+import entity.Product;
+import dao.ProductFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;

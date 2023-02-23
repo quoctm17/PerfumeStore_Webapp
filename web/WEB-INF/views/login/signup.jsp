@@ -23,7 +23,7 @@
                         <div class="text w-100">
                             <h2>Welcome to signup</h2>
                             <p class="text-white">Already have an account?</p>
-                            <a href="<c:url value="/user/login.do" />" class="btn btn-white btn-outline-white"
+                            <a href="<c:url value="/login/login.do" />" class="btn btn-white btn-outline-white"
                                >Sign In</a
                             >
                         </div>
@@ -35,15 +35,17 @@
                             </div>
 
                         </div>
-                        <form action="#" class="signin-form">
+                        <form action="<c:url value="/login/signup_handler.do"/>" class="signin-form">
+                            <p class ="text-danger"> ${message} </p>
                             <div class="form-group mb-3">
-                                <label class="label" for="name">Your name</label>
+                                <label class="label" for="username">Username</label>
                                 <input
-                                    id="name"
-                                    name="name"
+                                    id="user"
+                                    name="user"
                                     type="text"
                                     class="form-control"
-                                    placeholder="Name"
+                                    placeholder="Username"
+                                    value="${account.user}"
                                     required
                                     />
                             </div>
@@ -55,6 +57,7 @@
                                     type="text"
                                     class="form-control"
                                     placeholder="Address"
+                                    value="${account.address}"
                                     required
                                     />
                             </div>
@@ -66,6 +69,7 @@
                                     type="text"
                                     class="form-control"
                                     placeholder="Phone"
+                                    value="${account.phone}"
                                     required
                                     />
                             </div>
@@ -77,6 +81,7 @@
                                     type="text"
                                     class="form-control"
                                     placeholder="Email"
+                                    value="${account.email}"
                                     required
                                     />
                             </div>
@@ -84,10 +89,22 @@
                                 <label class="label" for="password">Password</label>
                                 <input
                                     id="password"
-                                    name="password"
+                                    name="pass"
                                     type="password"
                                     class="form-control"
                                     placeholder="Password"
+                                    value="${account.pass}"
+                                    required
+                                    />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="Confirm Password">Confirm Password</label>
+                                <input
+                                    id="password"
+                                    name="conpass"
+                                    type="password"
+                                    class="form-control"
+                                    placeholder="Confirm Password"
                                     required
                                     />
                             </div>

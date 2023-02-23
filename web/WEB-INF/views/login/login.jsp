@@ -22,7 +22,7 @@
                         <div class="text w-100">
                             <h2>Welcome to login</h2>
                             <p class="text-white">Is a new member?</p>
-                            <a href="<c:url value="/user/signup.do" />" class="btn btn-white btn-outline-white"
+                            <a href="<c:url value="/login/signup.do" />" class="btn btn-white btn-outline-white"
                                >Sign Up</a
                             >
                         </div>
@@ -34,26 +34,31 @@
                             </div>
 
                         </div>
-                        <form action="#" class="signin-form">
+                        <form action="<c:url value="/login/login_handler.do"/>" class="signin-form">
+                            <p class ="text-danger"> ${message} </p>
+                            
                             <div class="form-group mb-3">
-                                <label class="label" for="email">Email</label>
+                                <label class="label" for="username">Username</label>
                                 <input
-                                    id="email"
-                                    name="email"
+                                    id="user"
+                                    name="user"
                                     type="text"
                                     class="form-control"
-                                    placeholder="Email"
+                                    placeholder="Username"
+                                    value="${user}"
                                     required
                                     />
                             </div>
+
                             <div class="form-group mb-3">
                                 <label class="label" for="password">Password</label>
                                 <input
                                     id="password"
-                                    name="password"
+                                    name="pass"
                                     type="password"
                                     class="form-control"
                                     placeholder="Password"
+                                    value="${pass}"
                                     required
                                     />
                             </div>

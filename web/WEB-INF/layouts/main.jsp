@@ -93,8 +93,8 @@
                     <div class="col-lg-3">
                         <div class="header__right">
                             <div class="header__right__auth">
-                                <a href="<c:url  value="/user/login.do" />">Login</a>
-                                <a href="<c:url  value="/user/signup.do" />">Register</a>
+                                <a href="<c:url  value="/login/login.do" />">Login</a>
+                                <a href="<c:url  value="/login/signup.do" />">Register</a>
                             </div>
                             <ul class="header__right__widget">
                                 <li><span class="icon_search search-switch"></span></li>
