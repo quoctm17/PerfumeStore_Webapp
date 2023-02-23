@@ -5,6 +5,8 @@
  */
 package db;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author Beyond Nguyen 
@@ -65,8 +67,11 @@ public class Product {
     public double getDiscount() {
         return discount;
     }
-    public double afterDiscount(){
-        return price - price*discount;
+    public String beforeDiscount(){
+        double bDiscount = price / (1-discount);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String beforeDiscount = decimalFormat.format(bDiscount);
+        return beforeDiscount;
     }
     public void setDiscount(double discount) {
         this.discount = discount;
