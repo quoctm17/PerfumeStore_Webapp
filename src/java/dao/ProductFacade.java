@@ -39,7 +39,28 @@ public class ProductFacade {
         con.close();
         return list;
     }
+    public List<Product> selectWithCategory(int id) throws SQLException {
+        List<Product> list = null;
+        Connection con = DBContext.getConnection();
 
+        PreparedStatement pstm = con.prepareStatement("select * from product where categoryId = ?");
+        pstm.setInt(1, id);
+        ResultSet rs = pstm.executeQuery();
+        list = new ArrayList<>();
+        while (rs.next()) {
+            Product p = new Product();
+            p.setId(rs.getInt("id"));
+            p.setName(rs.getString("name"));
+            p.setDescription(rs.getString("description"));
+            p.setPrice(rs.getDouble("price"));
+            p.setDiscount(rs.getDouble("discount"));
+            p.setCategoryId(rs.getInt("categoryId"));
+            list.add(p);
+        }
+        con.close();
+        return list;
+    }
+    
     public void create(Product product) throws SQLException {
         
         Connection con = DBContext.getConnection();
