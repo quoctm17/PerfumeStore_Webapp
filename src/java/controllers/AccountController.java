@@ -16,13 +16,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Beyond Nguyen
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "AccountController", urlPatterns = {"/account"})
+public class AccountController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,12 +55,14 @@ public class LoginController extends HttpServlet {
                     Account a = af.login(username, password);
                     if (a == null) {
                         request.setAttribute("message", "Wrong username or password");
-                        request.setAttribute("controller", "login");
+                        request.setAttribute("controller", "account");
                         request.setAttribute("action", "login");
                         request.setAttribute("user", username);
                         request.setAttribute("pass", password);
                         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                     } else {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("acc", a);
                         response.sendRedirect(request.getContextPath() + "/home/index.do");
                     }
                 } catch (SQLException ex) {
@@ -67,11 +70,11 @@ public class LoginController extends HttpServlet {
                     request.setAttribute("message", ex.getMessage());
                     request.setAttribute("controller", "error");
                     request.setAttribute("action", "error");
-                    request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 }
                 break;
             case "signup": //Hiện form để nhập dữ liệu mới
-                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "signup_handler": // Xử lý signup form
                 try {
@@ -86,7 +89,7 @@ public class LoginController extends HttpServlet {
                     if (!password.equals(conpass)) { // Confirm Password không giống với Password đã nhập
 
                         request.setAttribute("message", "Confirm Password must be the same as Password");
-                        request.setAttribute("controller", "login");
+                        request.setAttribute("controller", "account");
                         request.setAttribute("action", "signup");
                         // Lưu account vào request để bảo tồn trạng thái của form
                         request.setAttribute("account", account);
@@ -101,7 +104,7 @@ public class LoginController extends HttpServlet {
                         } else {
                             // Không được signup do đã tồn tại Username trong DB
                             request.setAttribute("message", "Username already exists. Please use a different!");
-                            request.setAttribute("controller", "login");
+                            request.setAttribute("controller", "account");
                             request.setAttribute("action", "signup");
                             // Lưu account vào request để bảo tồn trạng thái của form
                             request.setAttribute("account", account);
@@ -116,9 +119,13 @@ public class LoginController extends HttpServlet {
                     request.setAttribute("message", ex.getMessage());
                     request.setAttribute("controller", "error");
                     request.setAttribute("action", "error");
-                    request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 }
                 break;
+            case "logout":
+                HttpSession session = request.getSession();
+                session.removeAttribute("acc");
+                response.sendRedirect(request.getContextPath() + "/home/index.do");
         }
 
     }

@@ -59,8 +59,8 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="<c:url  value="/user/login.do" />">Login</a>
-                <a href="<c:url  value="/user/signup.do" />">Register</a>
+                <a href="<c:url  value="/account/login.do" />">Login</a>
+                <a href="<c:url  value="/account/signup.do" />">Register</a>
             </div>
         </div>
         <!-- Offcanvas Menu End -->
@@ -81,20 +81,32 @@
                                 <li><a href="<c:url value="/home/aboutus.do"/>">About us</a></li>
                                 <li><a href="<c:url value="/shop/list.do"/>">Shop</a></li>
                                 <li><a href="./contact.html">Contact</a></li>
-                                <li><a href="#">Admin pages</a>
-                                    <ul class="dropdown">
-                                        <li><a href="<c:url value="/product/list.do"/>">Manage</a></li>
-                                        <li><a href="<c:url value="/product/revenue.do"/>">Revenue</a></li>
-                                    </ul>
-                                </li>
+                                    <c:if test="${sessionScope.acc != null}">
+                                        <c:if test="${sessionScope.acc.role != 'ROLE_CUSTOMER'}">
+                                        <li><a href="#">Admin pages</a>
+                                            <ul class="dropdown">
+                                                <li><a href="<c:url value="/product/list.do"/>">Manage</a></li>
+                                                    <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
+                                                    <li><a href="<c:url value="/product/revenue.do"/>">Revenue</a></li>
+                                                    </c:if>
+                                            </ul>
+                                        </li>
+                                    </c:if>
+                                </c:if>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3">
                         <div class="header__right">
                             <div class="header__right__auth">
-                                <a href="<c:url  value="/login/login.do" />">Login</a>
-                                <a href="<c:url  value="/login/signup.do" />">Register</a>
+                                <c:if test="${sessionScope.acc != null}">
+                                    <div style="display: inline;font-size: 12px; color: #666666;background-color: transparent;">Hello ${sessionScope.acc.user}, </div>
+                                    <a style="text-decoration: underline" href="<c:url  value="/account/logout.do" />">Logout</a>
+                                </c:if>
+                                <c:if test="${sessionScope.acc == null}">
+                                    <a style="text-decoration: underline" href="<c:url  value="/account/login.do" />">Login</a>
+                                    <a style="text-decoration: underline" href="<c:url  value="/account/signup.do" />">Register</a>
+                                </c:if>
                             </div>
                             <ul class="header__right__widget">
                                 <li><span class="icon_search search-switch"></span></li>

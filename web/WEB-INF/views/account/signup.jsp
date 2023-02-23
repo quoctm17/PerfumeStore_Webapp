@@ -23,7 +23,7 @@
                         <div class="text w-100">
                             <h2>Welcome to signup</h2>
                             <p class="text-white">Already have an account?</p>
-                            <a href="<c:url value="/login/login.do" />" class="btn btn-white btn-outline-white"
+                            <a href="<c:url value="/account/login.do" />" class="btn btn-white btn-outline-white"
                                >Sign In</a
                             >
                         </div>
@@ -35,7 +35,7 @@
                             </div>
 
                         </div>
-                        <form action="<c:url value="/login/signup_handler.do"/>" class="signin-form">
+                        <form action="<c:url value="/account/signup_handler.do"/>" class="signin-form">
                             <p class ="text-danger"> ${message} </p>
                             <div class="form-group mb-3">
                                 <label class="label" for="username">Username</label>
