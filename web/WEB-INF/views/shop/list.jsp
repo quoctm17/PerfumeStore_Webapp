@@ -129,7 +129,7 @@
                                     <div class="label new">New</div>
                                     <ul class="product__hover">
                                         <li><a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                        <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                                        <li><a href="<c:url value="/cart/index.do?id=${product.id}" />"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">

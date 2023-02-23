@@ -5,8 +5,15 @@
  */
 package controllers;
 
+import dao.CategoryFacade;
+import dao.ProductFacade;
+import entity.Category;
+import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,11 +42,26 @@ public class CartController extends HttpServlet {
 
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-
+        ProductFacade pf = new ProductFacade();
+        CategoryFacade cf = new CategoryFacade();
+        List<Product> list = new ArrayList<>();
         switch (action) {
             case "index":
+                try {
+                    String id = request.getParameter("id");
 
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    Product p = new Product();
+
+                    p = pf.read(id);
+                    list.add(p);
+                    request.setAttribute("list", list);
+                    request.setAttribute("p", p);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                } catch (IOException | SQLException | ServletException ex) {
+                    ex.printStackTrace(); //in thong báo loi chi tiet cho developer
+                    request.setAttribute("message", ex.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                }
                 break;
             case "checkout":
 
