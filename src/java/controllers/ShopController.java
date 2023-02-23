@@ -1,14 +1,14 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package controllers;
 
-import db.Category;
-import db.CategoryFacade;
-import db.Product;
-import db.ProductFacade;
+import dao.CategoryFacade;
+import entity.Product;
+import dao.ProductFacade;
+import entity.Category;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
