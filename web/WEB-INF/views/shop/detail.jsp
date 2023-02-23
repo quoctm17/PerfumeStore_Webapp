@@ -63,7 +63,7 @@
                         <i class="fa fa-star"></i>
                         <span>( 138 reviews )</span>
                     </div>
-                    <div class="product__details__price">${p.afterDiscount()}  <span>${p.price}</span></div>
+                    <div class="product__details__price">${p.price} VNĐ <span>${p.beforeDiscount()} VNĐ</span> </div>
                     <p>${p.description}</p>
                     <div class="product__details__button">
                         <div class="quantity">
