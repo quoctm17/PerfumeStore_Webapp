@@ -77,13 +77,13 @@
                     <div class="col-xl-6 col-lg-7">
                         <nav class="header__menu">
                             <ul>
-                                <li class="active"><a href="<c:url value="/"/>">Home</a></li>
-                                <li><a href="<c:url value="/home/aboutus.do"/>">About us</a></li>
-                                <li><a href="<c:url value="/shop/list.do"/>">Shop</a></li>
-                                <li><a href="./contact.html">Contact</a></li>
+                                <li class="${tab == "home" ? "active" : ""}"><a href="<c:url value="/"/>">Home</a></li>
+                                <li class="${tab == "aboutus" ? "active" : ""}"><a href="<c:url value="/home/aboutus.do"/>">About us</a></li>
+                                <li class="${tab == "shop" ? "active" : ""}"><a href="<c:url value="/shop/list.do"/>">Shop</a></li>
+                                <li class="${tab == "contact" ? "active" : ""}"><a href="./contact.html">Contact</a></li>
                                     <c:if test="${sessionScope.acc != null}">
                                         <c:if test="${sessionScope.acc.role != 'ROLE_CUSTOMER'}">
-                                        <li><a href="#">Admin pages</a>
+                                        <li class="${tab == "admin" ? "active" : ""}"><a href="#">Admin pages</a>
                                             <ul class="dropdown">
                                                 <li><a href="<c:url value="/product/list.do"/>">Manage</a></li>
                                                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
@@ -177,13 +177,7 @@
                             <div class="footer__logo">
                                 <a href="./index.html"><img src="<c:url value="/assets/img/logo.png" />" alt="p-sephora" /></a>
                             </div>
-                            <div class="footer__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-pinterest"></i></a>
-                            </div>
+
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-3 col-sm-5">
@@ -215,7 +209,13 @@
                                 <input type="text" placeholder="Email" />
                                 <button type="submit" class="site-btn">Subscribe</button>
                             </form>
-
+                        </div>
+                        <div class="footer__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
                         </div>
                     </div>
                 </div>

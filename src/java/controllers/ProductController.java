@@ -43,6 +43,7 @@ public class ProductController extends HttpServlet {
                 break;
             case "list":
                 
+                request.setAttribute("tab", "admin");
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "update":
@@ -55,6 +56,7 @@ public class ProductController extends HttpServlet {
                 break;
             case "revenue":
                 
+                request.setAttribute("tab", "admin");
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             default:

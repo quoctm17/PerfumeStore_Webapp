@@ -79,6 +79,7 @@ public class ShopController extends HttpServlet {
                     request.setAttribute("numOfPages", numOfPages);
                     request.setAttribute("currentPage", page);
                     request.setAttribute("categoryId", categoryId);
+                    request.setAttribute("tab", "shop");
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (SQLException ex) {
                     //Hien trang thong bao loi
@@ -103,6 +104,7 @@ public class ShopController extends HttpServlet {
                     //TODO
                     request.setAttribute("p", p);
                     request.setAttribute("categoryName", categoryName);
+                    request.setAttribute("tab", "shop");
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (IOException | SQLException | ServletException ex) {
                     ex.printStackTrace(); //in thong báo loi chi tiet cho developer

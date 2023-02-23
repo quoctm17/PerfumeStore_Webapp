@@ -15,7 +15,7 @@
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                     <a href="<c:url value="/" />"><i class="fa fa-home"></i> Home</a>
-                    <a href="<c:url value="/shop/list.do"/>">Product </a>
+                    <a href="<c:url value="/shop/list.do"/>">Shop </a>
                     <span>${p.name}</span>
                 </div>
             </div>
