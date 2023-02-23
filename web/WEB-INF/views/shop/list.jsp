@@ -41,13 +41,20 @@
                                 </div>
                                 <c:forEach var="category" items="${cList}">
                                     <div class="card">
-                                    <div class="card-heading">
-                                        <a href="<c:url value="/shop/list.do?category=${category.id}"/>">${category.name}</a>
+                                        <div class="card-heading">
+                                            <a href="<c:url value="/shop/list.do">
+                                                   <c:forEach items="${param}" var="entry">
+                                                       <c:if test="${entry.key == 'search'}">
+                                                           <c:param name="${entry.key}" value="${entry.value}" />
+                                                       </c:if>
+                                                   </c:forEach>
+                                                   <c:param name="category" value="${category.id}" />
+                                               </c:url>">${category.name}</a>
+                                        </div>
                                     </div>
-                                </div>
                                 </c:forEach>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
@@ -59,23 +66,53 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-heading active">
-                                        <a href="<c:url value="/shop/list.do?sort=newest"/>">Newest</a>
+                 
+                                        <a href="<c:url value="/shop/list.do">
+                                               <c:forEach items="${param}" var="entry">
+                                                   <c:if test="${entry.key != 'sort'}">
+                                                       <c:param name="${entry.key}" value="${entry.value}" />
+                                                   </c:if>
+                                               </c:forEach>
+                                               <c:param name="sort" value="newest" />
+                                           </c:url>">Newest</a>
+                                       
                                     </div>  
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a>Best seller</a>
+                                        <a href="<c:url value="/shop/list.do">
+                                               <c:forEach items="${param}" var="entry">
+                                                   <c:if test="${entry.key != 'sort'}">
+                                                       <c:param name="${entry.key}" value="${entry.value}" />
+                                                   </c:if>
+                                               </c:forEach>
+                                               <c:param name="sort" value="popular" />
+                                           </c:url>">Best seller</a>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a>Price: low to high</a>
+                                        <a href="<c:url value="/shop/list.do">
+                                               <c:forEach items="${param}" var="entry">
+                                                   <c:if test="${entry.key != 'sort'}">
+                                                       <c:param name="${entry.key}" value="${entry.value}" />
+                                                   </c:if>
+                                               </c:forEach>
+                                               <c:param name="sort" value="low_price" />
+                                           </c:url>">Price: low to high</a>
                                     </div>
 
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a >Price: hight to low</a>
+                                        <a href="<c:url value="/shop/list.do">
+                                               <c:forEach items="${param}" var="entry">
+                                                   <c:if test="${entry.key != 'sort'}">
+                                                       <c:param name="${entry.key}" value="${entry.value}" />
+                                                   </c:if>
+                                               </c:forEach>
+                                               <c:param name="sort" value="high_price " />
+                                           </c:url>" >Price: hight to low</a>
                                     </div>
 
                                 </div>
@@ -109,12 +146,38 @@
 
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">                            
-                            <a href="<c:url value="/shop/list.do?page=${currentPage-1}"/>"><i class="fa fa-angle-left"></i></a>
-                                <c:forEach var="page" begin="1" end="${numOfPages}">
-                                <a href="<c:url value="/shop/list.do?page=${page}&category=${categoryId}"/>">${page}</a>
-                            </c:forEach>
+                            <a href="<c:url value="/shop/list.do">
+                                   <c:forEach items="${param}" var="entry">
+                                       <c:if test="${entry.key != 'page'}">
+                                           <c:param name="${entry.key}" value="${entry.value}" />
+                                       </c:if>
+                                   </c:forEach>
+                                   <c:param name="page" value="${currentPage - 1}" />
+                               </c:url>"><i class="fa fa-angle-left"></i></a>
 
-                            <a href="<c:url value="/shop/list.do?page=${currentPage+1}"/>"><i class="fa fa-angle-right"></i></a>
+                            <c:forEach var="page" begin="1" end="${numOfPages}">
+                                <a 
+                                    href="<c:url value="/shop/list.do">
+                                        <c:forEach items="${param}" var="entry">
+                                            <c:if test="${entry.key != 'page'}">
+                                                <c:param name="${entry.key}" value="${entry.value}" />
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:param name="page" value="${page}" />
+                                    </c:url>"
+                                    >
+                                    ${page}
+                                </a>
+                            </c:forEach> 
+
+                            <a href="<c:url value="/shop/list.do">
+                                   <c:forEach items="${param}" var="entry">
+                                       <c:if test="${entry.key != 'page'}">
+                                           <c:param name="${entry.key}" value="${entry.value}" />
+                                       </c:if>
+                                   </c:forEach>
+                                   <c:param name="page" value="${currentPage + 1}" />
+                               </c:url>"><i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
