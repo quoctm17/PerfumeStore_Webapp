@@ -1,0 +1,122 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 24, 2023, 4:15:16 AM
+    Author     : Beyond Nguyen
+*/
+
+
+#wrapper {
+  overflow-x: hidden;
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  max-width: 250px;
+  margin-left: -15rem;
+  transition: margin 0.25s ease-out;
+  border-right: 3px solid #ca1515;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .sidebar-heading img {
+    width: 100%;
+}
+
+#sidebar-wrapper .sidebar-list {
+  width: 15rem;
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-list .sidebar-item {
+    text-decoration: none;
+    color: #000;
+}
+
+.sidebar-list .sidebar-item:hover,
+.sidebar-list .sidebar-item.active  {
+  color: #ca1515;
+}
+
+.sidebar-list .sidebar-item i {
+  margin-right: 10px;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+#page-content-wrapper .header {
+  height: 60px;
+  font-size: large;
+}
+
+#page-content-wrapper .toggle-btn {
+  cursor: pointer;
+}
+
+.card-admin-item {
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  height: 100px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  color: #000;
+}
+
+.card-admin-item:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+  color: #000;
+}
+
+.card-admin-item h1 {
+  font-size: 20px;
+}
+
+.card-admin-item .card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  width: 50px;
+  height: 50px;
+  font-size: 25px;
+  border-radius: 50%;
+  background-color: #ed595994;
+  color: #ca1515;
+}
+
+body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}
+

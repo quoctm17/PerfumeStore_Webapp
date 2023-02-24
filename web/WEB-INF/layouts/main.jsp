@@ -83,11 +83,11 @@
                                 <li class="${tab == "contact" ? "active" : ""}"><a href="./contact.html">Contact</a></li>
                                     <c:if test="${sessionScope.acc != null}">
                                         <c:if test="${sessionScope.acc.role != 'ROLE_CUSTOMER'}">
-                                        <li class="${tab == "admin" ? "active" : ""}"><a href="#">Admin pages</a>
+                                        <li><a href="#">Admin pages</a>
                                             <ul class="dropdown">
-                                                <li><a href="<c:url value="/product/list.do"/>">Manage</a></li>
+                                                <li><a href="<c:url value="/admin/product.do"/>">Manage</a></li>
                                                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
-                                                    <li><a href="<c:url value="/product/revenue.do"/>">Revenue</a></li>
+                                                    <li><a href="<c:url value="/admin/revenue.do"/>">Revenue</a></li>
                                                     </c:if>
                                             </ul>
                                         </li>
@@ -243,8 +243,8 @@
         <div class="search-model">
             <div class="h-100 d-flex align-items-center justify-content-center">
                 <div class="search-close-switch">+</div>
-                <form class="search-model-form">
-                    <input type="text" id="search-input" placeholder="Search here....." />
+                <form action="<c:url value="/shop/list.do" />" class="search-model-form">
+                    <input name="search" type="text" id="search-input" placeholder="Search here....." />
                 </form>
             </div>
         </div>
