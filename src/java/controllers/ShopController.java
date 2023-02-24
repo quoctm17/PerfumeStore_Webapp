@@ -49,34 +49,15 @@ public class ShopController extends HttpServlet {
                     List<Category> cList = cf.selectAll();
                     List<Product> productList = null;
                     List<Product> displayList = null;
-                    int categoryId = 0;
+                    Object search = request.getParameter("search");
+                    Object categoryId  = request.getParameter("category");                    
+                    Object sortOptions = request.getParameter("sort"); 
 
-                    if (request.getParameter("category") == null || request.getParameter("category").equals("0")) {
+                    if (search == null && categoryId == null && sortOptions == null) {
                         productList = pf.selectAll();
-                    } else {
-                        categoryId = Integer.parseInt(request.getParameter("category"));
-                        productList = pf.selectWithCategory(categoryId);
                     }
-
-                    if (request.getParameter("sort") != null) {
-                        String sortOptions = request.getParameter("sort");
-
-                        switch (sortOptions) {
-                            case "newest":
-
-                                break;
-                            case "popular":
-
-                                break;
-                            case "price_low":
-
-                                break;
-                            case "price_high":
-
-                                break;
-
-                        }
-
+                    else {
+                        productList = pf.selectWithConditions(search, categoryId, sortOptions);
                     }
 
                     int page = 0;
@@ -93,11 +74,13 @@ public class ShopController extends HttpServlet {
                         displayList = productList.subList(9 * (page - 1), productList.size());
                     }
 
+                    request.setAttribute("sort", sortOptions);
                     request.setAttribute("cList", cList);
                     request.setAttribute("displayList", displayList);
                     request.setAttribute("numOfPages", numOfPages);
                     request.setAttribute("currentPage", page);
                     request.setAttribute("categoryId", categoryId);
+                    request.setAttribute("tab", "shop");
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (SQLException ex) {
                     //Hien trang thong bao loi
@@ -122,6 +105,7 @@ public class ShopController extends HttpServlet {
                     //TODO
                     request.setAttribute("p", p);
                     request.setAttribute("categoryName", categoryName);
+                    request.setAttribute("tab", "shop");
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (IOException | SQLException | ServletException ex) {
                     ex.printStackTrace(); //in thong báo loi chi tiet cho developer

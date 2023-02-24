@@ -39,11 +39,13 @@ public class HomeController extends HttpServlet {
             case "index":
                 //Processing code here
                 //Forward request & response to the main layout
+                request.setAttribute("tab", "home");
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "aboutus":
                 //Processing code here
                 //Forward request & response to the main layout
+                request.setAttribute("tab", "aboutus");
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             default:

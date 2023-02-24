@@ -1381,33 +1381,11 @@ ol {
     line-height: 30px;
 }
 
-.categories__accordion .card-heading a:after,
-.categories__accordion .card-heading>a.active[aria-expanded=false]:after {
-    content: "";
-    font-size: 14px;
-    font-family: "FontAwesome";
-    color: #666666;
-    position: absolute;
-    right: 30px;
-    top: 0px;
-}
-
 .categories__accordion .card-heading.active a:after {
-    content: "";
+    content: "\2713";
     font-size: 14px;
     font-family: "FontAwesome";
-    color: #666666;
-    position: absolute;
-    right: 30px;
-    top: -1px;
-}
-
-.categories__accordion .card-heading a[aria-expanded=true]:after,
-.categories__accordion .card-heading>a.active:after {
-    content: "";
-    font-size: 14px;
-    font-family: "FontAwesome";
-    color: #666666;
+    color: #ca1515;
     position: absolute;
     right: 30px;
     top: -1px;
@@ -1599,10 +1577,17 @@ ol {
     font-weight: 600;
 }
 
-.pagination__option a:hover {
+.pagination__option a:hover,
+.pagination__option a.active{
     background: #0d0d0d;
     border-color: #0d0d0d;
     color: #ffffff;
+}
+
+.pagination__option a.disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 /*---------------------

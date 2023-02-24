@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Beyond Nguyen
  */
-@WebServlet(name = "ProductController", urlPatterns = {"/product"})
-public class ProductController extends HttpServlet {
+@WebServlet(name = "AdminController", urlPatterns = {"/admin"})
+public class AdminController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,25 +37,21 @@ public class ProductController extends HttpServlet {
         String action = (String) request.getAttribute("action");
 
         switch (action) {
-            case "create":
+            case "dashboard":
                 
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 break;
-            case "list":
+            case "product":
                 
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 break;
-            case "update":
+            case "category":
                 
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                break;
-            case "delete":
-                
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 break;
             case "revenue":
                 
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 break;
             default:
                 request.setAttribute("controller", "error");

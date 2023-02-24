@@ -174,7 +174,7 @@
                         <li>Subtotal <span>$ 750.0</span></li>
                         <li>Total <span>$ 750.0</span></li>
                     </ul>
-                    <a href="<c:url value="/cart/checkout.do" />" class="primary-btn">Proceed to checkout</a>
+                    <a href="<c:url value="/cart/checkout.do" />" class="primary-btn text-white">Proceed to checkout</a>
                 </div>
             </div>
         </div>
