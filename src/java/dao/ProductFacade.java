@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,6 +28,27 @@ public class ProductFacade {
 
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select * from product");
+        list = new ArrayList<>();
+        while (rs.next()) {
+            Product p = new Product();
+            p.setId(rs.getInt("id"));
+            p.setName(rs.getString("name"));
+            p.setDescription(rs.getString("description"));
+            p.setPrice(rs.getDouble("price"));
+            p.setDiscount(rs.getDouble("discount"));
+            p.setCategoryId(rs.getInt("categoryId"));
+            list.add(p);
+        }
+        con.close();
+        return list;
+    }
+    
+    public List<Product> selectTop8Newest() throws SQLException {
+        List<Product> list = null;
+        Connection con = DBContext.getConnection();
+
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select top (8) * from product order by id desc");
         list = new ArrayList<>();
         while (rs.next()) {
             Product p = new Product();
@@ -142,4 +165,13 @@ public class ProductFacade {
         con.close();
     }
 
+    public static void main(String[] args) {
+        ProductFacade pf = new ProductFacade();
+        try {
+            System.out.println(pf.selectTop8Newest());
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
+

@@ -48,6 +48,8 @@ public class AdminController extends HttpServlet {
                         break;
                     case "category":
                         if (AccountFacade.isLogin(request) == 1) {
+                            
+                           
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");
@@ -55,6 +57,9 @@ public class AdminController extends HttpServlet {
                         break;
                     case "revenue":
                         if (AccountFacade.isLogin(request) == 1) {
+                            
+                            
+                            
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");

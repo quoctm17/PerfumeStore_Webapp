@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -48,7 +49,7 @@
             <ul class="offcanvas__widget">
                 <li><span class="icon_search search-switch"></span></li>
                 <li>
-                    <a href="<c:url value="/shop/list.do"/>"
+                    <a href="<c:url value="/cart/index.do"/>"
                        ><span class="icon_bag_alt"></span>
                         <div class="tip">2</div>
                     </a>
@@ -59,8 +60,14 @@
             </div>
             <div id="mobile-menu-wrap"></div>
             <div class="offcanvas__auth">
-                <a href="<c:url  value="/account/login.do" />">Login</a>
-                <a href="<c:url  value="/account/signup.do" />">Register</a>
+                <c:if test="${sessionScope.acc != null}">
+                    <div class="greeting">Hello ${sessionScope.acc.user} </div>
+                    <a href="<c:url  value="/account/logout.do" />">Logout</a>
+                </c:if>
+                <c:if test="${sessionScope.acc == null}">
+                    <a href="<c:url  value="/account/login.do" />">Login</a>
+                    <a href="<c:url  value="/account/signup.do" />">Register</a>
+                </c:if>
             </div>
         </div>
         <!-- Offcanvas Menu End -->
@@ -80,8 +87,13 @@
                                 <li class="${tab == "home" ? "active" : ""}"><a href="<c:url value="/"/>">Home</a></li>
                                 <li class="${tab == "aboutus" ? "active" : ""}"><a href="<c:url value="/home/aboutus.do"/>">About us</a></li>
                                 <li class="${tab == "shop" ? "active" : ""}"><a href="<c:url value="/shop/list.do"/>">Shop</a></li>
-                                <li class="${tab == "contact" ? "active" : ""}"><a href="./contact.html">Contact</a></li>
-                                    <c:if test="${sessionScope.acc != null}">
+                                <li><a href="#">Pages</a>
+                                    <ul class="dropdown">
+                                        <li><a href="<c:url value="/cart/index.do"/>">Shop Cart</a></li>
+                                        <li><a href="<c:url value="/cart/checkout.do"/>">Checkout</a></li>
+                                    </ul>
+                                </li>
+                                <%--    <c:if test="${sessionScope.acc != null}">
                                         <c:if test="${sessionScope.acc.role != 'ROLE_CUSTOMER'}">
                                         <li><a href="#">Admin pages</a>
                                             <ul class="dropdown">
@@ -94,23 +106,29 @@
                                             </ul>
                                         </li>
                                     </c:if>
-                                </c:if>
+                                </c:if> --%>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-3">
                         <div class="header__right">
                             <div class="header__right__auth">
-                                <c:if test="${sessionScope.acc != null}">
-                                    <div style="display: inline;font-size: 12px; color: #666666;background-color: transparent;">Hello ${sessionScope.acc.user}, </div>
-                                    <a style="text-decoration: underline" href="<c:url  value="/account/logout.do" />">Logout</a>
-                                </c:if>
                                 <c:if test="${sessionScope.acc == null}">
                                     <a style="text-decoration: underline" href="<c:url  value="/account/login.do" />">Login</a>
                                     <a style="text-decoration: underline" href="<c:url  value="/account/signup.do" />">Register</a>
                                 </c:if>
                             </div>
                             <ul class="header__right__widget">
+                                <c:if test="${sessionScope.acc != null}">
+                                    <span class="greeting">Hello ${sessionScope.acc.user} </span>
+                                    <li>
+                                        <span class="icon_profile"></span>
+                                        <ul class="dropdown">
+                                            <li><a href="<c:url value="/cart/index.do"/>">View profile</a></li>
+                                            <li><a href="<c:url  value="/account/logout.do" />">Logout</a></li>
+                                        </ul>
+                                    </li>
+                                </c:if>
                                 <li><span class="icon_search search-switch"></span></li>
                                 <li>
                                     <a href="<c:url  value="/cart/index.do" />"

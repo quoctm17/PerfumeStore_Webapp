@@ -53,7 +53,7 @@
                             </div>
 
                         </div>
-                        <form action="<c:url value="/account/login_handler.do"/>" class="signin-form" method="get">
+                        <form action="<c:url value="/account/login_handler.do"/>" class="signin-form" method="post">
                             <p class ="text-danger"> ${message} </p>
 
                             <div class="form-group mb-3">

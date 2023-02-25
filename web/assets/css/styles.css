@@ -102,10 +102,10 @@ ol {
 -----------------------*/
 
 .line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
 }
 
 .section-title {
@@ -321,7 +321,7 @@ ol {
 }
 
 .header__logo {
-    width: 180px;
+    max-width: 180px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -354,7 +354,8 @@ ol {
     transform: scale(1);
 }
 
-.header__menu ul li:hover .dropdown {
+.header__menu ul li:hover .dropdown,
+.header__right ul li:hover .dropdown{
     top: 27px;
     opacity: 1;
     visibility: visible;
@@ -364,7 +365,8 @@ ol {
     margin-right: 0;
 }
 
-.header__menu ul li .dropdown {
+.header__menu ul li .dropdown,
+.header__right ul li .dropdown{
     position: absolute;
     left: 0;
     top: 56px;
@@ -380,12 +382,24 @@ ol {
     transition: all, 0.3s;
 }
 
-.header__menu ul li .dropdown li {
+.header__right ul li {
+    position: relative;
+}
+
+.header__right ul li .dropdown {
+    left: auto;
+    right: 0;
+}
+
+
+.header__menu ul li .dropdown li,
+.header__right ul li .dropdown li{
     display: block;
     margin-right: 0;
 }
 
-.header__menu ul li .dropdown li a {
+.header__menu ul li .dropdown li a,
+.header__right ul li .dropdown li a{
     font-size: 14px;
     color: #ffffff;
     font-weight: 400;
@@ -393,7 +407,8 @@ ol {
     text-transform: capitalize;
 }
 
-.header__menu ul li .dropdown li a:after {
+.header__menu ul li .dropdown li a:after,
+.header__right ul li .dropdown li a:after{
     display: none;
 }
 
@@ -424,6 +439,7 @@ ol {
 }
 
 .header__right {
+    position: relative;
     text-align: right;
     padding: 30px 0 27px;
 }
@@ -460,6 +476,17 @@ ol {
     display: inline-block;
 }
 
+.header__right__widget .greeting {
+    margin-right: 12px; 
+    font-size: 16px; 
+    color: #666666; 
+    background-color: transparent;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .header__right__widget li {
     list-style: none;
     display: inline-block;
@@ -467,6 +494,10 @@ ol {
     color: #111111;
     margin-right: 20px;
     cursor: pointer;
+}
+
+.header__right .header__right__widget li a {
+    font-size: 18px;
 }
 
 .header__right__widget li:last-child {

@@ -42,7 +42,8 @@ public class AccountController extends HttpServlet {
                 if (request.getAttribute("controller").equals("admin")){
                     request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 } else {
-                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                    // Chuyển người dùng về trang chủ nếu người login là customer
+                    response.sendRedirect(request.getContextPath() + "/");
                 }
                 
                 break;
@@ -61,7 +62,7 @@ public class AccountController extends HttpServlet {
             case "logout":
                 HttpSession session = request.getSession();
                 session.removeAttribute("acc");
-                response.sendRedirect(request.getContextPath() + "/home/index.do");
+                response.sendRedirect(request.getContextPath() + "/");
         }
 
     }
@@ -104,10 +105,7 @@ public class AccountController extends HttpServlet {
                 if (!"ROLE_CUSTOMER".equals(a.getRole())) { // Chuyển hướng trang nếu người đăng nhập không phải là Customer
                     request.setAttribute("action", "dashboard");
                     request.setAttribute("controller", "admin");
-                } else { // Chuyển người dùng về trang chủ nếu người login là customer
-                    request.setAttribute("controller", "home");
-                    request.setAttribute("action", "index");
-                }
+                } 
 
             }
         } catch (SQLException ex) {

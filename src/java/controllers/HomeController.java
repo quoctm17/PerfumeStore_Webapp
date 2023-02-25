@@ -5,8 +5,16 @@
  */
 package controllers;
 
+import dao.CategoryFacade;
+import dao.ProductFacade;
+import entity.Category;
+import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,9 +46,20 @@ public class HomeController extends HttpServlet {
         switch (action) {
             case "index":
                 //Processing code here
-                //Forward request & response to the main layout
-                request.setAttribute("tab", "home");
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                try {
+                    ProductFacade pf = new ProductFacade();
+                    CategoryFacade cf = new CategoryFacade();
+                    
+                    List<Category> cList = cf.selectAll();
+                    List<Product> pList = pf.selectTop8Newest();
+                    
+                    request.setAttribute("tab", "home");
+                    request.setAttribute("pList", pList);
+                    request.setAttribute("cList", cList);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             case "aboutus":
                 //Processing code here

@@ -6,6 +6,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!--hiển thị thông tin chi tiết về một sản phẩm-->
 
 <!-- Breadcrumb Begin -->
@@ -63,7 +65,13 @@
                         <i class="fa fa-star"></i>
                         <span>( 138 reviews )</span>
                     </div>
-                    <div class="product__details__price">${p.price} VNĐ <span>${p.beforeDiscount()} VNĐ</span> </div>
+                    <div class="product__details__price">
+                        <fmt:setLocale value="vi-VN"/>
+                        <fmt:formatNumber value = "${p.price}" type = "currency"/> 
+                        <span>
+                            <fmt:formatNumber value = "${p.beforeDiscount()}" type = "currency"/>
+                        </span> 
+                    </div>
                     <p>${p.description}</p>
                     <div class="product__details__button">
                         <div class="quantity">
@@ -90,7 +98,7 @@
                                     </label>
                                 </div>
                             </li>
-                            
+
                             <li>
                                 <span>Promotions:</span>
                                 <p>Free shipping</p>

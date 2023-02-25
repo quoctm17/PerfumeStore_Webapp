@@ -4,8 +4,9 @@
     Author     : Beyond Nguyen
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
@@ -134,7 +135,10 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="<c:url value="/shop/detail.do?id=${product.id}"/>">${product.name}</a></h6>
-                                    <div class="product__price">${product.price} VND</div>
+                                    <div class="product__price">
+                                        <fmt:setLocale value="vi-VN"/>
+                                        <fmt:formatNumber value = "${product.price}" type = "currency"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -147,13 +151,13 @@
                             <a 
                                 class="${currentPage == 1 ? "disabled" : ""}"
                                 href="<c:url value="/shop/list.do">
-                                   <c:forEach items="${param}" var="entry">
-                                       <c:if test="${entry.key != 'page'}">
-                                           <c:param name="${entry.key}" value="${entry.value}" />
-                                       </c:if>
-                                   </c:forEach>
-                                   <c:param name="page" value="${currentPage - 1}" />
-                               </c:url>"><i class="fa fa-angle-left"></i></a>
+                                    <c:forEach items="${param}" var="entry">
+                                        <c:if test="${entry.key != 'page'}">
+                                            <c:param name="${entry.key}" value="${entry.value}" />
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:param name="page" value="${currentPage - 1}" />
+                                </c:url>"><i class="fa fa-angle-left"></i></a>
 
                             <c:forEach var="page" begin="1" end="${numOfPages}">
                                 <a 
@@ -174,13 +178,13 @@
                             <a 
                                 class="${currentPage == numOfPages ? "disabled" : ""}"
                                 href="<c:url value="/shop/list.do">
-                                   <c:forEach items="${param}" var="entry">
-                                       <c:if test="${entry.key != 'page'}">
-                                           <c:param name="${entry.key}" value="${entry.value}" />
-                                       </c:if>
-                                   </c:forEach>
-                                   <c:param name="page" value="${currentPage + 1}" />
-                               </c:url>"><i class="fa fa-angle-right"></i></a>
+                                    <c:forEach items="${param}" var="entry">
+                                        <c:if test="${entry.key != 'page'}">
+                                            <c:param name="${entry.key}" value="${entry.value}" />
+                                        </c:if>
+                                    </c:forEach>
+                                    <c:param name="page" value="${currentPage + 1}" />
+                                </c:url>"><i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
