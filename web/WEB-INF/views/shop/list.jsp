@@ -35,13 +35,13 @@
                         <div class="categories__accordion">
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
-                                    <div class="card-heading active">
+                                    <div class="card-heading ${categoryId == null ? "active" : ""}">
                                         <a href="<c:url value="/shop/list.do"/>">All</a>
                                     </div>  
                                 </div>
                                 <c:forEach var="category" items="${cList}">
                                     <div class="card">
-                                        <div class="card-heading">
+                                        <div class="card-heading ${category.id == categoryId ? "active" : ""}">
                                             <a href="<c:url value="/shop/list.do">
                                                    <c:forEach items="${param}" var="entry">
                                                        <c:if test="${entry.key == 'search'}">
@@ -65,7 +65,7 @@
                         <div class="categories__accordion">
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
-                                    <div class="card-heading active">
+                                    <div class="card-heading ${sort == "newest" ? "active" : ""}">
                                         <a href="<c:url value="/shop/list.do">
                                                <c:forEach items="${param}" var="entry">
                                                    <c:if test="${entry.key != 'sort'}">
@@ -77,7 +77,7 @@
                                     </div>  
                                 </div>
                                 <div class="card">
-                                    <div class="card-heading">
+                                    <div class="card-heading ${sort == "popular" ? "active" : ""}">
                                         <a href="<c:url value="/shop/list.do">
                                                <c:forEach items="${param}" var="entry">
                                                    <c:if test="${entry.key != 'sort'}">
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <div class="card-heading">
+                                    <div class="card-heading ${sort == "low_price" ? "active" : ""}">
                                         <a href="<c:url value="/shop/list.do">
                                                <c:forEach items="${param}" var="entry">
                                                    <c:if test="${entry.key != 'sort'}">
@@ -102,7 +102,7 @@
 
                                 </div>
                                 <div class="card">
-                                    <div class="card-heading">
+                                    <div class="card-heading ${sort == "high_price" ? "active" : ""}">
                                         <a href="<c:url value="/shop/list.do">
                                                <c:forEach items="${param}" var="entry">
                                                    <c:if test="${entry.key != 'sort'}">
@@ -144,7 +144,9 @@
 
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">                            
-                            <a href="<c:url value="/shop/list.do">
+                            <a 
+                                class="${currentPage == 1 ? "disabled" : ""}"
+                                href="<c:url value="/shop/list.do">
                                    <c:forEach items="${param}" var="entry">
                                        <c:if test="${entry.key != 'page'}">
                                            <c:param name="${entry.key}" value="${entry.value}" />
@@ -155,6 +157,7 @@
 
                             <c:forEach var="page" begin="1" end="${numOfPages}">
                                 <a 
+                                    class="${currentPage == page ? "active" : ""}"
                                     href="<c:url value="/shop/list.do">
                                         <c:forEach items="${param}" var="entry">
                                             <c:if test="${entry.key != 'page'}">
@@ -168,7 +171,9 @@
                                 </a>
                             </c:forEach> 
 
-                            <a href="<c:url value="/shop/list.do">
+                            <a 
+                                class="${currentPage == numOfPages ? "disabled" : ""}"
+                                href="<c:url value="/shop/list.do">
                                    <c:forEach items="${param}" var="entry">
                                        <c:if test="${entry.key != 'page'}">
                                            <c:param name="${entry.key}" value="${entry.value}" />

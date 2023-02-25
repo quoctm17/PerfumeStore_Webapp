@@ -1,4 +1,4 @@
-﻿raiserror('Creating PerfumeStore database....',0,1)
+raiserror('Creating PerfumeStore database....',0,1)
 SET NOCOUNT ON
 GO
 
