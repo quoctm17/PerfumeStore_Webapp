@@ -35,21 +35,35 @@
                             </div>
 
                         </div>
-                        <form action="<c:url value="/account/signup_handler.do"/>" class="signin-form">
+                        <form action="<c:url value="/account/signup_handler.do"/>" class="signin-form" method="post">
                             <p class ="text-danger"> ${message} </p>
+                            
                             <div class="form-group mb-3">
-                                <label class="label" for="username">Username</label>
+                                <label class="label" for="email">Email</label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    class="form-control"
+                                    placeholder="Email"
+                                    value="${account.email}"
+                                    required
+                                    />
+                            </div>
+                                    
+                                    <div class="form-group mb-3">
+                                <label class="label" for="username">Name</label>
                                 <input
                                     id="user"
                                     name="user"
                                     type="text"
                                     class="form-control"
-                                    placeholder="Username"
+                                    placeholder="Enter your name"
                                     value="${account.user}"
                                     required
                                     />
                             </div>
-                            <div class="form-group mb-3">
+                                    <div class="form-group mb-3">
                                 <label class="label" for="addr">Address</label>
                                 <input
                                     id="addr"
@@ -70,18 +84,6 @@
                                     class="form-control"
                                     placeholder="Phone"
                                     value="${account.phone}"
-                                    required
-                                    />
-                            </div>
-                            <div class="form-group mb-3">
-                                <label class="label" for="email">Email</label>
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="Email"
-                                    value="${account.email}"
                                     required
                                     />
                             </div>

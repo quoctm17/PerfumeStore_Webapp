@@ -85,8 +85,10 @@
                                         <c:if test="${sessionScope.acc.role != 'ROLE_CUSTOMER'}">
                                         <li><a href="#">Admin pages</a>
                                             <ul class="dropdown">
-                                                <li><a href="<c:url value="/admin/product.do"/>">Manage</a></li>
+                                                <li><a href="<c:url value="/admin/dashboard.do"/>">Dashboard</a></li>
+                                                <li><a href="<c:url value="/admin/product.do"/>">Manage Product</a></li>
                                                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
+                                                    <li><a href="<c:url value="/admin/category.do"/>">Manage Category</a></li>
                                                     <li><a href="<c:url value="/admin/revenue.do"/>">Revenue</a></li>
                                                     </c:if>
                                             </ul>
