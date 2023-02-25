@@ -36,16 +36,18 @@
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <div id="sidebar-wrapper">
-                <div class="sidebar-heading"><img src="<c:url value="/assets/img/logo.png" />" alt="logo"/></div>
+                <div class="sidebar-heading"><a href="/psephora/"><img src="<c:url value="/assets/img/logo.png" />" alt="logo"/></a></div>
                 <div class="border p-3">
                     <img class="w-100" src="<c:url value="/assets/img/user-avatar.png" />" alt=""/>
                     <div class="text-center mt-2">Hello <strong>Administrator</strong>  <i class="fa-solid fa-heart"></i></div>
                 </div>
                 <div class="sidebar-list">
                     <a class="sidebar-item active p-3" href="<c:url value="/admin/dashboard.do" />"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
-                    <a class="sidebar-item p-3" href="<c:url value="/admin/product.do" />"><i class="fa-solid fa-gear"></i>Manage product</a>
-                    <a class="sidebar-item p-3" href="<c:url value="/admin/category.do" />"><i class="fa-solid fa-list-check"></i>Manage category</a>
-                    <a class="sidebar-item p-3" href="<c:url value="/admin/revenue.do" />"><i class="fa-solid fa-money-bill-trend-up"></i>Revenue</a>
+                    <a class="sidebar-item p-3" href="<c:url value="/admin/product.do" />"><i class="fa-solid fa-gear"></i>Manage Product</a>
+                    <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
+                        <a class="sidebar-item p-3" href="<c:url value="/admin/category.do" />"><i class="fa-solid fa-list-check"></i>Manage Category</a>
+                        <a class="sidebar-item p-3" href="<c:url value="/admin/revenue.do" />"><i class="fa-solid fa-money-bill-trend-up"></i>Revenue</a>
+                    </c:if>
                     <a class="sidebar-item p-3" href="<c:url value="/account/logout.do" />"><i class="fa-solid fa-right-from-bracket"></i>Log out</a>
                 </div>
             </div>
@@ -54,8 +56,8 @@
                 <!-- Top navigation-->
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="container-fluid header">
-                            <div class="toggle-btn" id="sidebarToggle">Toggle Menu <i class="fa-solid fa-toggle-on"></i></div>
-                            <h2>Admin page</h2>
+                        <div class="toggle-btn" id="sidebarToggle">Toggle Menu <i class="fa-solid fa-toggle-on"></i></div>
+                        <h2>Admin page</h2>
                     </div>
                 </nav>
                 <!-- Page content-->

@@ -6,14 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class AccountFacade {
 
-    public Account login(String user, String pass) throws SQLException {
+    public Account login(String email, String pass) throws SQLException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
-        PreparedStatement stm = con.prepareStatement("select * from account where [username]=? and password=?");
-        stm.setString(1, user);
+        PreparedStatement stm = con.prepareStatement("select * from account where [email]=? and password=?");
+        stm.setString(1, email);
         stm.setString(2, pass);
         //Thực thi lệnh sql
         ResultSet rs = stm.executeQuery();
@@ -29,12 +31,12 @@ public class AccountFacade {
         }
         return null;
     }
-    
-     public Account checkAccountExist(String user) throws SQLException {
+
+    public Account checkAccountExist(String email) throws SQLException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
-        PreparedStatement stm = con.prepareStatement("select * from account where [username]=?");
-        stm.setString(1, user);
+        PreparedStatement stm = con.prepareStatement("select * from account where [email]=?");
+        stm.setString(1, email);
         //Thực thi lệnh sql
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
@@ -49,8 +51,8 @@ public class AccountFacade {
         }
         return null;
     }
-    
-    public void signup(Account account) throws SQLException{
+
+    public void signup(Account account) throws SQLException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
         PreparedStatement stm = con.prepareStatement("Insert account ([username], [address], [phone], [email], [password]) values (?, ?, ?, ?, ? )");
@@ -63,5 +65,21 @@ public class AccountFacade {
         int count = stm.executeUpdate();
         //Đóng kết nối
         con.close();
+    }
+
+    public static int isLogin(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("acc") != null) {
+            Account a = (Account) session.getAttribute("acc");
+            if (a.getRole().equals("ROLE_ADMIN") ) {
+                return 1;
+            } else if (a.getRole().equals("ROLE_EMPLOYEE")) {
+                return 2;
+            } else {
+                return 3;
+            }
+        } else {
+            return 0;
+        }
     }
 }

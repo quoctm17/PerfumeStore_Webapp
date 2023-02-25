@@ -224,16 +224,16 @@ SET IDENTITY_INSERT [dbo].[Product] OFF
 SET IDENTITY_INSERT [dbo].[Account] ON 
 -- INSERT [dbo].[Account] ([id], [name], [address], [phone], [email], [role]) VALUES (1, N'Admin', N'9652 Los Angeles', N'0123456789', N'a@petstore.com', 'ROLE_ADMIN')
 INSERT [dbo].[Account] ([id], [username], [address], [phone], [email],[password], [role]) VALUES
-(1, N'Admin', N'9652 Los Angeles', N'0123456789', N'a@petstore.com', 'Admin123!', 'ROLE_ADMIN'),
-(2, N'Employee1', N'5747 Shirley Drive', N'1234567890', N'e1@petstore.com', 'Emp123!', 'ROLE_EMPLOYEE'),
-(3, N'Employee2', N'3841 Silver Oaks Place', N'2345678901', N'e2@petstore.com', 'Emp456!', 'ROLE_EMPLOYEE'),
-(4, N'Employee3', N'3208 Hilltop Drive', N'2345678901', N'e3@petstore.com', 'Emp789!', 'ROLE_EMPLOYEE'),
-(5, N'Customer1', N'1873 Lion Circle', N'5678901234', N'c1@gmail.com', 'Cust123!', 'ROLE_CUSTOMER'),
-(6, N'Customer2', N'1030 Forest Avenue', N'2025550184', N'c2@gmail.com', 'Cust456!', 'ROLE_CUSTOMER'),
-(7, N'Customer3', N'5108 South Greenwood Avenue', N'2125550876', N'c3@gmail.com', 'Cust789!', 'ROLE_CUSTOMER'),
-(8, N'Customer4', N'2448 W Pensacola Ave', N'3125550199', N'c4@gmail.com', 'Cust101!', 'ROLE_CUSTOMER'),
-(9, N'Customer5', N'1791 Broadway', N'4155550133', N'c5@gmail.com', 'Cust202!', 'ROLE_CUSTOMER'),
-(10, N'Customer6', N'4137 University Way', N'8045550182', N'c6@gmail.com', 'Cust303!', 'ROLE_CUSTOMER')
+(1, N'Admin', N'9652 Los Angeles', N'0123456789', N'a@perfumestore.com', 'a1', 'ROLE_ADMIN'),
+(2, N'Employee1', N'5747 Shirley Drive', N'1234567890', N'e1@perfumestore.com', 'e1', 'ROLE_EMPLOYEE'),
+(3, N'Employee2', N'3841 Silver Oaks Place', N'2345678901', N'e2@perfumestore.com', 'e2', 'ROLE_EMPLOYEE'),
+(4, N'Employee3', N'3208 Hilltop Drive', N'2345678901', N'e3@perfumestore.com', 'e3', 'ROLE_EMPLOYEE'),
+(5, N'Customer1', N'1873 Lion Circle', N'5678901234', N'c1@perfumestore.com', 'c1', 'ROLE_CUSTOMER'),
+(6, N'Customer2', N'1030 Forest Avenue', N'2025550184', N'c2@perfumestore.com', 'c2', 'ROLE_CUSTOMER'),
+(7, N'Customer3', N'5108 South Greenwood Avenue', N'2125550876', N'c3@perfumestore.com', 'c3', 'ROLE_CUSTOMER'),
+(8, N'Customer4', N'2448 W Pensacola Ave', N'3125550199', N'c4@perfumestore.com', 'c4', 'ROLE_CUSTOMER'),
+(9, N'Customer5', N'1791 Broadway', N'4155550133', N'c5@perfumestore.com', 'c5', 'ROLE_CUSTOMER'),
+(10, N'Customer6', N'4137 University Way', N'8045550182', N'c6@perfumestore.com', 'c6', 'ROLE_CUSTOMER')
 SET IDENTITY_INSERT [dbo].[Account] OFF
 
 -- Insert Table Customer

@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import dao.AccountFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,29 +36,42 @@ public class AdminController extends HttpServlet {
 
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-
-        switch (action) {
-            case "dashboard":
-                
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                break;
-            case "product":
-                
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                break;
-            case "category":
-                
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                break;
-            case "revenue":
-                
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                break;
-            default:
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "error404");
-                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+        System.out.println(AccountFacade.isLogin(request));
+        if (AccountFacade.isLogin(request) != 0) {
+            if (AccountFacade.isLogin(request) != 3) {
+                switch (action) {
+                    case "dashboard":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "product":
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        break;
+                    case "category":
+                        if (AccountFacade.isLogin(request) == 1) {
+                            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");
+                        }
+                        break;
+                    case "revenue":
+                        if (AccountFacade.isLogin(request) == 1) {
+                            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                        } else {
+                            response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");
+                        }
+                        break;
+                    default:
+                        request.setAttribute("controller", "error");
+                        request.setAttribute("action", "error404");
+                        request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+                }
+            } else{
+                response.sendRedirect(request.getContextPath() + "/home/index.do");
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/account/login.do");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
