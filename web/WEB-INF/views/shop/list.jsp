@@ -109,7 +109,7 @@
                                                        <c:param name="${entry.key}" value="${entry.value}" />
                                                    </c:if>
                                                </c:forEach>
-                                               <c:param name="sort" value="high_price " />
+                                               <c:param name="sort" value="high_price" />
                                            </c:url>" >Price: hight to low</a>
                                     </div>
 
