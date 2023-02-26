@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -37,12 +39,11 @@ public class CategoryFacade {
         return list;
     }
 
-    public void create(Category category) throws SQLException {
+    public void create(String name) throws SQLException {
 
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
-        PreparedStatement pstm = con.prepareStatement("insert category values(?, ?, ?, ?, ?)");
-
+        PreparedStatement pstm = con.prepareStatement("insert category values(?)");
+        pstm.setString(1, name);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -52,7 +53,6 @@ public class CategoryFacade {
         Category category = new Category();
 
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
         PreparedStatement pstm = con.prepareStatement("select * from category where id= ?");
         pstm.setString(1, id);
         ResultSet rs = pstm.executeQuery();
@@ -64,12 +64,12 @@ public class CategoryFacade {
         return category;
     }
 
-    public void update(Category category) throws SQLException {
+    public void update(String id, String name) throws SQLException {
 
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
-        PreparedStatement pstm = con.prepareStatement("update category...");
-
+        PreparedStatement pstm = con.prepareStatement("update category set name = ? where id = ?");
+        pstm.setString(1, name);
+        pstm.setString(2, id);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -77,10 +77,18 @@ public class CategoryFacade {
 
     public void delete(String id) throws SQLException {
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
         PreparedStatement pstm = con.prepareStatement("delete from category where id= ?");
         pstm.setString(1, id);
         int count = pstm.executeUpdate();
         con.close();
+    }
+    
+    public static void main(String[] args) {
+        CategoryFacade cf = new CategoryFacade();
+        try {
+            System.out.println(cf.selectAll());
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
