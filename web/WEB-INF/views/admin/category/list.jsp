@@ -64,7 +64,7 @@
 <div id="addCategoryModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/category.do" />">
+            <form action="<c:url value="/admin/category/create.do" />">
                 <div class="modal-header">						
                     <h4 class="modal-title">Add Category</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <button type="submit" class="btn btn-success" name="op" value="create">Add</button>
+                    <input type="submit" class="btn btn-success" value="Add">
                 </div>
             </form>
         </div>
@@ -92,7 +92,7 @@
 <div id="editCategoryModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/category.do" />">
+            <form action="<c:url value="/admin/category/update.do" />">
                 <div class="modal-header">						
                     <h4 class="modal-title">Edit Product</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <button type="submit" class="btn btn-info" name="op" value="update_handler">Save</button>
+                    <input type="submit" class="btn btn-info" value="Update">
                 </div>
             </form>
         </div>
@@ -124,7 +124,7 @@
 <div id="deleteCategoryModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/category.do" />">
+            <form action="<c:url value="/admin/category/delete.do" />">
                 <div class="modal-header">						
                     <h4 class="modal-title">Delete Employee</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -135,8 +135,8 @@
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="hidden" name="id">
-                    <button type="submit" class="btn btn-danger" name="op" value="delete">Delete</button>
+                    <input type="hidden" name="id" value="delete">
+                    <button type="submit" class="btn btn-danger" >Delete</button>
                 </div>
             </form>
         </div>
@@ -145,7 +145,7 @@
 
 <script>
     const handleEditCate = (id) => {
-        const url = "<c:url value="/admin/category.do?op=update&id=" />" + id;
+        const url = "<c:url value="/admin/category/read.do?&id=" />" + id;
         
         $.ajax({
             type: 'GET',

@@ -6,9 +6,8 @@
 package controllers;
 
 import com.google.gson.Gson;
-import dao.AccountFacade;
-import dao.CategoryFacade;
-import entity.Category;
+import dao.ProductFacade;
+import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -25,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Beyond Nguyen
  */
-@WebServlet(name = "AdminController", urlPatterns = {"/admin"})
-public class AdminController extends HttpServlet {
+@WebServlet(name = "ProductController", urlPatterns = {"/admin/product"})
+public class ProductController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,37 +39,35 @@ public class AdminController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
-        CategoryFacade cf = new CategoryFacade();
-        if (AccountFacade.isLogin(request) != 0) {
-            if (AccountFacade.isLogin(request) != 3) {
-                switch (action) {
-                    case "dashboard":
-                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                        break;
-                    case "revenue":
-                        if (AccountFacade.isLogin(request) == 1) {
+        ProductFacade pf = new ProductFacade();
+        switch (action) {
+            case "list":
+                //Processing code here
+                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                break;
+            case "create":
+                response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
 
-                            request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                        } else {
-                            response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");
-                        }
-                        break;
-                    default:
-                        request.setAttribute("controller", "error");
-                        request.setAttribute("action", "error404");
-                        request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
-                }
-            } else {
-                response.sendRedirect(request.getContextPath() + "/home/index.do");
-            }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/account/login.do");
+                break;
+            case "read":
+
+                break;
+            case "update":
+
+                break;
+            case "delete":
+
+                break;
+            default:
+                //Show error page
+                request.setAttribute("controller", "error");
+                request.setAttribute("action", "error404");
+                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

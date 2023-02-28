@@ -93,8 +93,8 @@
                                         <li><a href="<c:url value="/cart/checkout.do"/>">Checkout</a></li>
                                     </ul>
                                 </li>
-                                <%--    <c:if test="${sessionScope.acc != null}">
-                                        <c:if test="${sessionScope.acc.role != 'ROLE_CUSTOMER'}">
+                                <c:if test="${sessionScope.acc != null}">
+                                    <c:if test="${sessionScope.acc.role != 'ROLE_CUSTOMER'}">
                                         <li><a href="#">Admin pages</a>
                                             <ul class="dropdown">
                                                 <li><a href="<c:url value="/admin/dashboard.do"/>">Dashboard</a></li>
@@ -106,7 +106,7 @@
                                             </ul>
                                         </li>
                                     </c:if>
-                                </c:if> --%>
+                                </c:if> 
                             </ul>
                         </nav>
                     </div>
