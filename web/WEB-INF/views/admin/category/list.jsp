@@ -35,7 +35,7 @@
                         <tr>
                             <td>${category.id}</td>
                             <td>${category.name}</td>
-                            <td class="line-clamp"></td>
+                            <td class="line-clamp">${category.description}</td>
                             <td>
                                 <a href="#editCategoryModal" onclick="handleEditCate(${category.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
                                 <a href="#deleteCategoryModal" onclick="handleDeleteCate(${category.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="desciption" required></textarea>
+                        <textarea class="form-control" name="description" required></textarea>
                     </div>                    
                 </div>
                 <div class="modal-footer">
@@ -108,7 +108,7 @@
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" required></textarea>
+                        <textarea class="form-control" name="description" required></textarea>
                     </div>  	
                 </div>
                 <div class="modal-footer">
@@ -154,6 +154,7 @@
                 const cate = JSON.parse(data);
                 document.querySelector('#editCategoryModal input[name=id]').value = cate.id;
                 document.querySelector('#editCategoryModal input[name=name]').value = cate.name;
+                document.querySelector('#editCategoryModal textarea[name=description]').value = cate.description;
             }
         });
     }

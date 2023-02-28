@@ -59,7 +59,9 @@ public class CategoryController extends HttpServlet {
             case "create":
                 try {
                     String name = request.getParameter("name");
-                    cf.create(name);
+                    String description = request.getParameter("description");
+
+                    cf.create(name, description);
                     response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,8 +87,9 @@ public class CategoryController extends HttpServlet {
                 try {
                     String id = request.getParameter("id");
                     String name = request.getParameter("name");
+                    String description = request.getParameter("description");
 
-                    cf.update(id, name);
+                    cf.update(id, name, description);
                     response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);

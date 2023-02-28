@@ -33,17 +33,19 @@ public class CategoryFacade {
             Category c = new Category();
             c.setId(rs.getInt("id"));
             c.setName(rs.getString("name"));
+            c.setDescription(rs.getString("description"));
             list.add(c);
         }
         con.close();
         return list;
     }
 
-    public void create(String name) throws SQLException {
+    public void create(String name, String description) throws SQLException {
 
         Connection con = DBContext.getConnection();
-        PreparedStatement pstm = con.prepareStatement("insert category values(?)");
+        PreparedStatement pstm = con.prepareStatement("insert category values(?, ?)");
         pstm.setString(1, name);
+        pstm.setString(2, description);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -56,20 +58,22 @@ public class CategoryFacade {
         PreparedStatement pstm = con.prepareStatement("select * from category where id= ?");
         pstm.setString(1, id);
         ResultSet rs = pstm.executeQuery();
-        while (rs.next()) {
+        if (rs.next()) {
             category.setId(rs.getInt("id"));
             category.setName(rs.getString("name"));
+            category.setDescription(rs.getString("description"));
         }
         con.close();
         return category;
     }
 
-    public void update(String id, String name) throws SQLException {
+    public void update(String id, String name, String description) throws SQLException {
 
         Connection con = DBContext.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update category set name = ? where id = ?");
+        PreparedStatement pstm = con.prepareStatement("update category set name = ?, description = ? where id = ?");
         pstm.setString(1, name);
-        pstm.setString(2, id);
+        pstm.setString(2, description);
+        pstm.setString(3, id);
         int count = pstm.executeUpdate();
 
         con.close();
@@ -82,7 +86,7 @@ public class CategoryFacade {
         int count = pstm.executeUpdate();
         con.close();
     }
-    
+
     public static void main(String[] args) {
         CategoryFacade cf = new CategoryFacade();
         try {

@@ -55,7 +55,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="product__details__text">
-                    <h3>${p.name} <span>Brand: ${categoryName}</span></h3>
+                    <h3>${p.name} <span>Brand: ${category.name}</span></h3>
                     <!--rating-->
                     <div class="rating">
                         <i class="fa fa-star"></i>
@@ -72,7 +72,7 @@
                             <fmt:formatNumber value = "${p.beforeDiscount()}" type = "currency"/>
                         </span> 
                     </div>
-                    <p>${p.description}</p>
+                    <p>${category.description}</p>
                     <div class="product__details__button">
                         <div class="quantity">
                             <span>Quantity:</span>

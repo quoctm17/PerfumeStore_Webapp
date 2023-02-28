@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -50,13 +50,12 @@ public class ShopController extends HttpServlet {
                     List<Product> productList = null;
                     List<Product> displayList = null;
                     Object search = request.getParameter("search");
-                    Object categoryId  = request.getParameter("category");                    
-                    Object sortOptions = request.getParameter("sort"); 
+                    Object categoryId = request.getParameter("category");
+                    Object sortOptions = request.getParameter("sort");
 
                     if (search == null && categoryId == null && sortOptions == null) {
                         productList = pf.selectAll();
-                    }
-                    else {
+                    } else {
                         productList = pf.selectWithConditions(search, categoryId, sortOptions);
                     }
 
@@ -91,20 +90,17 @@ public class ShopController extends HttpServlet {
                 break;
 
             case "detail":
-                try {                  
+                try {
                     String id = request.getParameter("id");
-                    
+
                     Product p = null;
-                    
-                    ProductFacade pf1 = new ProductFacade();
-                    p = pf1.read(id);
-                    cf = new CategoryFacade();
-                    
+                    p = pf.read(id);
+
                     Category c = cf.read(String.valueOf(p.getCategoryId()));
-                    String categoryName = c.getName();
+
                     //TODO
                     request.setAttribute("p", p);
-                    request.setAttribute("categoryName", categoryName);
+                    request.setAttribute("category", c);
                     request.setAttribute("tab", "shop");
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (IOException | SQLException | ServletException ex) {

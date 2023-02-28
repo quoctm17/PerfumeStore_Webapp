@@ -44,7 +44,6 @@ public class AdminController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
-        CategoryFacade cf = new CategoryFacade();
         if (AccountFacade.isLogin(request) != 0) {
             if (AccountFacade.isLogin(request) != 3) {
                 switch (action) {
