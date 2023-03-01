@@ -1,5 +1,5 @@
-<%-- 
-    Document   : category
+    <%-- 
+    Document   : customer
     Created on : Feb 24, 2023, 6:55:30 AM
     Author     : Beyond Nguyen
 --%>
@@ -13,10 +13,10 @@
             <div class="table-title">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h2>Manage <b>Category</b></h2>
+                        <h2>Manage <b>Customer</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addCategoryModal" class="btn btn-success" data-toggle="modal"><i class="material-icons fa fa-plus-circle"></i> <span>Add New Category</span></a>
+                        <a href="#addCustomerModal" class="btn btn-success" data-toggle="modal"><i class="material-icons fa fa-plus-circle"></i> <span>Add New Customer</span></a>
 
                     </div>
                 </div>
@@ -26,19 +26,25 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Description</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Category</th>
+                        <th>Delivery Addr.</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="category" items="${list}">
+                    <c:forEach var="profile" items="${customerProfiles}">
                         <tr>
-                            <td>${category.id}</td>
-                            <td>${category.name}</td>
-                            <td class="line-clamp"></td>
+                            <td>${profile.value.id}</td>
+                            <td>${profile.key.user}</td>
+                            <td>${profile.key.email}</td>
+                            <td>${profile.key.phone}</td>
+                            <td>${profile.value.category}</td>
+                            <td class="line-clamp">${profile.value.deliveryAddress}</td>
                             <td>
-                                <a href="#editCategoryModal" onclick="handleEditCate(${category.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
-                                <a href="#deleteCategoryModal" onclick="handleDeleteCate(${category.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#editCustomerModal" onclick="handleEditCate(${profile.value.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
+                                <a href="#deleteCustomerModal" onclick="handleDeleteCate(${profile.key.email})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -61,23 +67,41 @@
 </div>
 
 <!-- Add Modal HTML -->
-<div id="addCategoryModal" class="modal fade">
+<div id="addCustomerModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/category/create.do" />">
+            <form action="<c:url value="/admin/customer/create.do" />">
                 <div class="modal-header">						
-                    <h4 class="modal-title">Add Category</h4>
+                    <h4 class="modal-title">Add customer</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Name</label>
-                        <input type="text" name="name" class="form-control" required>
+                        <input type="text"  name="name" class="form-control" required>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label>Phone</label>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Email</label>
+                            <input type="text" name="email" class="form-control" required>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" name="desciption" required></textarea>
-                    </div>                    
+                        <label>Category</label>
+                        <input type="text" name="category" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" name="address" class="form-control" required>
+                    </div>  
+                    <div class="form-group">
+                        <label>Delivery Address</label>
+                        <input type="text" name="deliveryAddress" class="form-control" required>
+                    </div>  
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -87,29 +111,49 @@
         </div>
     </div>
 </div>
-                
+
 <!-- Edit Modal HTML -->
-<div id="editCategoryModal" class="modal fade">
+<div id="editCustomerModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/category/update.do" />">
+            <form action="<c:url value="/admin/customer/update.do" />">
                 <div class="modal-header">						
                     <h4 class="modal-title">Edit Product</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
-                <div class="modal-body">					
-                    <div class="form-group">
-                        <label>Id</label>
-                        <input style="pointer-events: none" type="text" name="id" class="form-control" required>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col">
+                            <label>Id</label>
+                            <input style="pointer-events: none" type="text" name="id" class="form-control" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Category</label>
+                            <input type="text" name="category" class="form-control" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text"  name="name" class="form-control" required>
                     </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label>Phone</label>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Email</label>
+                            <input type="text" name="email" class="form-control" required>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" required></textarea>
-                    </div>  	
+                        <label>Address</label>
+                        <input type="text" name="address" class="form-control" required>
+                    </div>  
+                    <div class="form-group">
+                        <label>Delivery Address</label>
+                        <input type="text" name="deliveryAddress" class="form-control" required>
+                    </div>  
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -121,10 +165,10 @@
 </div>
 
 <!-- Delete Modal HTML -->
-<div id="deleteCategoryModal" class="modal fade">
+<div id="deleteCustomerModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/category/delete.do" />">
+            <form action="<c:url value="/admin/customer/delete.do" />">
                 <div class="modal-header">						
                     <h4 class="modal-title">Delete Employee</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -144,21 +188,22 @@
 </div>
 
 <script>
-    const handleEditCate = (id) => {
-        const url = "<c:url value="/admin/category/read.do?&id=" />" + id;
-        
+    const handleEditCate = (id, email) => {
+        const url = "<c:url value="/admin/customer/read.do?&id=" />" + id + "&email=" + email;
+
         $.ajax({
             type: 'GET',
             url: url,
             success: function (data) {
-                const cate = JSON.parse(data);
-                document.querySelector('#editCategoryModal input[name=id]').value = cate.id;
-                document.querySelector('#editCategoryModal input[name=name]').value = cate.name;
+                console.log(data)
+//                const cate = JSON.parse(data);
+//                document.querySelector('#editCustomerModal input[name=id]').value = cate.id;
+//                document.querySelector('#editCustomerModal input[name=name]').value = cate.name;
             }
         });
     }
-    
+
     const handleDeleteCate = (id) => {
-        document.querySelector('#deleteCategoryModal input[name=id]').value = id;
+        document.querySelector('#deleteCustomerModal input[name=id]').value = id;
     }
 </script>

@@ -6,13 +6,14 @@
 package controllers;
 
 import com.google.gson.Gson;
-import dao.CategoryFacade;
-import dao.ProductFacade;
-import entity.Category;
-import entity.Product;
+import dao.AccountFacade;
+import dao.CustomerFacade;
+import entity.Account;
+import entity.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,12 +45,70 @@ public class CustomerController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
+        AccountFacade af = new AccountFacade();
+        CustomerFacade cf = new CustomerFacade();
         switch (action) {
-            case "list":
-                //Processing code here
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+            case "list": {
+                try {
+                    //Processing code here
+
+                    List<Account> accList = af.selectCustomerAccounts();
+                    List<Customer> cusList = cf.selectAll();
+
+                    HashMap<Account, Customer> customerProfiles = new HashMap<Account, Customer>();
+                    for (int i = 0; i < accList.size(); ++i) {
+                        customerProfiles.put(accList.get(i), cusList.get(i));
+                    }
+
+                    request.setAttribute("customerProfiles", customerProfiles);
+                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            break;
+
+            case "create":
+                try {
+                    String name = request.getParameter("name");
+                    String phone = request.getParameter("phone");
+                    String email = request.getParameter("email");
+                    String category = request.getParameter("category");
+                    String address = request.getParameter("address");
+                    String deliveryAddress = request.getParameter("deliveryAddress");
+
+                    af.createCustomerAccount(name, phone, email, address);
+                    System.out.println("????");
+                    int id = af.getCustomerId(email);
+                    cf.create(id, category, deliveryAddress);
+
+                    response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
                 break;
-          
+
+            case "read":
+                try {
+                    String id = request.getParameter("id");
+                    String email = request.getParameter("email");
+                    
+                    Account acc = af.checkAccountExist(email);
+                    Customer cus = cf.read(id);
+
+                    Gson gson = new Gson();
+                    PrintWriter out = response.getWriter();
+                    out.print(gson.toJson(acc));
+                    out.print(gson.toJson(cus));
+                    out.flush();
+                    out.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                break;
             case "update":
                 request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 break;

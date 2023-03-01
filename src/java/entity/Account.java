@@ -96,13 +96,5 @@ public class Account {
     public void setRole(String role) {
         this.role = role;
     }
-
-    @Override
-    public String toString() {
-        return "Account{" + "id=" + id + ", user=" + user + ", address=" + address + ", phone=" + phone + ", email=" + email + ", pass=" + pass + ", isEnabled=" + isEnabled + ", role=" + role + '}';
-    }
-
-
-    
     
 }

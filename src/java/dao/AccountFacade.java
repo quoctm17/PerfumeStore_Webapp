@@ -1,16 +1,70 @@
 package dao;
 
 import entity.Account;
+import entity.Category;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class AccountFacade {
 
+    public List<Account> selectCustomerAccounts() throws SQLException {
+        List<Account> list = null;
+        Connection con = DBContext.getConnection();
+
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select * from account where role like 'ROLE_CUSTOMER'");
+        list = new ArrayList<>();
+        while (rs.next()) {
+            Account a = new Account();
+            a.setId(rs.getInt("id"));
+            a.setUser(rs.getString("username"));
+            a.setAddress(rs.getString("address"));
+            a.setPhone(rs.getString("phone"));
+            a.setEmail(rs.getString("email"));
+            a.setPass(rs.getString("password"));
+            a.setIsEnabled(rs.getInt("enabled"));
+            a.setRole(rs.getString("role"));
+            list.add(a);
+        }
+        con.close();
+        return list;
+    }
+    
+    public int getCustomerId(String email) throws SQLException {
+        Connection con = DBContext.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("select id from account where [email]=?");
+        stm.setString(1, email);
+        //Thực thi lệnh sql
+        ResultSet rs = stm.executeQuery();       
+        if (rs.next()) {
+           return rs.getInt("id");
+        }
+        return -1;
+    }
+
+    public void createCustomerAccount(String name, String phone, String email, String address ) throws SQLException {
+
+        Connection con = DBContext.getConnection();
+        PreparedStatement pstm = con.prepareStatement("insert Account (username, address, phone, email) values (?, ?, ?, ?)");
+        pstm.setString(1, name);
+        pstm.setString(2, address);
+        pstm.setString(3, phone);
+        pstm.setString(4, email);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+    
     public Account login(String email, String pass) throws SQLException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
@@ -71,7 +125,7 @@ public class AccountFacade {
         HttpSession session = request.getSession();
         if (session.getAttribute("acc") != null) {
             Account a = (Account) session.getAttribute("acc");
-            if (a.getRole().equals("ROLE_ADMIN") ) {
+            if (a.getRole().equals("ROLE_ADMIN")) {
                 return 1;
             } else if (a.getRole().equals("ROLE_EMPLOYEE")) {
                 return 2;
@@ -80,6 +134,15 @@ public class AccountFacade {
             }
         } else {
             return 0;
+        }
+    }
+    
+    public static void main(String[] args) {
+        AccountFacade af = new AccountFacade();
+        try {
+            System.out.println(af.getCustomerId("@fdsds"));
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

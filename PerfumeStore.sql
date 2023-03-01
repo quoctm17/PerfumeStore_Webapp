@@ -243,6 +243,10 @@ SET IDENTITY_INSERT [dbo].[Account] OFF
 -- Example INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (4, 'Copper', N'1873 Lion Circle')
 INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (5, 'Gold', N'Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh')
 INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (6, 'Diamond', N'191 Nguyễn Thị Minh Khai, Quận 1, Thành phố Hồ Chí Minh')
+INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (7, 'Copper', N'5108 South Greenwood Avenue')
+INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (8, 'Platinum', N'2448 W Pensacola Ave')
+INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (9, 'Titanium', N'1791 Broadway')
+INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (10, 'Diamond', N'4137 University Way')
 
 -- Insert Table Employee
 -- Example INSERT [dbo].[Employee] ([id], [salary], [departmentId]) VALUES (1, 1200, 1)
