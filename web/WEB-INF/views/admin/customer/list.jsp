@@ -1,7 +1,7 @@
-    <%-- 
-    Document   : customer
-    Created on : Feb 24, 2023, 6:55:30 AM
-    Author     : Beyond Nguyen
+<%-- 
+Document   : customer
+Created on : Feb 24, 2023, 6:55:30 AM
+Author     : Beyond Nguyen
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -44,7 +44,7 @@
                             <td class="line-clamp">${profile.value.deliveryAddress}</td>
                             <td>
                                 <a href="#editCustomerModal" onclick="handleEditCate(${profile.value.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
-                                <a href="#deleteCustomerModal" onclick="handleDeleteCate(${profile.key.email})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#deleteCustomerModal" onclick="handleDeleteCate(${profile.value.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -189,21 +189,29 @@
 
 <script>
     const handleEditCate = (id, email) => {
-        const url = "<c:url value="/admin/customer/read.do?&id=" />" + id + "&email=" + email;
-
+        const url = "<c:url value="/admin/customer/read.do?&id=" />" + id;
         $.ajax({
             type: 'GET',
             url: url,
             success: function (data) {
-                console.log(data)
-//                const cate = JSON.parse(data);
-//                document.querySelector('#editCustomerModal input[name=id]').value = cate.id;
-//                document.querySelector('#editCustomerModal input[name=name]').value = cate.name;
+               
+                const list = data.split('***');
+                const account = JSON.parse(list[0]);
+                const customer = JSON.parse(list[1]);
+                const profile = {...customer, ...account}
+                
+                document.querySelector('#editCustomerModal input[name=id]').value = profile.id;
+                document.querySelector('#editCustomerModal input[name=category]').value = profile.category;
+                document.querySelector('#editCustomerModal input[name=name]').value = profile.user;
+                document.querySelector('#editCustomerModal input[name=phone]').value = profile.phone;
+                document.querySelector('#editCustomerModal input[name=email]').value = profile.email;
+                document.querySelector('#editCustomerModal input[name=address]').value = profile.address;
+                document.querySelector('#editCustomerModal input[name=deliveryAddress]').value = profile.deliveryAddress;
             }
         });
-    }
+    };
 
     const handleDeleteCate = (id) => {
         document.querySelector('#deleteCustomerModal input[name=id]').value = id;
-    }
+    };
 </script>

@@ -93,14 +93,14 @@ public class CustomerController extends HttpServlet {
             case "read":
                 try {
                     String id = request.getParameter("id");
-                    String email = request.getParameter("email");
-                    
-                    Account acc = af.checkAccountExist(email);
+
+                    Account acc = af.getAnAccount(id);
                     Customer cus = cf.read(id);
 
                     Gson gson = new Gson();
                     PrintWriter out = response.getWriter();
                     out.print(gson.toJson(acc));
+                    out.print("***");
                     out.print(gson.toJson(cus));
                     out.flush();
                     out.close();
@@ -109,8 +109,36 @@ public class CustomerController extends HttpServlet {
                 }
 
                 break;
-            case "update":
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+            case "update": {
+                try {
+                    String id = request.getParameter("id");
+                    String name = request.getParameter("name");
+                    String phone = request.getParameter("phone");
+                    String email = request.getParameter("email");
+                    String category = request.getParameter("category");
+                    String address = request.getParameter("address");
+                    String deliveryAddress = request.getParameter("deliveryAddress");
+
+                    af.updateNonSecurityInfo(id, name, phone, email, address);
+                    cf.update(id, category, deliveryAddress);
+
+                    response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
+                } catch (SQLException ex) {
+                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+
+            case "delete":
+                try {
+                    String id = request.getParameter("id");
+                    cf.delete(id);
+                    af.delete(id);
+                    response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 break;
             default:
                 //Show error page

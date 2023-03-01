@@ -51,6 +51,26 @@ public class AccountFacade {
         }
         return -1;
     }
+    
+    public Account getAnAccount(String id) throws SQLException {
+        Connection con = DBContext.getConnection();
+        //Tạo đối tượng PreparedStatement
+        PreparedStatement stm = con.prepareStatement("select * from account where id=?");
+        stm.setString(1, id);
+        //Thực thi lệnh sql
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            return new Account(rs.getInt("id"),
+                    rs.getString("username"),
+                    rs.getString("address"),
+                    rs.getString("phone"),
+                    rs.getString("email"),
+                    rs.getString("password"),
+                    rs.getInt("enabled"),
+                    rs.getString("role"));
+        }
+        return null;
+    }
 
     public void createCustomerAccount(String name, String phone, String email, String address ) throws SQLException {
 
@@ -62,6 +82,28 @@ public class AccountFacade {
         pstm.setString(4, email);
         int count = pstm.executeUpdate();
 
+        con.close();
+    }
+    
+    public void updateNonSecurityInfo(String id, String name, String phone, String email, String address) throws SQLException {
+
+        Connection con = DBContext.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update account set [username] = ?, phone = ?, email = ?, address = ?  where id = ?");
+        pstm.setString(1, name);
+        pstm.setString(2, phone);
+        pstm.setString(3, email);
+        pstm.setString(4, address);
+        pstm.setString(5, id);
+        int count = pstm.executeUpdate();
+
+        con.close();
+    }
+    
+    public void delete(String id) throws SQLException {
+        Connection con = DBContext.getConnection();
+        PreparedStatement pstm = con.prepareStatement("delete from account where id= ?");
+        pstm.setString(1, id);
+        int count = pstm.executeUpdate();
         con.close();
     }
     

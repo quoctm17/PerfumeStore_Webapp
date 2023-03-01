@@ -68,12 +68,12 @@ public class CustomerFacade {
         return customer;
     }
 
-    public void update(String id, String name, String description) throws SQLException {
+    public void update(String id, String category, String deliveryAddress) throws SQLException {
 
         Connection con = DBContext.getConnection();
         PreparedStatement pstm = con.prepareStatement("update customer set category = ?, deliveryAddress = ? where id = ?");
-        pstm.setString(1, name);
-        pstm.setString(2, description);
+        pstm.setString(1, category);
+        pstm.setString(2, deliveryAddress);
         pstm.setString(3, id);
         int count = pstm.executeUpdate();
 
