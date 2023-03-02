@@ -47,106 +47,89 @@ public class CustomerController extends HttpServlet {
 
         AccountFacade af = new AccountFacade();
         CustomerFacade cf = new CustomerFacade();
-        switch (action) {
-            case "list": {
-                try {
-                    //Processing code here
+        if (AccountFacade.isLogin(request) == 1) {
+            switch (action) {
+                case "create":
+                    try {
+                        String name = request.getParameter("name");
+                        String phone = request.getParameter("phone");
+                        String email = request.getParameter("email");
+                        String category = request.getParameter("category");
+                        String address = request.getParameter("address");
+                        String deliveryAddress = request.getParameter("deliveryAddress");
 
-                    List<Account> accList = af.selectCustomerAccounts();
-                    List<Customer> cusList = cf.selectAll();
+                        af.createCustomerAccount(name, phone, email, address);
+                        System.out.println("????");
+                        int id = af.getCustomerId(email);
+                        cf.create(id, category, deliveryAddress);
 
-                    HashMap<Account, Customer> customerProfiles = new HashMap<Account, Customer>();
-                    for (int i = 0; i < accList.size(); ++i) {
-                        customerProfiles.put(accList.get(i), cusList.get(i));
+                        response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
                     }
 
-                    request.setAttribute("customerProfiles", customerProfiles);
-                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
+
+                case "read":
+                    try {
+                        String id = request.getParameter("id");
+
+                        Account acc = af.getAnAccount(id);
+                        Customer cus = cf.read(id);
+
+                        Gson gson = new Gson();
+                        PrintWriter out = response.getWriter();
+                        out.print(gson.toJson(acc));
+                        out.print("***");
+                        out.print(gson.toJson(cus));
+                        out.flush();
+                        out.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    break;
+                case "update": {
+                    try {
+                        String id = request.getParameter("id");
+                        String name = request.getParameter("name");
+                        String phone = request.getParameter("phone");
+                        String email = request.getParameter("email");
+                        String category = request.getParameter("category");
+                        String address = request.getParameter("address");
+                        String deliveryAddress = request.getParameter("deliveryAddress");
+
+                        af.updateNonSecurityInfo(id, name, phone, email, address);
+                        cf.update(id, category, deliveryAddress);
+
+                        response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
+                break;
+
+                case "delete":
+                    try {
+                        String id = request.getParameter("id");
+                        cf.delete(id);
+                        af.delete(id);
+                        response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    break;
+                default:
+                    //Show error page
+                    request.setAttribute("controller", "error");
+                    request.setAttribute("action", "error404");
+                    request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
             }
-
-            break;
-
-            case "create":
-                try {
-                    String name = request.getParameter("name");
-                    String phone = request.getParameter("phone");
-                    String email = request.getParameter("email");
-                    String category = request.getParameter("category");
-                    String address = request.getParameter("address");
-                    String deliveryAddress = request.getParameter("deliveryAddress");
-
-                    af.createCustomerAccount(name, phone, email, address);
-                    System.out.println("????");
-                    int id = af.getCustomerId(email);
-                    cf.create(id, category, deliveryAddress);
-
-                    response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
-                break;
-
-            case "read":
-                try {
-                    String id = request.getParameter("id");
-
-                    Account acc = af.getAnAccount(id);
-                    Customer cus = cf.read(id);
-
-                    Gson gson = new Gson();
-                    PrintWriter out = response.getWriter();
-                    out.print(gson.toJson(acc));
-                    out.print("***");
-                    out.print(gson.toJson(cus));
-                    out.flush();
-                    out.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                break;
-            case "update": {
-                try {
-                    String id = request.getParameter("id");
-                    String name = request.getParameter("name");
-                    String phone = request.getParameter("phone");
-                    String email = request.getParameter("email");
-                    String category = request.getParameter("category");
-                    String address = request.getParameter("address");
-                    String deliveryAddress = request.getParameter("deliveryAddress");
-
-                    af.updateNonSecurityInfo(id, name, phone, email, address);
-                    cf.update(id, category, deliveryAddress);
-
-                    response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
-                } catch (SQLException ex) {
-                    Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            break;
-
-            case "delete":
-                try {
-                    String id = request.getParameter("id");
-                    cf.delete(id);
-                    af.delete(id);
-                    response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
-                } catch (SQLException ex) {
-                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                break;
-            default:
-                //Show error page
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "error404");
-                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
-
+        } else {
+            response.sendRedirect(request.getContextPath() + "/home/index.do");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

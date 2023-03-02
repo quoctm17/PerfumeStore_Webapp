@@ -47,8 +47,8 @@
                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
                         <a class="sidebar-item p-3" href="<c:url value="/admin/category/list.do" />"><i class="fa-solid fa-list-check"></i>Manage Category</a>
                         <a class="sidebar-item p-3" href="<c:url value="/admin/revenue.do" />"><i class="fa-solid fa-money-bill-trend-up"></i>Revenue</a>
+                        <a class="sidebar-item p-3" href="<c:url value="/admin/customer/list.do" />"><i class="fa-solid fa-user"></i></i>Manage customer</a>
                     </c:if>
-                    <a class="sidebar-item p-3" href="<c:url value="/admin/customer/list.do" />"><i class="fa-solid fa-user"></i></i>Manage customer</a>
                     <a class="sidebar-item p-3" href="<c:url value="/admin/orders/list.do" />"><i class="fa-solid fa-file-invoice"></i>Orders list</a>
                     <a class="sidebar-item p-3" href="<c:url value="/profile/info.do" />"><i class="fa-solid fa-address-card"></i>View profile</a>
                     <a class="sidebar-item p-3" href="<c:url value="/account/logout.do" />"><i class="fa-solid fa-right-from-bracket"></i>Log out</a>

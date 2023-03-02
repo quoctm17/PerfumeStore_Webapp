@@ -45,6 +45,7 @@ public class CartController extends HttpServlet {
         ProductFacade pf = new ProductFacade();
         CategoryFacade cf = new CategoryFacade();
         List<Product> list = new ArrayList<>();
+        
         switch (action) {
             case "index":
                 try {

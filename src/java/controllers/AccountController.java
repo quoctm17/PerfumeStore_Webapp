@@ -34,6 +34,16 @@ public class AccountController extends HttpServlet {
         switch (action) {
             case "login":
                 // Hiện form để người dùng login
+                // B1: Get Email, pass từ cookies
+                Cookie arr[] = request.getCookies();
+                for (Cookie o : arr) {
+                    if(o.getName().equals("cookEmail")){
+                        request.setAttribute("email", o.getValue());
+                    } else if(o.getName().equals("cookPass")){
+                        request.setAttribute("pass", o.getValue());
+                    }
+                }
+                // B2: Set Email, pass vào form login
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "login_handler":
@@ -83,21 +93,19 @@ public class AccountController extends HttpServlet {
                 request.setAttribute("controller", "account");
                 request.setAttribute("action", "login");
                 // Bảo tồn trạng thái form login đã nhập
-                request.setAttribute("email", email);
-                request.setAttribute("pass", password);
             } else { // Có tồn tại
                 // Lưu tài khoản vào Session để duy trì trạng thái đăng nhập cho đến khi logout
                 HttpSession session = request.getSession();
                 session.setAttribute("acc", a);
                 // Lưu vào Cookies để tạo chức năng Rememberme
                 Cookie cookieEmail = new Cookie("cookEmail", email);
-                cookieEmail.setMaxAge(60 * 60 * 15);
+                cookieEmail.setMaxAge(60 * 60);
                 
                 Cookie cookiePass = new Cookie("cookPass", password);
-                cookiePass.setMaxAge(60 * 60 * 15);
+                cookiePass.setMaxAge(60 * 60);
                 
                 Cookie cookRemember = new Cookie("cookRem", remember);
-                cookRemember.setMaxAge(60 * 60 * 15);
+                cookRemember.setMaxAge(60 * 60);
                 
                 response.addCookie(cookieEmail);
                 response.addCookie(cookiePass);

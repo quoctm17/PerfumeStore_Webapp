@@ -98,10 +98,12 @@
                                         <li><a href="#">Admin pages</a>
                                             <ul class="dropdown">
                                                 <li><a href="<c:url value="/admin/dashboard.do"/>">Dashboard</a></li>
-                                                <li><a href="<c:url value="/admin/product.do"/>">Manage Product</a></li>
+                                                <li><a href="<c:url value="/admin/product/list.do"/>">Manage Product</a></li>
                                                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
                                                     <li><a href="<c:url value="/admin/category.do"/>">Manage Category</a></li>
                                                     <li><a href="<c:url value="/admin/revenue.do"/>">Revenue</a></li>
+                                                    <li><a href="<c:url value="/admin/customer/list.do"/>">Manage Customer</a></li>
+                                                    <li><a href="<c:url value="/admin/orders/list.do"/>">Order List</a></li>
                                                     </c:if>
                                             </ul>
                                         </li>
