@@ -51,7 +51,7 @@
                 <li>
                     <a href="<c:url value="/cart/index.do"/>"
                        ><span class="icon_bag_alt"></span>
-                        <div class="tip">2</div>
+                        <div class="tip">${cart.count}</div>
                     </a>
                 </li>
             </ul>
@@ -135,7 +135,7 @@
                                 <li>
                                     <a href="<c:url  value="/cart/index.do" />"
                                        ><span class="icon_bag_alt"></span>
-                                        <div class="tip">2</div>
+                                        <div class="tip">${cart.count}</div>
                                     </a>
                                 </li>
                             </ul>

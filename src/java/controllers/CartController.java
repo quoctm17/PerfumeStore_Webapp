@@ -7,7 +7,9 @@ package controllers;
 
 import dao.CategoryFacade;
 import dao.ProductFacade;
+import entity.Cart;
 import entity.Category;
+import entity.Item;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -36,6 +39,31 @@ public class CartController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    protected void add(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        String id = request.getParameter("id");
+        //Lay gio tu session
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("cart", cart);
+        }
+        if (id == null) {
+            request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+            return;
+        }
+        Integer quantity = null;
+        ProductFacade pf = new ProductFacade();
+        Product product = pf.read(id);
+        Item item = new Item(product, quantity);
+
+        //Add item vao cart
+        cart.add(item);
+        //Quay ve home page
+        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,19 +73,20 @@ public class CartController extends HttpServlet {
         ProductFacade pf = new ProductFacade();
         CategoryFacade cf = new CategoryFacade();
         List<Product> list = new ArrayList<>();
-        
+
         switch (action) {
             case "index":
                 try {
-                    String id = request.getParameter("id");
-
-                    Product p = new Product();
-
-                    p = pf.read(id);
-                    list.add(p);
-                    request.setAttribute("list", list);
-                    request.setAttribute("p", p);
-                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+//                    String id = request.getParameter("id");
+//
+//                    Product p = new Product();
+//
+//                    p = pf.read(id);
+//                    list.add(p);
+//                    request.setAttribute("list", list);
+//                    request.setAttribute("p", p);
+//                    
+                    add(request, response);
                 } catch (IOException | SQLException | ServletException ex) {
                     ex.printStackTrace(); //in thong báo loi chi tiet cho developer
                     request.setAttribute("message", ex.getMessage());

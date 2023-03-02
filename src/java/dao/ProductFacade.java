@@ -42,7 +42,7 @@ public class ProductFacade {
         con.close();
         return list;
     }
-    
+
     public List<Product> selectTop8Newest() throws SQLException {
         List<Product> list = null;
         Connection con = DBContext.getConnection();
@@ -66,7 +66,7 @@ public class ProductFacade {
 
     public List<Product> selectWithConditions(Object search, Object categoryId, Object sortOptions) throws SQLException {
         String sql = "select * from product where 1=1 ";
-        
+
         if (search != null) {
             sql += "and [name] like N'%" + search + "%' ";
         }
