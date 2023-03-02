@@ -51,17 +51,25 @@
                                     </td>
                                     <td class="cart__price">${p.product.price} VNĐ</td>
                                     <td class="cart__quantity">
-                                        <div class="pro-qty">
-                                            
-                                            <input type="text" value="${p.quantity}">
-                                        </div>
+                                        <form action="<c:url value="/cart/update.do"/>" method="post">
+                                            <div class="pro-qty">
+                                                <input type="text" name="newQuantity" value="${p.quantity}">
+                                                <input type="hidden" name="idneettoupdate" value="${p.product.id}">
+                                            </div>
+                                        </form>
+
                                     </td>
                                     <td class="cart__total">
                                         <script>
                                             document.write(Number(${p.cost}).toLocaleString() + " VNĐ");
                                         </script>
                                     </td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
+                                    <td class="cart__close">                                     
+                                        <form action="<c:url value="/cart/delete.do"/>">
+                                            <button class="icon_close" name="idneedtodelete" value="${p.product.id}"></button>
+                                        </form>
+
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </tbody>

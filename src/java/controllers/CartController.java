@@ -57,11 +57,39 @@ public class CartController extends HttpServlet {
         ProductFacade pf = new ProductFacade();
         Product product = pf.read(id);
         Item item = new Item(product, quantity);
-
         //Add item vao cart
         cart.add(item);
         //Quay ve home page
         request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+    }
+
+    protected void update(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        String id = request.getParameter("idneettoupdate");
+        int quantity = Integer.parseInt(request.getParameter("newQuantity"));
+        //Lay gio tu session
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        ProductFacade pf = new ProductFacade();
+        Product product = pf.read(id);
+        Item item = new Item(product, quantity);
+        //Add item vao cart
+        cart.update(Integer.parseInt(id), quantity);
+        System.out.println(cart);
+        //Quay ve home page
+        response.sendRedirect(request.getContextPath() + "/cart/index.do");
+    }
+
+    protected void delete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        String id = request.getParameter("idneedtodelete");
+        //Lay gio tu session
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        //Add item vao cart
+        cart.delete(Integer.parseInt(id));
+        //Quay ve home page
+        response.sendRedirect(request.getContextPath() + "/cart/index.do");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -77,18 +105,9 @@ public class CartController extends HttpServlet {
         switch (action) {
             case "index":
                 try {
-//                    String id = request.getParameter("id");
-//
-//                    Product p = new Product();
-//
-//                    p = pf.read(id);
-//                    list.add(p);
-//                    request.setAttribute("list", list);
-//                    request.setAttribute("p", p);
-//                    
                     add(request, response);
-                } catch (IOException | SQLException | ServletException ex) {
-                    ex.printStackTrace(); //in thong báo loi chi tiet cho developer
+                } catch (IOException | SQLException | ServletException ex) { //in thong báo loi chi tiet cho developer
+                    //in thong báo loi chi tiet cho developer
                     request.setAttribute("message", ex.getMessage());
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 }
@@ -96,6 +115,24 @@ public class CartController extends HttpServlet {
             case "checkout":
 
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                break;
+            case "update":
+                try {
+                    update(request, response);
+                } catch (IOException | SQLException | ServletException ex) { //in thong báo loi chi tiet cho developer
+                    //in thong báo loi chi tiet cho developer
+                    request.setAttribute("message", ex.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                }
+                break;
+            case "delete":
+                try {
+                    delete(request, response);
+                } catch (IOException | SQLException | ServletException ex) { //in thong báo loi chi tiet cho developer
+                    //in thong báo loi chi tiet cho developer
+                    request.setAttribute("message", ex.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                }
                 break;
             default:
                 request.setAttribute("controller", "error");
