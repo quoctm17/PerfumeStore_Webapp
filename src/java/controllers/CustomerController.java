@@ -49,6 +49,27 @@ public class CustomerController extends HttpServlet {
         CustomerFacade cf = new CustomerFacade();
         if (AccountFacade.isLogin(request) == 1) {
             switch (action) {
+                case "list": {
+                    try {
+                        //Processing code here
+
+                        List<Account> accList = af.selectCustomerAccounts();
+                        List<Customer> cusList = cf.selectAll();
+
+                        HashMap<Account, Customer> customerProfiles = new HashMap<Account, Customer>();
+                        for (int i = 0; i < accList.size(); ++i) {
+                            customerProfiles.put(accList.get(i), cusList.get(i));
+                        }
+
+                        request.setAttribute("customerProfiles", customerProfiles);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                break;
+
                 case "create":
                     try {
                         String name = request.getParameter("name");
@@ -125,6 +146,7 @@ public class CustomerController extends HttpServlet {
                     request.setAttribute("controller", "error");
                     request.setAttribute("action", "error404");
                     request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+
             }
         } else {
             response.sendRedirect(request.getContextPath() + "/home/index.do");
