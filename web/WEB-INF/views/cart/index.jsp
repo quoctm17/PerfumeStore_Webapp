@@ -91,20 +91,19 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <div class="discount__content">
-                    <h6>Discount codes</h6>
-                    <form action="#">
-                        <input type="text" placeholder="Enter your coupon code">
-                        <button type="submit" class="site-btn">Apply</button>
-                    </form>
-                </div>
             </div>
             <div class="col-lg-4 offset-lg-2">
                 <div class="cart__total__procced">
                     <h6>Cart total</h6>
                     <ul>
-                        <li>Subtotal <span>$ 750.0</span></li>
-                        <li>Total <span>$ 750.0</span></li>
+                        <!--                        <li>Subtotal <span>$ 750.0</span></li>-->
+                        <li>Total 
+                            <span>
+                                <script>
+                                    document.write(Number(${cart.totalCart}).toLocaleString() + " VNĐ");
+                                </script>
+                            </span>
+                        </li>
                     </ul>
                     <a href="<c:url value="/cart/checkout.do" />" class="primary-btn text-white">Proceed to checkout</a>
                 </div>

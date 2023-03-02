@@ -41,6 +41,13 @@ public class Cart {
             map.put(id, item);
         }
     }
+    public double getTotalCart(){
+        double total = 0;
+        for (Item item : map.values()) {
+            total = item.getCost()+total;
+        }
+        return total;
+    }
 
     public void update(int id, int quantity) {
         Item item = map.get(id);
