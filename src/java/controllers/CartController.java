@@ -45,10 +45,6 @@ public class CartController extends HttpServlet {
         //Lay gio tu session
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
-        if (cart == null) {
-            cart = new Cart();
-            session.setAttribute("cart", cart);
-        }
         if (id == null) {
             request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
             return;
@@ -101,7 +97,7 @@ public class CartController extends HttpServlet {
         ProductFacade pf = new ProductFacade();
         CategoryFacade cf = new CategoryFacade();
         List<Product> list = new ArrayList<>();
-
+        
         switch (action) {
             case "index":
                 try {
