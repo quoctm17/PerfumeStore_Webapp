@@ -68,7 +68,6 @@
                                 <div class="w-50 text-left">
                                     <label class="checkbox-wrap checkbox-primary mb-0">Remember Me</label>
                                     <input class="checkmark mb-0" type="checkbox" value="1" name="remember"/>
-
                                 </div>
 
                             </div>

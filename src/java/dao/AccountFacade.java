@@ -2,6 +2,9 @@ package dao;
 
 import entity.Account;
 import entity.Category;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,20 +41,20 @@ public class AccountFacade {
         con.close();
         return list;
     }
-    
+
     public int getCustomerId(String email) throws SQLException {
         Connection con = DBContext.getConnection();
 
         PreparedStatement stm = con.prepareStatement("select id from account where [email]=?");
         stm.setString(1, email);
         //Thực thi lệnh sql
-        ResultSet rs = stm.executeQuery();       
+        ResultSet rs = stm.executeQuery();
         if (rs.next()) {
-           return rs.getInt("id");
+            return rs.getInt("id");
         }
         return -1;
     }
-    
+
     public Account getAnAccount(String id) throws SQLException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
@@ -72,7 +75,7 @@ public class AccountFacade {
         return null;
     }
 
-    public void createCustomerAccount(String name, String phone, String email, String address ) throws SQLException {
+    public void createCustomerAccount(String name, String phone, String email, String address) throws SQLException {
 
         Connection con = DBContext.getConnection();
         PreparedStatement pstm = con.prepareStatement("insert Account (username, address, phone, email) values (?, ?, ?, ?)");
@@ -84,7 +87,7 @@ public class AccountFacade {
 
         con.close();
     }
-    
+
     public void updateNonSecurityInfo(String id, String name, String phone, String email, String address) throws SQLException {
 
         Connection con = DBContext.getConnection();
@@ -98,7 +101,7 @@ public class AccountFacade {
 
         con.close();
     }
-    
+
     public void delete(String id) throws SQLException {
         Connection con = DBContext.getConnection();
         PreparedStatement pstm = con.prepareStatement("delete from account where id= ?");
@@ -106,13 +109,13 @@ public class AccountFacade {
         int count = pstm.executeUpdate();
         con.close();
     }
-    
-    public Account login(String email, String pass) throws SQLException {
+
+    public Account login(String email, String pass) throws SQLException, NoSuchAlgorithmException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
         PreparedStatement stm = con.prepareStatement("select * from account where [email]=? and password=?");
         stm.setString(1, email);
-        stm.setString(2, pass);
+        stm.setString(2, hash(pass));
         //Thực thi lệnh sql
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
@@ -148,7 +151,7 @@ public class AccountFacade {
         return null;
     }
 
-    public void signup(Account account) throws SQLException {
+    public void signup(Account account) throws SQLException, NoSuchAlgorithmException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
         PreparedStatement stm = con.prepareStatement("Insert account ([username], [address], [phone], [email], [password]) values (?, ?, ?, ?, ? )");
@@ -156,7 +159,7 @@ public class AccountFacade {
         stm.setString(2, account.getAddress());
         stm.setString(3, account.getPhone());
         stm.setString(4, account.getEmail());
-        stm.setString(5, account.getPass());
+        stm.setString(5, hash(account.getPass()));
         //Thực thi lệnh sql
         int count = stm.executeUpdate();
         //Đóng kết nối
@@ -178,7 +181,17 @@ public class AccountFacade {
             return 0;
         }
     }
-    
+
+    public static String hash(String password) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashedPassword = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashedPassword) {
+            sb.append(String.format("%02X", b));
+        }
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
         AccountFacade af = new AccountFacade();
         try {

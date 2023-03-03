@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[Account](
 	[phone] [varchar](12) NOT NULL,
 	[email] [varchar](30) NOT NULL,
 	-- Default
-	[password] [char](64) NOT NULL default('1'),
+	[password] [char](64) NOT NULL default('6B86B273FF34FCE19D6B804EFF5A3F5747ADA4EAA22F1D49C01E52DDB7875B4B'),
 	[enabled] [bit] NOT NULL default(1),
 	[role] [varchar](255) NOT NULL DEFAULT ('ROLE_CUSTOMER')
 )
@@ -227,16 +227,16 @@ SET IDENTITY_INSERT [dbo].[Product] OFF
 SET IDENTITY_INSERT [dbo].[Account] ON 
 -- INSERT [dbo].[Account] ([id], [name], [address], [phone], [email], [role]) VALUES (1, N'Admin', N'9652 Los Angeles', N'0123456789', N'a@petstore.com', 'ROLE_ADMIN')
 INSERT [dbo].[Account] ([id], [username], [address], [phone], [email],[password], [role]) VALUES
-(1, N'Admin', N'9652 Los Angeles', N'0123456789', N'a@perfumestore.com', 'a1', 'ROLE_ADMIN'),
-(2, N'Employee1', N'5747 Shirley Drive', N'1234567890', N'e1@perfumestore.com', 'e1', 'ROLE_EMPLOYEE'),
-(3, N'Employee2', N'3841 Silver Oaks Place', N'2345678901', N'e2@perfumestore.com', 'e2', 'ROLE_EMPLOYEE'),
-(4, N'Employee3', N'3208 Hilltop Drive', N'2345678901', N'e3@perfumestore.com', 'e3', 'ROLE_EMPLOYEE'),
-(5, N'Customer1', N'1873 Lion Circle', N'5678901234', N'c1@perfumestore.com', 'c1', 'ROLE_CUSTOMER'),
-(6, N'Customer2', N'1030 Forest Avenue', N'2025550184', N'c2@perfumestore.com', 'c2', 'ROLE_CUSTOMER'),
-(7, N'Customer3', N'5108 South Greenwood Avenue', N'2125550876', N'c3@perfumestore.com', 'c3', 'ROLE_CUSTOMER'),
-(8, N'Customer4', N'2448 W Pensacola Ave', N'3125550199', N'c4@perfumestore.com', 'c4', 'ROLE_CUSTOMER'),
-(9, N'Customer5', N'1791 Broadway', N'4155550133', N'c5@perfumestore.com', 'c5', 'ROLE_CUSTOMER'),
-(10, N'Customer6', N'4137 University Way', N'8045550182', N'c6@perfumestore.com', 'c6', 'ROLE_CUSTOMER')
+(1, N'Admin', N'9652 Los Angeles', N'0123456789', N'a@perfumestore.com', 'F55FF16F66F43360266B95DB6F8FEC01D76031054306AE4A4B380598F6CFD114', 'ROLE_ADMIN'),
+(2, N'Employee1', N'5747 Shirley Drive', N'1234567890', N'e1@perfumestore.com', '8B5CC4DF7EEC7D32A7814ECA4AF047AE33B2D52342667715682E19C25B0B9FAA', 'ROLE_EMPLOYEE'),
+(3, N'Employee2', N'3841 Silver Oaks Place', N'2345678901', N'e2@perfumestore.com', 'AC0F09C0F8BF5E7A4B063D863255F16D8CE9ABE600E288D934CF313BCBFF63EB', 'ROLE_EMPLOYEE'),
+(4, N'Employee3', N'3208 Hilltop Drive', N'2345678901', N'e3@perfumestore.com', 'CEF7FC13A38180936FFA2635489088778E059F07A5D1BEDA53F1719D35577631', 'ROLE_EMPLOYEE'),
+(5, N'Customer1', N'1873 Lion Circle', N'5678901234', N'c1@perfumestore.com', 'D0F631CA1DDBA8DB3BCFCB9E057CDC98D0379F1BEE00E75A545147A27DADD982', 'ROLE_CUSTOMER'),
+(6, N'Customer2', N'1030 Forest Avenue', N'2025550184', N'c2@perfumestore.com', '9C0ABE51C6E6655D81DE2D044D4FB194931F058C0426C67C7285D8F5657ED64A', 'ROLE_CUSTOMER'),
+(7, N'Customer3', N'5108 South Greenwood Avenue', N'2125550876', N'c3@perfumestore.com', '7C1C97DF17C066924822B0AF09A65251554962C61E23329AED04CD19020DC3B8', 'ROLE_CUSTOMER'),
+(8, N'Customer4', N'2448 W Pensacola Ave', N'3125550199', N'c4@perfumestore.com', '0012A3FA000C5DC26EE658C3C58E12CECD58D6455CEC3D5621F0C787675B38AA', 'ROLE_CUSTOMER'),
+(9, N'Customer5', N'1791 Broadway', N'4155550133', N'c5@perfumestore.com', 'D0BF3E6EE1D668DE18C9CA200A4F152062F345283EE68CADFE41204F215D75E9', 'ROLE_CUSTOMER'),
+(10, N'Customer6', N'4137 University Way', N'8045550182', N'c6@perfumestore.com', '6DB53C9D5A2CA72A85DDF3A681C0D9567899F4C48632A2E9B0BEEBA0D6938485', 'ROLE_CUSTOMER')
 SET IDENTITY_INSERT [dbo].[Account] OFF
 
 -- Insert Table Customer
