@@ -1,22 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
+import dao.AccountFacade;
+import dao.CustomerFacade;
+import entity.Account;
+import entity.Customer;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author Beyond Nguyen
  */
 @WebServlet(name = "ProfileController", urlPatterns = {"/profile"})
+@MultipartConfig
 public class ProfileController extends HttpServlet {
 
     /**
@@ -31,20 +43,68 @@ public class ProfileController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
+        HttpSession session = request.getSession();
+        Account acc = (Account) session.getAttribute("acc");
+        String id = Integer.toString(acc.getId());
+        AccountFacade af = new AccountFacade();
+        CustomerFacade cf = new CustomerFacade();
         switch (action) {
             case "info":
-                //Processing code here
-                
+                try {
+
+                    Customer cus;
+                    cus = cf.read(id);
+
+                    request.setAttribute("cus", cus);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case "updateInfo": {
+                try {
+
+                    HashMap<String, String> map = new HashMap<>();
+                    for (Part part : request.getParts()) {
+                        String partName = part.getName();
+                        if (!partName.equals("avatar")) {
+                            String partValue = convertISToString(part.getInputStream());
+                            map.put(partName, partValue);
+                        } else {
+                            if (part.getContentType().startsWith("image/")) {
+                                String newFileName = "avatar-" + id + ".jpg";
+                                String savePath = getServletContext().getRealPath("/assets/img/account/" + File.separator + newFileName);
+                                savePath = savePath.replace("\\build", "");
+                                part.write(savePath);
+                            }
+                        }
+                    }
+
+                    af.updateNonSecurityInfo(id, map.get("username"), map.get("phone"), map.get("email"), map.get("address"));
+                    cf.update(id, cf.read(id).getCategory(), map.get("deliveryAddress"));
+
+                    response.sendRedirect(request.getContextPath() + "/profile/info.do");
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            break;
+            case "security":
+
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
-            case "security":
-                //Processing code here
-                //Forward request & response to the main layout
-               
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+            case "updatePass":
+                String password = request.getParameter("password");
+                String newPassword = request.getParameter("newPassword");
+                String confirmPassword = request.getParameter("confirmPassword");
+
+                if (!newPassword.equals(confirmPassword)) {
+                    response.sendRedirect(request.getContextPath() + "/profile/security.do");
+                }
                 break;
             default:
                 //Show error page
@@ -53,6 +113,17 @@ public class ProfileController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
 
         }
+    }
+
+    public String convertISToString(InputStream is) throws IOException {
+        int bufferSize = 1024;
+        char[] buffer = new char[bufferSize];
+        StringBuilder out = new StringBuilder();
+        Reader in = new InputStreamReader(is, StandardCharsets.UTF_8);
+        for (int numRead; (numRead = in.read(buffer, 0, buffer.length)) > 0;) {
+            out.append(buffer, 0, numRead);
+        }
+        return out.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

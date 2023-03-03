@@ -126,7 +126,7 @@
                                     <li>
                                         <span class="icon_profile"></span>
                                         <ul class="dropdown">
-                                            <li><a href="<c:url value="/cart/index.do"/>">View profile</a></li>
+                                            <li><a href="<c:url value="/profile/info.do"/>">View profile</a></li>
                                             <li><a href="<c:url  value="/account/logout.do" />">Logout</a></li>
                                         </ul>
                                     </li>

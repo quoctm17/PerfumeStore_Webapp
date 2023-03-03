@@ -121,7 +121,7 @@ public class AccountController extends HttpServlet {
                 }
 
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("controller", "error");
@@ -170,7 +170,7 @@ public class AccountController extends HttpServlet {
                     request.setAttribute("action", "signup");
                 }
             }
-        } catch (SQLException ex) { // Hiển thị lỗi
+        } catch (Exception ex) { // Hiển thị lỗi
             ex.printStackTrace();
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("controller", "error");

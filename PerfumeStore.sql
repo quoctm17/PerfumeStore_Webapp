@@ -46,7 +46,7 @@ GO
 
 CREATE TABLE [dbo].[Customer](
 	[id] [int] PRIMARY KEY references [Account](id) NOT NULL,
-	[category] varchar(50) NOT NULL CHECK([category] IN ('Titanium','Diamond','Platinum','Gold','Silver','Copper')),
+	[category] varchar(50) NOT NULL CHECK([category] IN ('Diamond','Gold','Silver','Copper')),
 	[deliveryAddress] [nvarchar](500) NOT NULL
 )
 GO
@@ -244,8 +244,8 @@ SET IDENTITY_INSERT [dbo].[Account] OFF
 INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (5, 'Gold', N'Vinhome Grand Park, Quận 9, Thành phố Hồ Chí Minh')
 INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (6, 'Diamond', N'191 Nguyễn Thị Minh Khai, Quận 1, Thành phố Hồ Chí Minh')
 INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (7, 'Copper', N'5108 South Greenwood Avenue')
-INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (8, 'Platinum', N'2448 W Pensacola Ave')
-INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (9, 'Titanium', N'1791 Broadway')
+INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (8, 'Silver', N'2448 W Pensacola Ave')
+INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (9, 'Gold', N'1791 Broadway')
 INSERT [dbo].[Customer] ([id], [category], [deliveryAddress]) VALUES (10, 'Diamond', N'4137 University Way')
 
 -- Insert Table Employee
