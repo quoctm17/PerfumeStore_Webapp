@@ -25,6 +25,7 @@
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
             rel="stylesheet"
             />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="<c:url value="/assets/css/bootstrap.min.css" />" type="text/css" />
@@ -226,10 +227,10 @@
                     </div>
                     <div class="col-lg-4 col-md-8 col-sm-8">
                         <div class="footer__newslatter">
-                            <h6>NEWSLETTER</h6>
-                            <form action="#">
+                            <h6 onclick="showSuccessToast();">NEWSLETTER</h6>
+                            <form>
                                 <input type="text" placeholder="Email" />
-                                <button type="submit" class="site-btn">Subscribe</button>
+                                <button class="site-btn">Subscribe</button>
                             </form>
                         </div>
                         <div class="footer__social">
@@ -271,6 +272,22 @@
             </div>
         </div>
         <!-- Search End -->
+
+        <!--toast-->
+        <div id="toast"></div>
+
+        <script>
+
+            const message = "";
+            if (message != "null") {
+                function toastCall() {
+                    showSuccessToast()
+                }
+            }
+
+            window.addEventListener('load', () => toastCall())
+        </script>
+
 
         <!-- Js Plugins -->
         <script src="<c:url value="/assets/js/jquery-3.3.1.min.js" />"></script>

@@ -98,12 +98,19 @@ public class ProfileController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "updatePass":
-                String password = request.getParameter("password");
-                String newPassword = request.getParameter("newPassword");
-                String confirmPassword = request.getParameter("confirmPassword");
+                try {
+                    String password = request.getParameter("password");
+                    String newPassword = request.getParameter("newPassword");
+                    String confirmPassword = request.getParameter("confirmPassword");
 
-                if (!newPassword.equals(confirmPassword)) {
+                    if (!newPassword.equals(confirmPassword)) {
+                        response.sendRedirect(request.getContextPath() + "/profile/security.do");
+                    } else {
+                        af.updateSecurityInfo(newPassword, id);
+                    }
                     response.sendRedirect(request.getContextPath() + "/profile/security.do");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
                 break;
             default:

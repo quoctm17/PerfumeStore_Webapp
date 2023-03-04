@@ -101,6 +101,18 @@ public class AccountFacade {
 
         con.close();
     }
+    
+    public int updateSecurityInfo(String password, String id) throws SQLException, NoSuchAlgorithmException {
+
+        Connection con = DBContext.getConnection();
+        PreparedStatement pstm = con.prepareStatement("update account set password = ?  where id = ?");
+        pstm.setString(1, hash(password));
+        pstm.setString(2, id);
+        int count = pstm.executeUpdate();
+
+        con.close();
+        return count;
+    }
 
     public void delete(String id) throws SQLException {
         Connection con = DBContext.getConnection();
@@ -195,8 +207,8 @@ public class AccountFacade {
     public static void main(String[] args) {
         AccountFacade af = new AccountFacade();
         try {
-            System.out.println(af.getCustomerId("@fdsds"));
-        } catch (SQLException ex) {
+            System.out.println(af.updateSecurityInfo("c11", "5"));
+        } catch (Exception ex) {
             Logger.getLogger(AccountFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
