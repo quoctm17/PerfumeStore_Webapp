@@ -278,10 +278,24 @@
 
         <script>
 
-            const message = "";
-            if (message != "null") {
+            const toastObj = "${toast}";
+            if (toastObj) {
+                const message = "${toast.message}"
+                const type = "${toast.type}"
+                console.log(type)
                 function toastCall() {
-                    showSuccessToast()
+                    switch (type) {
+                        case "success":
+                            showSuccessToast(message, type);
+                            break;
+                        case "info":
+                            showInfoToast(message, type);
+                            break;
+                        case "failed":
+                            showFailedToast(message, type);
+                            break;
+                    }
+
                 }
             }
 

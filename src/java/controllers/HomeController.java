@@ -59,9 +59,8 @@ public class HomeController extends HttpServlet {
 
                     List<Category> cList = cf.selectAll();
                     List<Product> pList = pf.selectTop8Newest();
-
+                            
                     request.setAttribute("tab", "home");
-                    request.setAttribute("message", "home");
                     request.setAttribute("pList", pList);
                     request.setAttribute("cList", cList);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);

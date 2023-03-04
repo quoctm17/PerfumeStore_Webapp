@@ -7,6 +7,7 @@ package controllers;
 
 import dao.AccountFacade;
 import entity.Account;
+import entity.Toast;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -55,7 +56,12 @@ public class AccountController extends HttpServlet {
                     request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 } else {
                     // Chuyển người dùng về trang chủ nếu người login là customer
-                    response.sendRedirect(request.getContextPath() + "/");
+
+                    Toast toast = new Toast("Login sucessfully! Welcome back!", "success");
+                    request.setAttribute("action", "index");
+                    request.setAttribute("controller", "home");
+                    request.setAttribute("toast", toast);
+                    request.getRequestDispatcher("/home").forward(request, response);
                 }
 
                 break;
@@ -74,7 +80,12 @@ public class AccountController extends HttpServlet {
             case "logout":
                 HttpSession session = request.getSession();
                 session.removeAttribute("acc");
-                response.sendRedirect(request.getContextPath() + "/");
+                
+                Toast toast = new Toast("Loged out! Sign in for more experience", "info");
+                request.setAttribute("action", "index");
+                request.setAttribute("controller", "home");
+                request.setAttribute("toast", toast);
+                request.getRequestDispatcher("/home").forward(request, response);
         }
 
     }

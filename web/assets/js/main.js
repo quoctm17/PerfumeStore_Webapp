@@ -211,7 +211,7 @@ title = '',
         message = '',
         type = 'info',
         duration = 5000
-}){
+        }){
     const main = document.getElementById('toast');
 
     if (main) {
@@ -256,30 +256,30 @@ title = '',
 }
 }
 
-
-function showSuccessToast() {
+// type in [success, info, failed]
+function showSuccessToast(message, type) {
     toast({
         title: 'Success',
-        message: 'Did something successfully!',
-        type: 'success',
+        message,
+        type,
         duration: 3000
     });
 }
 
-function showWarningToast() {
+function showInfoToast(message, type) {
     toast({
         title: 'Information',
-        message: 'You should do something!',
-        type: 'info',
+        message,
+        type,
         duration: 3000
     });
 }
 
-function showFailedToast() {
+function showFailedToast(message, type) {
     toast({
         title: 'Failed',
-        message: 'Something went wrong!',
-        type: 'failed',
+        message,
+        type,
         duration: 3000
     });
 }
