@@ -5,8 +5,11 @@
  */
 package controllers;
 
+import dao.AccountFacade;
 import dao.CategoryFacade;
+import dao.CustomerFacade;
 import dao.ProductFacade;
+import entity.Account;
 import entity.Cart;
 import entity.Category;
 import entity.Item;
@@ -97,7 +100,7 @@ public class CartController extends HttpServlet {
         ProductFacade pf = new ProductFacade();
         CategoryFacade cf = new CategoryFacade();
         List<Product> list = new ArrayList<>();
-        
+
         switch (action) {
             case "index":
                 try {
@@ -111,6 +114,39 @@ public class CartController extends HttpServlet {
             case "checkout":
 
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                break;
+            case "order":
+                try {
+                    int customerId = 0;
+                    
+                    String newAccount = request.getParameter("newAccount");
+                    if (newAccount.equals("true")) { //create new account if user tick create acount checkbox
+                        String name = request.getParameter("name");
+                        String address = request.getParameter("address");
+                        String deliveryAddress = request.getParameter("deliveryAddress");
+                        String phone = request.getParameter("phone");
+                        String email = request.getParameter("email");
+
+                        AccountFacade af = new AccountFacade();
+                        CustomerFacade cusf = new CustomerFacade();
+
+                        af.createCustomerAccount(name, phone, email, address);
+                        customerId = af.getCustomerId(email);
+                        cusf.create(customerId, "Copper", deliveryAddress);
+                    }
+                    else { //if user already have an account, get their id from account
+                        HttpSession session = request.getSession();
+                        Account acc = (Account) session.getAttribute("acc");
+                        customerId = acc.getId();
+                    }
+                    
+//                    At this line, you have customer id already, save product order to database here
+                     
+                    
+                    
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case "update":
                 try {
