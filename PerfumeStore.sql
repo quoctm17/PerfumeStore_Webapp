@@ -63,7 +63,8 @@ CREATE TABLE [dbo].[OrderHeader](
 	[date] [datetime] NOT NULL,
 	[status] [varchar](30) NULL,
 	[customerId] [int] references Customer(id) NOT NULL,
-	[employeeId] [int] references Employee(id) NOT NULL
+	[employeeId] [int] references Employee(id) NULL,
+	[note] [nvarchar](max) NULL
 )
 GO
 

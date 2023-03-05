@@ -26,46 +26,52 @@
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
-        <form action="#" class="checkout__form">
+        <form action="<c:url value="/cart/order.do" />" class="checkout__form">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                     <h5>Billing detail</h5>
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="checkout__form__input">
-                                <p>First Name <span>*</span></p>
-                                <input type="text">
+                        <c:if test="${sessionScope.acc == null}">
+                            <div class="col-lg-12">
+                                <div class="checkout__form__checkbox">
+                                    <label for="acc">
+                                        Create an acount?
+                                        <input type="checkbox" id="acc" name="newAccount" value="true">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <p>Create an acount by entering the information below. If you are a returing
+                                        customer, please <a href="<c:url value="/account/login.do?redirect=/cart/checkout.do" />">login here</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        </c:if>
+                        <div class="col-lg-12">
                             <div class="checkout__form__input">
-                                <p>Last Name <span>*</span></p>
-                                <input type="text">
+                                <p>Username <span>*</span></p>
+                                <input type="text" value="${sessionScope.acc.user}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            
                             <div class="checkout__form__input">
                                 <p>Address <span>*</span></p>
-                                <input type="text">
+                                <input type="text" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
+                        </div>
+                        <div class="col-lg-12">
                             <div class="checkout__form__input">
-                                <p>Town/City <span>*</span></p>
-                                <input type="text">
+                                <p>Delivery Address <span>*</span></p>
+                                <input type="text" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
-                            
-                           
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Phone <span>*</span></p>
-                                <input type="text">
+                                <input type="text" value="${sessionScope.acc.phone}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Email <span>*</span></p>
-                                <input type="text">
+                                <input type="text" value="${sessionScope.acc.email}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-12">                           
@@ -77,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="checkout__order">
                         <h5>Your order</h5>
                         <div class="checkout__order__product">
@@ -98,7 +104,7 @@
                                 <li>Total <span>$ 750.0</span></li>
                             </ul>
                         </div>
-                        
+
                         <button type="submit" class="site-btn">Place oder</button>
                     </div>
                 </div>
