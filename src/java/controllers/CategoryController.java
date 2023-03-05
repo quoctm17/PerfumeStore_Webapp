@@ -6,6 +6,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import dao.AccountFacade;
 import dao.CategoryFacade;
 import dao.ProductFacade;
 import entity.Category;
@@ -45,73 +46,77 @@ public class CategoryController extends HttpServlet {
         String action = (String) request.getAttribute("action");
 
         CategoryFacade cf = new CategoryFacade();
-        switch (action) {
-            case "list":
-                //Processing code here
-                try {
-                    List<Category> list = cf.selectAll();
-                    request.setAttribute("list", list);
-                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                break;
-            case "create":
-                try {
-                    String name = request.getParameter("name");
-                    String description = request.getParameter("description");
+        if (AccountFacade.isLogin(request) == 1) {
+            switch (action) {
+                case "list":
+                    //Processing code here
+                    try {
+                        List<Category> list = cf.selectAll();
+                        request.setAttribute("list", list);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                case "create":
+                    try {
+                        String name = request.getParameter("name");
+                        String description = request.getParameter("description");
 
-                    cf.create(name, description);
-                    response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
-                } catch (SQLException ex) {
-                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                        cf.create(name, description);
+                        response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                break;
-            case "read":
-                try {
-                    String id = request.getParameter("id");
-                    Category cate = cf.read(id);
+                    break;
+                case "read":
+                    try {
+                        String id = request.getParameter("id");
+                        Category cate = cf.read(id);
 
-                    Gson gson = new Gson();
-                    PrintWriter out = response.getWriter();
-                    out.print(gson.toJson(cate));
-                    out.flush();
-                    out.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                        Gson gson = new Gson();
+                        PrintWriter out = response.getWriter();
+                        out.print(gson.toJson(cate));
+                        out.flush();
+                        out.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                break;
-            case "update":
-                try {
-                    String id = request.getParameter("id");
-                    String name = request.getParameter("name");
-                    String description = request.getParameter("description");
+                    break;
+                case "update":
+                    try {
+                        String id = request.getParameter("id");
+                        String name = request.getParameter("name");
+                        String description = request.getParameter("description");
 
-                    cf.update(id, name, description);
-                    response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
-                } catch (SQLException ex) {
-                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                        cf.update(id, name, description);
+                        response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                break;
-            case "delete":
-                try {
-                    String id = request.getParameter("id");
-                    cf.delete(id);
-                    response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
-                } catch (SQLException ex) {
-                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    break;
+                case "delete":
+                    try {
+                        String id = request.getParameter("id");
+                        cf.delete(id);
+                        response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                break;
-            default:
-                //Show error page
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "error404");
-                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+                    break;
+                default:
+                    //Show error page
+                    request.setAttribute("controller", "error");
+                    request.setAttribute("action", "error404");
+                    request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
 
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/home/index.do");
         }
     }
 

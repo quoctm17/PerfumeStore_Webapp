@@ -35,16 +35,16 @@
                 </div>
             </a>
         </div> 
+        <div class="col-md-6 mt-4">
+            <a href="<c:url value="/admin/customer/list.do" />" class="card-admin-item">
+                <div class="card-icon"><i class="fa-solid fa-user"></i></div>
+                <div>
+                    <h1>Manage customer</h1>
+                    <span>view detais <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+        </div>
     </c:if>
-    <div class="col-md-6 mt-4">
-        <a href="<c:url value="/admin/customer/list.do" />" class="card-admin-item">
-            <div class="card-icon"><i class="fa-solid fa-user"></i></div>
-            <div>
-                <h1>Manage customer</h1>
-                <span>view detais <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-        </a>
-    </div>
     <div class="col-md-6 mt-4">
         <a href="<c:url value="/admin/orders/list.do" />" class="card-admin-item">
             <div class="card-icon"><i class="fa-solid fa-file-invoice"></i></div>

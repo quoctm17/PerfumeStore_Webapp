@@ -7,6 +7,7 @@ package controllers;
 
 import dao.CategoryFacade;
 import dao.ProductFacade;
+import entity.Cart;
 import entity.Category;
 import entity.Product;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -42,17 +44,22 @@ public class HomeController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("cart", cart);
+        }
         switch (action) {
             case "index":
                 //Processing code here
                 try {
                     ProductFacade pf = new ProductFacade();
                     CategoryFacade cf = new CategoryFacade();
-                    
+
                     List<Category> cList = cf.selectAll();
                     List<Product> pList = pf.selectTop8Newest();
-                    
+                            
                     request.setAttribute("tab", "home");
                     request.setAttribute("pList", pList);
                     request.setAttribute("cList", cList);

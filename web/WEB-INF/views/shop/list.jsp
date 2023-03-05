@@ -134,7 +134,7 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="<c:url value="/shop/detail.do?id=${product.id}"/>">${product.name}</a></h6>
+                                    <h6><a href="<c:url value="/shop/detail.do?id=${product.id}&quantity=1"/>">${product.name}</a></h6>
                                     <div class="product__price">
                                         <fmt:setLocale value="vi-VN"/>
                                         <fmt:formatNumber value = "${product.price}" type = "currency"/>
@@ -143,9 +143,6 @@
                             </div>
                         </div>
                     </c:forEach>
-
-
-
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">                            
                             <a 

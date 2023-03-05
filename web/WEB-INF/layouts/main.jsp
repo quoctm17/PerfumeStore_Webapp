@@ -25,6 +25,7 @@
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
             rel="stylesheet"
             />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
 
         <!-- Css Styles -->
         <link rel="stylesheet" href="<c:url value="/assets/css/bootstrap.min.css" />" type="text/css" />
@@ -51,7 +52,7 @@
                 <li>
                     <a href="<c:url value="/cart/index.do"/>"
                        ><span class="icon_bag_alt"></span>
-                        <div class="tip">2</div>
+                        <div class="tip">${cart.count}</div>
                     </a>
                 </li>
             </ul>
@@ -98,10 +99,12 @@
                                         <li><a href="#">Admin pages</a>
                                             <ul class="dropdown">
                                                 <li><a href="<c:url value="/admin/dashboard.do"/>">Dashboard</a></li>
-                                                <li><a href="<c:url value="/admin/product.do"/>">Manage Product</a></li>
+                                                <li><a href="<c:url value="/admin/product/list.do"/>">Manage Product</a></li>
                                                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
                                                     <li><a href="<c:url value="/admin/category.do"/>">Manage Category</a></li>
                                                     <li><a href="<c:url value="/admin/revenue.do"/>">Revenue</a></li>
+                                                    <li><a href="<c:url value="/admin/customer/list.do"/>">Manage Customer</a></li>
+                                                    <li><a href="<c:url value="/admin/orders/list.do"/>">Order List</a></li>
                                                     </c:if>
                                             </ul>
                                         </li>
@@ -124,7 +127,7 @@
                                     <li>
                                         <span class="icon_profile"></span>
                                         <ul class="dropdown">
-                                            <li><a href="<c:url value="/cart/index.do"/>">View profile</a></li>
+                                            <li><a href="<c:url value="/profile/info.do"/>">View profile</a></li>
                                             <li><a href="<c:url  value="/account/logout.do" />">Logout</a></li>
                                         </ul>
                                     </li>
@@ -133,7 +136,7 @@
                                 <li>
                                     <a href="<c:url  value="/cart/index.do" />"
                                        ><span class="icon_bag_alt"></span>
-                                        <div class="tip">2</div>
+                                        <div class="tip">${cart.count}</div>
                                     </a>
                                 </li>
                             </ul>
@@ -224,10 +227,10 @@
                     </div>
                     <div class="col-lg-4 col-md-8 col-sm-8">
                         <div class="footer__newslatter">
-                            <h6>NEWSLETTER</h6>
-                            <form action="#">
+                            <h6 onclick="showSuccessToast();">NEWSLETTER</h6>
+                            <form>
                                 <input type="text" placeholder="Email" />
-                                <button type="submit" class="site-btn">Subscribe</button>
+                                <button class="site-btn">Subscribe</button>
                             </form>
                         </div>
                         <div class="footer__social">
@@ -269,6 +272,36 @@
             </div>
         </div>
         <!-- Search End -->
+
+        <!--toast-->
+        <div id="toast"></div>
+
+        <script>
+
+            const toastObj = "${toast}";
+            if (toastObj) {
+                const message = "${toast.message}"
+                const type = "${toast.type}"
+                console.log(type)
+                function toastCall() {
+                    switch (type) {
+                        case "success":
+                            showSuccessToast(message, type);
+                            break;
+                        case "info":
+                            showInfoToast(message, type);
+                            break;
+                        case "failed":
+                            showFailedToast(message, type);
+                            break;
+                    }
+
+                }
+            }
+
+            window.addEventListener('load', () => toastCall())
+        </script>
+
 
         <!-- Js Plugins -->
         <script src="<c:url value="/assets/js/jquery-3.3.1.min.js" />"></script>

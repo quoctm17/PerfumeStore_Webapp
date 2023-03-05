@@ -108,12 +108,12 @@
                             <div class="product__item sale">
                                 <div
                                     class="product__item__pic set-bg"
-                                    data-setbg="<c:url value="assets/img/product/product-${product.id}_1.jpg" />"
+                                    data-setbg="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />"
                             >
                             <div class="label new">New</div>
                             <ul class="product__hover">
                                 <li>
-                                    <a href="<c:url value="assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a>
+                                    <a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a>
                                 </li>
 
                                 <li>

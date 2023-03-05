@@ -7,6 +7,7 @@ package controllers;
 
 import dao.AccountFacade;
 import entity.Account;
+import entity.Toast;
 import java.io.IOException;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -34,18 +35,35 @@ public class AccountController extends HttpServlet {
         switch (action) {
             case "login":
                 // Hiện form để người dùng login
+                // B1: Get Email, pass từ cookies
+                Cookie arr[] = request.getCookies();
+                if (arr != null) {
+                    for (Cookie o : arr) {
+                        if (o.getName().equals("cookEmail")) {
+                            request.setAttribute("email", o.getValue());
+                        } else if (o.getName().equals("cookPass")) {
+                            request.setAttribute("pass", o.getValue());
+                        }
+                    }
+                }
+                // B2: Set Email, pass vào form login
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "login_handler":
                 // Xử lý form đăng nhập
                 login_handler(request, response);
-                if (request.getAttribute("controller").equals("admin")){
+                if (request.getAttribute("controller").equals("admin")) {
                     request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 } else {
                     // Chuyển người dùng về trang chủ nếu người login là customer
-                    response.sendRedirect(request.getContextPath() + "/");
+
+                    Toast toast = new Toast("Login sucessfully! Welcome back!", "success");
+                    request.setAttribute("action", "index");
+                    request.setAttribute("controller", "home");
+                    request.setAttribute("toast", toast);
+                    request.getRequestDispatcher("/home").forward(request, response);
                 }
-                
+
                 break;
             case "signup": //Hiện form để nhập dữ liệu mới
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
@@ -53,16 +71,21 @@ public class AccountController extends HttpServlet {
             case "signup_handler":
                 // Xử lý signup form
                 signup_handler(request, response);
-                if(request.getAttribute("action").equals("login_handler")){
+                if (request.getAttribute("action").equals("login_handler")) {
                     request.getRequestDispatcher("/account").forward(request, response);
-                }else{
+                } else {
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 }
                 break;
             case "logout":
                 HttpSession session = request.getSession();
                 session.removeAttribute("acc");
-                response.sendRedirect(request.getContextPath() + "/");
+                
+                Toast toast = new Toast("Loged out! Sign in for more experience", "info");
+                request.setAttribute("action", "index");
+                request.setAttribute("controller", "home");
+                request.setAttribute("toast", toast);
+                request.getRequestDispatcher("/home").forward(request, response);
         }
 
     }
@@ -83,32 +106,33 @@ public class AccountController extends HttpServlet {
                 request.setAttribute("controller", "account");
                 request.setAttribute("action", "login");
                 // Bảo tồn trạng thái form login đã nhập
-                request.setAttribute("email", email);
-                request.setAttribute("pass", password);
             } else { // Có tồn tại
                 // Lưu tài khoản vào Session để duy trì trạng thái đăng nhập cho đến khi logout
                 HttpSession session = request.getSession();
                 session.setAttribute("acc", a);
                 // Lưu vào Cookies để tạo chức năng Rememberme
                 Cookie cookieEmail = new Cookie("cookEmail", email);
-                cookieEmail.setMaxAge(60 * 60 * 15);
-                
                 Cookie cookiePass = new Cookie("cookPass", password);
-                cookiePass.setMaxAge(60 * 60 * 15);
-                
                 Cookie cookRemember = new Cookie("cookRem", remember);
-                cookRemember.setMaxAge(60 * 60 * 15);
-                
+
+                cookieEmail.setMaxAge(60 * 60);
+
+                if (remember != null) {
+                    cookiePass.setMaxAge(60 * 60);
+                } else {
+                    cookiePass.setMaxAge(0);
+                }
+
                 response.addCookie(cookieEmail);
                 response.addCookie(cookiePass);
                 response.addCookie(cookRemember);
                 if (!"ROLE_CUSTOMER".equals(a.getRole())) { // Chuyển hướng trang nếu người đăng nhập không phải là Customer
                     request.setAttribute("action", "dashboard");
                     request.setAttribute("controller", "admin");
-                } 
+                }
 
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("controller", "error");
@@ -157,7 +181,7 @@ public class AccountController extends HttpServlet {
                     request.setAttribute("action", "signup");
                 }
             }
-        } catch (SQLException ex) { // Hiển thị lỗi
+        } catch (Exception ex) { // Hiển thị lỗi
             ex.printStackTrace();
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("controller", "error");

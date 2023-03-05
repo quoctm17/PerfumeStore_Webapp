@@ -7,24 +7,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
-    String uemail = "", pass = "", reme = "";
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null) {
-        for (Cookie cook : cookies) {
-
-            if (cook.getName().equals("cookEmail")) {
-                uemail = cook.getValue();
-            } else if (cook.getName().equals("cookPass")) {
-                pass = cook.getValue();
-            } else if (cook.getName().equals("cookRem")) {
-                reme = cook.getValue();
-            }
-            System.out.println(uemail);
-        }
-    }
-
-%>
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
@@ -64,9 +46,6 @@
                                     type="text"
                                     class="form-control"
                                     placeholder="Email"
-                                    <c:if test="${reme == '1'}">
-                                        value="<%=uemail%>"
-                                    </c:if>
                                     value="${email}"
                                     required
                                     />
@@ -80,9 +59,6 @@
                                     type="password"
                                     class="form-control"
                                     placeholder="Password"
-                                    <c:if test="${reme == '1'}">
-                                        value="<%=pass%>"
-                                    </c:if>
                                     value="${pass}"
 
                                     required
@@ -91,9 +67,7 @@
                             <div class="form-group d-md-flex">
                                 <div class="w-50 text-left">
                                     <label class="checkbox-wrap checkbox-primary mb-0">Remember Me</label>
-                                    <input class="checkmark mb-0" type="checkbox" value="1" name="remember"
-                                           <%= "1".equals(reme) ? "checked = /'checked'" : ""%> />
-
+                                    <input class="checkmark mb-0" type="checkbox" value="1" name="remember"/>
                                 </div>
 
                             </div>
