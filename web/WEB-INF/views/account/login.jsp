@@ -35,7 +35,9 @@
                             </div>
 
                         </div>
-                        <form action="<c:url value="/account/login_handler.do"/>" class="signin-form" method="post">
+                        <form action="<c:url value="/account/login_handler.do">
+                                  <c:if test="${redirect != null}"><c:param name="redirect" value="${redirect}"/></c:if>
+                              </c:url>" class="signin-form" method="post">
                             <p class ="text-danger"> ${message} </p>
 
                             <div class="form-group mb-3">
@@ -60,7 +62,6 @@
                                     class="form-control"
                                     placeholder="Password"
                                     value="${pass}"
-
                                     required
                                     />
                             </div>

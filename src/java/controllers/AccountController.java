@@ -31,7 +31,7 @@ public class AccountController extends HttpServlet {
 
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-
+        String redirect = request.getParameter("redirect");
         switch (action) {
             case "login":
                 // Hiện form để người dùng login
@@ -47,6 +47,9 @@ public class AccountController extends HttpServlet {
                     }
                 }
                 // B2: Set Email, pass vào form login
+                if (redirect != null) {
+                    request.setAttribute("redirect", redirect);
+                } 
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "login_handler":
@@ -55,13 +58,16 @@ public class AccountController extends HttpServlet {
                 if (request.getAttribute("controller").equals("admin")) {
                     request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 } else {
-                    // Chuyển người dùng về trang chủ nếu người login là customer
-
                     Toast toast = new Toast("Login sucessfully! Welcome back!", "success");
-                    request.setAttribute("action", "index");
-                    request.setAttribute("controller", "home");
                     request.setAttribute("toast", toast);
-                    request.getRequestDispatcher("/home").forward(request, response);
+                    if (redirect == null) {  // Chuyển người dùng về trang chủ nếu người login là customer
+                        request.setAttribute("action", "index");
+                        request.setAttribute("controller", "home");
+                        request.getRequestDispatcher("/home").forward(request, response);
+                    } else { // nếu cần chuyển đến trang khác
+                        request.getRequestDispatcher(redirect).forward(request, response);
+                    }
+
                 }
 
                 break;
@@ -80,7 +86,7 @@ public class AccountController extends HttpServlet {
             case "logout":
                 HttpSession session = request.getSession();
                 session.removeAttribute("acc");
-                
+
                 Toast toast = new Toast("Loged out! Sign in for more experience", "info");
                 request.setAttribute("action", "index");
                 request.setAttribute("controller", "home");
@@ -130,7 +136,6 @@ public class AccountController extends HttpServlet {
                     request.setAttribute("action", "dashboard");
                     request.setAttribute("controller", "admin");
                 }
-
             }
         } catch (Exception ex) {
             ex.printStackTrace();

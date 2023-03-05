@@ -40,7 +40,9 @@
                                         <span class="checkmark"></span>
                                     </label>
                                     <p>Create an acount by entering the information below. If you are a returing
-                                        customer, please <a href="<c:url value="/account/login.do?redirect=/cart/checkout.do" />">login here</a>
+                                        customer, please <a href="<c:url value="/account/login.do">
+                                                                <c:param name="redirect" value="/cart/checkout.do"/>
+                                            </c:url>">login here</a>
                                 </div>
                             </div>
                         </c:if>
