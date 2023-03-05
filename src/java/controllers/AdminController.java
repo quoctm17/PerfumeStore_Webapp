@@ -8,7 +8,10 @@ package controllers;
 import com.google.gson.Gson;
 import dao.AccountFacade;
 import dao.CategoryFacade;
+import dao.OrderDAO;
 import entity.Category;
+import entity.Order;
+import entity.OrderDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -53,6 +56,119 @@ public class AdminController extends HttpServlet {
                     case "revenue":
                         if (AccountFacade.isLogin(request) == 1) {
 
+                            Object op = request.getParameter("op");
+
+                            if (op == null) {
+                                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                            } else {
+                                switch ((String) op) {
+                                    case "Show Turnover By Year":
+
+                                        try {
+                                            String year = request.getParameter("year");
+
+                                            OrderDAO dao = new OrderDAO();
+                                            List<OrderDetail> list = dao.findOrderId(year);
+                                            float price = 0;
+
+                                            if (!list.isEmpty()) {
+                                                for (OrderDetail pro : list) {
+                                                    price += pro.getPrice();
+                                                }
+                                                request.setAttribute("MESSAGE", "Turnover of " + year + " : " + price);
+                                            } else {
+                                                request.setAttribute("MESSAGE", "No Data of " + year);
+                                            }
+                                            request.setAttribute("LIST_YEAR", list);
+
+                                        } catch (Exception e) {
+                                            log("Error at EditProductController: " + e.toString());
+                                        }
+
+                                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                                        break;
+                                    case "Show Turnover By Date":
+
+                                        try {
+                                            String date = request.getParameter("date");
+                                            int id = 0;
+                                            OrderDAO dao = new OrderDAO();
+                                            List<Order> _list = dao.findOrderIdBDate(date);
+                                            for (Order order : _list) {
+                                                id = order.getId();
+                                            }
+                                            float price = 0;
+                                            List<OrderDetail> list = dao.getPriceByDate(id);
+                                            if (!list.isEmpty()) {
+                                                for (OrderDetail pro : list) {
+                                                    price += pro.getPrice();
+                                                }
+                                                request.setAttribute("MESSAGE", "Turnover of " + date + " : " + price);
+                                            } else {
+                                                request.setAttribute("MESSAGE", "No Data of " + date);
+                                            }
+                                            request.setAttribute("LIST_DATE", list);
+
+                                        } catch (Exception e) {
+                                            log("Error at EditProductController: " + e.toString());
+                                        }
+
+                                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                                        break;
+                                    case "Show Turnover By Week":
+
+                                        try {
+                                            int week = Integer.parseInt(request.getParameter("week"));
+                                            int year = Integer.parseInt(request.getParameter("year"));
+
+                                            OrderDAO dao = new OrderDAO();
+                                            List<OrderDetail> list = dao.findOrderIdByWeek(week, year);
+                                            float price = 0;
+                                            if (!list.isEmpty()) {
+                                                for (OrderDetail pro : list) {
+                                                    price += pro.getPrice();
+                                                }
+                                                request.setAttribute("MESSAGE", "Turnover of " + week + " of " + year + " : " + price);
+                                            } else {
+                                                request.setAttribute("MESSAGE", "No Data of " + week + " of " + year);
+                                            }
+
+                                            request.setAttribute("LIST_WEEK", list);
+
+                                        } catch (Exception e) {
+                                            log("Error at EditProductController: " + e.toString());
+                                        }
+
+                                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                                        break;
+                                    case "Show Turnover By Month":
+
+                                        try {
+                                            int month = Integer.parseInt(request.getParameter("month"));
+                                            int year = Integer.parseInt(request.getParameter("year"));
+
+                                            OrderDAO dao = new OrderDAO();
+                                            List<OrderDetail> _list = dao.findOrderIdByMonth(month, year);
+                                            float price = 0;
+                                            if (!_list.isEmpty()) {
+                                                for (OrderDetail pro : _list) {
+                                                    price += pro.getPrice();
+                                                }
+                                                request.setAttribute("MESSAGE", "Turnover of " + month + " - " + year + " : " + price);
+                                            } else {
+                                                request.setAttribute("MESSAGE", "No Data of " + month + " - " + year);
+                                            }
+
+                                            request.setAttribute("LIST_MONTH", _list);
+
+                                        } catch (Exception e) {
+                                            log("Error at EditProductController: " + e.toString());
+                                        }
+
+                                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                                        break;
+                                }
+                            }
                             request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         } else {
                             response.sendRedirect(request.getContextPath() + "/admin/dashboard.do");

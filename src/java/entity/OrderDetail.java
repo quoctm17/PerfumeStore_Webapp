@@ -29,6 +29,11 @@ public class OrderDetail {
         this.discount = discount;
     }
 
+    public OrderDetail(int orderHeaderId, float price) {
+        this.orderHeaderId = orderHeaderId;
+        this.price = price;
+    }
+    
     public int getId() {
         return id;
     }

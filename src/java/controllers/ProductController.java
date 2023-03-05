@@ -6,7 +6,9 @@
 package controllers;
 
 import com.google.gson.Gson;
+import dao.CategoryFacade;
 import dao.ProductFacade;
+import entity.Category;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,23 +44,72 @@ public class ProductController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
-        ProductFacade pf = new ProductFacade();
+        ProductFacade p = new ProductFacade();
+        CategoryFacade cf = new CategoryFacade();
         switch (action) {
             case "list":
-                //Processing code here
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                try {
+                    List<Category> list = cf.selectAll();
+                    request.setAttribute("LIST_CATEGORY", list);
+                    request.setAttribute("LIST_ALL_PRODUCTS", p.selectAll());
+                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
                 break;
             case "create":
-                response.sendRedirect(request.getContextPath() + "/admin/category/list.do");
-
+                try {
+                    String name = request.getParameter("name");
+                    String description = request.getParameter("description");
+                    Double price = Double.parseDouble(request.getParameter("price"));
+                    Double discount = Double.parseDouble(request.getParameter("discount"));
+                    int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+                    Product pro = new Product(1, name, description, price, discount, categoryId);
+                    p.create(pro);
+                    response.sendRedirect(request.getContextPath() + "/admin/product/list.do");
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             case "read":
+                try {
+                    String id = request.getParameter("id");
+                    Product cate = p.read(id);
 
+                    Gson gson = new Gson();
+                    PrintWriter out = response.getWriter();
+                    out.print(gson.toJson(cate));
+                    out.flush();
+                    out.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             case "update":
+                try {
 
+                    String name = request.getParameter("name");
+                    String description = request.getParameter("description");
+                    Double price = Double.valueOf(request.getParameter("price"));
+                    Double discount = Double.valueOf(request.getParameter("discount"));
+                    int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    Product pro = new Product(id, name, description, price, discount, categoryId);
+                    p.update(pro);
+                    response.sendRedirect(request.getContextPath() + "/admin/product/list.do");
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             case "delete":
+                try {
+                    String id = request.getParameter("id");
+                    p.delete(id);
+                    response.sendRedirect(request.getContextPath() + "/admin/product/list.do");
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
                 break;
             default:
