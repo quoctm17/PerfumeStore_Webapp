@@ -68,7 +68,6 @@
                                         <form action="<c:url value="/cart/delete.do"/>">
                                             <button class="icon_close" name="idneedtodelete" value="${p.product.id}"></button>
                                         </form>
-
                                     </td>
                                 </tr>
                             </c:forEach>

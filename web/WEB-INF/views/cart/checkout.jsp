@@ -42,7 +42,7 @@
                                     <p>Create an acount by entering the information below. If you are a returing
                                         customer, please <a href="<c:url value="/account/login.do">
                                                                 <c:param name="redirect" value="/cart/checkout.do"/>
-                                            </c:url>">login here</a>
+                                                            </c:url>">login here</a>
                                 </div>
                             </div>
                         </c:if>
@@ -94,20 +94,30 @@
                                     <span class="top__text">Product</span>
                                     <span class="top__text__right">Total</span>
                                 </li>
-                                <li>01. Chain buck bag <span>$ 300.0</span></li>
-                                <li>02. Zip-pockets pebbled<br /> tote briefcase <span>$ 170.0</span></li>
-                                <li>03. Black jean <span>$ 170.0</span></li>
-                                <li>04. Cotton shirt <span>$ 110.0</span></li>
+                                <c:forEach var="p" items="${sessionScope.cart.items}" varStatus="loop">
+                                    <li>${loop.count}. ${p.product.name} 
+                                        <span>
+                                            <script>
+                                                document.write(Number(${p.cost}).toLocaleString() + " VNĐ");
+                                            </script>
+                                        </span>
+                                    </li>
+                                </c:forEach>
                             </ul>
                         </div>
                         <div class="checkout__order__total">
                             <ul>
-                                <li>Subtotal <span>$ 750.0</span></li>
-                                <li>Total <span>$ 750.0</span></li>
+                                <li>Total 
+                                    <span>
+                                        <script>
+                                    document.write(Number(${cart.totalCart}).toLocaleString() + " VNĐ");
+                                        </script>
+                                    </span>
+                                </li>
                             </ul>
                         </div>
 
-                        <button type="submit" class="site-btn">Place oder</button>
+                        <button type="submit" class="site-btn">Place order</button>
                     </div>
                 </div>
             </div>
