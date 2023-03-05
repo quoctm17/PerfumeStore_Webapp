@@ -6,6 +6,7 @@
 package controllers;
 
 import dao.AccountFacade;
+import dao.CartFacade;
 import dao.CategoryFacade;
 import dao.CustomerFacade;
 import dao.ProductFacade;
@@ -118,9 +119,13 @@ public class CartController extends HttpServlet {
             case "order":
                 try {
                     int customerId = 0;
-                    
+
                     String newAccount = request.getParameter("newAccount");
-                    if (newAccount.equals("true")) { //create new account if user tick create acount checkbox
+                    if (newAccount == null) {
+                        HttpSession session = request.getSession();
+                        Account acc = (Account) session.getAttribute("acc");
+                        customerId = acc.getId();
+                    } else if (newAccount.equalsIgnoreCase("true")) {
                         String name = request.getParameter("name");
                         String address = request.getParameter("address");
                         String deliveryAddress = request.getParameter("deliveryAddress");
@@ -134,16 +139,31 @@ public class CartController extends HttpServlet {
                         customerId = af.getCustomerId(email);
                         cusf.create(customerId, "Copper", deliveryAddress);
                     }
-                    else { //if user already have an account, get their id from account
-                        HttpSession session = request.getSession();
-                        Account acc = (Account) session.getAttribute("acc");
-                        customerId = acc.getId();
-                    }
-                    
+//                    if (newAccount.equalsIgnoreCase("true")) { //create new account if user tick create acount checkbox
+//                        String name = request.getParameter("name");
+//                        String address = request.getParameter("address");
+//                        String deliveryAddress = request.getParameter("deliveryAddress");
+//                        String phone = request.getParameter("phone");
+//                        String email = request.getParameter("email");
+//
+//                        AccountFacade af = new AccountFacade();
+//                        CustomerFacade cusf = new CustomerFacade();
+//
+//                        af.createCustomerAccount(name, phone, email, address);
+//                        customerId = af.getCustomerId(email);
+//                        cusf.create(customerId, "Copper", deliveryAddress);
+//                    } else if (newAccount == null) { //if user already have an account, get their id from account
+//                        HttpSession session = request.getSession();
+//                        Account acc = (Account) session.getAttribute("acc");
+//                        customerId = acc.getId();
+//                    }
+
 //                    At this line, you have customer id already, save product order to database here
-                     
-                    
-                    
+                    String noteOfDetailHeader = request.getParameter("noteOfDetailHeader");
+                    CartFacade cartFacade = new CartFacade();
+                    cartFacade.addCartToOrderHeader(customerId, noteOfDetailHeader);
+                    response.sendRedirect(request.getContextPath() + "/");
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

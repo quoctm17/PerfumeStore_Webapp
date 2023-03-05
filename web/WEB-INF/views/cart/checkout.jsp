@@ -26,7 +26,7 @@
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
     <div class="container">
-        <form action="<c:url value="/cart/order.do" />" class="checkout__form">
+        <form action="<c:url value="/cart/order.do" />" class="checkout__form" method="post">
             <div class="row">
                 <div class="col-lg-7">
                     <h5>Billing detail</h5>
@@ -46,40 +46,46 @@
                                 </div>
                             </div>
                         </c:if>
+<!--                        String name = request.getParameter("name");
+                        String address = request.getParameter("address");
+                        String deliveryAddress = request.getParameter("deliveryAddress");
+                        String phone = request.getParameter("phone");
+                        String email = request.getParameter("email");-->
+
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Username <span>*</span></p>
-                                <input type="text" value="${sessionScope.acc.user}" ${sessionScope.acc != null ? "disabled" : ""}>
+                                <input type="text" name="name" value="${sessionScope.acc.user}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Address <span>*</span></p>
-                                <input type="text" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
+                                <input type="text" name="address" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="checkout__form__input">
                                 <p>Delivery Address <span>*</span></p>
-                                <input type="text" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
+                                <input type="text" name="deliveryAddress" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Phone <span>*</span></p>
-                                <input type="text" value="${sessionScope.acc.phone}" ${sessionScope.acc != null ? "disabled" : ""}>
+                                <input type="text" name="phone" value="${sessionScope.acc.phone}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Email <span>*</span></p>
-                                <input type="text" value="${sessionScope.acc.email}" ${sessionScope.acc != null ? "disabled" : ""}>
+                                <input type="text" name="email" value="${sessionScope.acc.email}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
                         <div class="col-lg-12">                           
                             <div class="checkout__form__input">
-                                <p>Oder notes <span>*</span></p>
-                                <input type="text"
+                                <p>Oder notes <span></span></p>
+                                <input type="text" name="noteOfDetailHeader"
                                        placeholder="Note about your order, e.g, special noe for delivery">
                             </div>
                         </div>
@@ -116,7 +122,6 @@
                                 </li>
                             </ul>
                         </div>
-
                         <button type="submit" class="site-btn">Place order</button>
                     </div>
                 </div>
