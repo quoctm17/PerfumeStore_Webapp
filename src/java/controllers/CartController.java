@@ -14,6 +14,7 @@ import entity.Account;
 import entity.Cart;
 import entity.Item;
 import entity.Product;
+import entity.Toast;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -78,19 +79,18 @@ public class CartController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/cart/index.do");
     }
 
-    protected void updateDataToOrderDetail(int customerId, HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        //Lay gio tu session
-        HttpSession session = request.getSession();
-        Cart cart = (Cart) session.getAttribute("cart");
-
-        CartFacade cartFacade = new CartFacade();
-        int orderHeaderId = cartFacade.getOrderHeaderIdByCustomerId(customerId);
-        cartFacade.addCartDetailToOrderDetail(orderHeaderId, cart);
-        //Quay ve home page
-        response.sendRedirect(request.getContextPath() + "/cart/index.do");
-    }
-
+//    protected void updateDataToOrderDetail(int customerId, HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException, SQLException {
+//        //Lay gio tu session
+//        HttpSession session = request.getSession();
+//        Cart cart = (Cart) session.getAttribute("cart");
+//
+//        CartFacade cartFacade = new CartFacade();
+//        int orderHeaderId = cartFacade.getOrderHeaderIdByCustomerId(customerId);
+//        cartFacade.addCartDetailToOrderDetail(orderHeaderId, cart);
+//        //Quay ve home page
+//        response.sendRedirect(request.getContextPath() + "/cart/index.do");
+//    }
     protected void delete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         String id = request.getParameter("idneedtodelete");
@@ -155,13 +155,15 @@ public class CartController extends HttpServlet {
                     HttpSession session = request.getSession();
                     Cart cart = (Cart) session.getAttribute("cart");
                     CartFacade cartFacade = new CartFacade();
-                    cartFacade.test(customerId, noteOfDetailHeader, cart);
+                    cartFacade.addOrder(customerId, noteOfDetailHeader, cart);
                     cart.empty();
                     session.setAttribute("cart", cart);
-                    response.sendRedirect(request.getContextPath() + "/");
                     
-                    
-
+                    Toast toast = new Toast("Order confirmed! Thank you <3", "success");
+                    request.setAttribute("toast", toast);
+                    request.setAttribute("controller", "home");
+                    request.setAttribute("action", "index");
+                    request.getRequestDispatcher("home").forward(request, response);
                 } catch (IOException | SQLException ex) {
                     request.setAttribute("message", ex.getMessage());
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
