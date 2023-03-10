@@ -12,11 +12,9 @@ import dao.CustomerFacade;
 import dao.ProductFacade;
 import entity.Account;
 import entity.Cart;
-import entity.Category;
 import entity.Item;
 import entity.Product;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +78,19 @@ public class CartController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/cart/index.do");
     }
 
+    protected void updateDataToOrderDetail(int customerId, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        //Lay gio tu session
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+
+        CartFacade cartFacade = new CartFacade();
+        int orderHeaderId = cartFacade.getOrderHeaderIdByCustomerId(customerId);
+        cartFacade.addCartDetailToOrderDetail(orderHeaderId, cart);
+        //Quay ve home page
+        response.sendRedirect(request.getContextPath() + "/cart/index.do");
+    }
+
     protected void delete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         String id = request.getParameter("idneedtodelete");
@@ -139,33 +150,21 @@ public class CartController extends HttpServlet {
                         customerId = af.getCustomerId(email);
                         cusf.create(customerId, "Copper", deliveryAddress);
                     }
-//                    if (newAccount.equalsIgnoreCase("true")) { //create new account if user tick create acount checkbox
-//                        String name = request.getParameter("name");
-//                        String address = request.getParameter("address");
-//                        String deliveryAddress = request.getParameter("deliveryAddress");
-//                        String phone = request.getParameter("phone");
-//                        String email = request.getParameter("email");
-//
-//                        AccountFacade af = new AccountFacade();
-//                        CustomerFacade cusf = new CustomerFacade();
-//
-//                        af.createCustomerAccount(name, phone, email, address);
-//                        customerId = af.getCustomerId(email);
-//                        cusf.create(customerId, "Copper", deliveryAddress);
-//                    } else if (newAccount == null) { //if user already have an account, get their id from account
-//                        HttpSession session = request.getSession();
-//                        Account acc = (Account) session.getAttribute("acc");
-//                        customerId = acc.getId();
-//                    }
-
 //                    At this line, you have customer id already, save product order to database here
                     String noteOfDetailHeader = request.getParameter("noteOfDetailHeader");
+                    HttpSession session = request.getSession();
+                    Cart cart = (Cart) session.getAttribute("cart");
                     CartFacade cartFacade = new CartFacade();
-                    cartFacade.addCartToOrderHeader(customerId, noteOfDetailHeader);
+                    cartFacade.test(customerId, noteOfDetailHeader, cart);
+                    cart.empty();
+                    session.setAttribute("cart", cart);
                     response.sendRedirect(request.getContextPath() + "/");
+                    
+                    
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                } catch (IOException | SQLException ex) {
+                    request.setAttribute("message", ex.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 }
                 break;
             case "update":

@@ -44,7 +44,7 @@ public class Cart {
     public double getTotalCart(){
         double total = 0;
         for (Item item : map.values()) {
-            total = item.getCost()+total;
+            total += item.getCost();
         }
         return total;
     }
