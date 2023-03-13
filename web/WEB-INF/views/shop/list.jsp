@@ -121,6 +121,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-9 col-md-9">
                 <div class="row">
                     <c:forEach var="product" items="${displayList}">
@@ -130,7 +131,7 @@
                                     <div class="label new">New</div>
                                     <ul class="product__hover">
                                         <li><a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                        <li><a href="<c:url value="/cart/index.do?id=${product.id}" />"><span class="icon_bag_alt"></span></a></li>
+                                        <li><a onclick="addToCart(${product.id})"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
@@ -143,6 +144,7 @@
                             </div>
                         </div>
                     </c:forEach>
+
                     <div class="col-lg-12 text-center">
                         <div class="pagination__option">                            
                             <a 
@@ -188,6 +190,21 @@
             </div>
         </div>
     </div>
+
 </section>
+<script>
+    const addToCart = (id) => {
+        const url = "<c:url value="/cart/add.do?&id=" />" + id;
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data) {
+                document.getElementById("cart-count").innerHTML="";
+            }
+        });
+    }
+
+</script>
 <!-- Shop Section End -->
 

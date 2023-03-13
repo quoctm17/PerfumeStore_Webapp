@@ -52,7 +52,7 @@
                 <li>
                     <a href="<c:url value="/cart/index.do"/>"
                        ><span class="icon_bag_alt"></span>
-                        <div class="tip">${cart.count}</div>
+                        <div class="tip" id="cart-count">${cart.cartLength()}</div>
                     </a>
                 </li>
             </ul>
@@ -134,9 +134,9 @@
                                 </c:if>
                                 <li><span class="icon_search search-switch"></span></li>
                                 <li>
-                                    <a href="<c:url  value="/cart/index.do" />"
+                                    <a href="<c:url value="/cart/index.do"/>"
                                        ><span class="icon_bag_alt"></span>
-                                        <div class="tip">${cart.count}</div>
+                                        <div class="tip" id="cart-count">${cart.cartLength()}</div>
                                     </a>
                                 </li>
                             </ul>

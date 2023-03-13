@@ -23,7 +23,8 @@ import java.util.Date;
 public class CartFacade {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
+    
+    
     public void addCartDetail(int orderHeaderId, Item item, Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement("insert OrderDetail (orderHeaderId,productId,quantity,price,discount) values (?,?,?,?,?)");
         ps.setInt(1, orderHeaderId);

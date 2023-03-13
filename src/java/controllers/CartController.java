@@ -16,6 +16,7 @@ import entity.Item;
 import entity.Product;
 import entity.Toast;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,13 @@ public class CartController extends HttpServlet {
         Item item = new Item(product, quantity);
         //Add item vao cart
         cart.add(item);
-        //Quay ve home page
-        request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+
+        PrintWriter out = response.getWriter();
+        out.print(cart.cartLength());
+        out.flush();
+        out.close();
+        
+
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response)
@@ -115,6 +121,9 @@ public class CartController extends HttpServlet {
 
         switch (action) {
             case "index":
+                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                break;
+            case "add":
                 try {
                     add(request, response);
                 } catch (IOException | SQLException | ServletException ex) { //in thong báo loi chi tiet cho developer
@@ -158,7 +167,7 @@ public class CartController extends HttpServlet {
                     cartFacade.addOrder(customerId, noteOfDetailHeader, cart);
                     cart.empty();
                     session.setAttribute("cart", cart);
-                    
+
                     Toast toast = new Toast("Order confirmed! Thank you <3", "success");
                     request.setAttribute("toast", toast);
                     request.setAttribute("controller", "home");
