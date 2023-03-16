@@ -82,6 +82,8 @@ public class OrderDetail {
         this.discount = discount;
     }
     
-    
+    public double getTotal() {
+        return this.price * this.quantity;
+    }
             
 }

@@ -49,7 +49,7 @@ public class AccountController extends HttpServlet {
                 // B2: Set Email, pass vào form login
                 if (redirect != null) {
                     request.setAttribute("redirect", redirect);
-                } 
+                }
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "login_handler":
@@ -112,6 +112,9 @@ public class AccountController extends HttpServlet {
                 request.setAttribute("controller", "account");
                 request.setAttribute("action", "login");
                 // Bảo tồn trạng thái form login đã nhập
+                request.setAttribute("email", email);
+                request.setAttribute("pass", password);
+                request.getRequestDispatcher("account").forward(request, response);
             } else { // Có tồn tại
                 // Lưu tài khoản vào Session để duy trì trạng thái đăng nhập cho đến khi logout
                 HttpSession session = request.getSession();

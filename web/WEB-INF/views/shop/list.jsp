@@ -54,8 +54,6 @@
                                         </div>
                                     </div>
                                 </c:forEach>
-
-
                             </div>
                         </div>
                     </div>
@@ -131,11 +129,11 @@
                                     <div class="label new">New</div>
                                     <ul class="product__hover">
                                         <li><a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                        <li><a onclick="addToCart(${product.id})"><span class="icon_bag_alt"></span></a></li>
+                                        <li><a href="#!" onclick="addToCart(${product.id}, 1)"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="<c:url value="/shop/detail.do?id=${product.id}&quantity=1"/>">${product.name}</a></h6>
+                                    <h6><a href="<c:url value="/shop/detail.do?id=${product.id}"/>">${product.name}</a></h6>
                                     <div class="product__price">
                                         <fmt:setLocale value="vi-VN"/>
                                         <fmt:formatNumber value = "${product.price}" type = "currency"/>
@@ -192,19 +190,5 @@
     </div>
 
 </section>
-<script>
-    const addToCart = (id) => {
-        const url = "<c:url value="/cart/add.do?&id=" />" + id;
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function (data) {
-                document.getElementById("cart-count").innerHTML="";
-            }
-        });
-    }
-
-</script>
 <!-- Shop Section End -->
 

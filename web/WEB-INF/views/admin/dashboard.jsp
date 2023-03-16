@@ -27,7 +27,7 @@
             </a>
         </div>
         <div class="col-md-6 mt-4">
-            <a href="<c:url value="/admin/revenue.do" />" class="card-admin-item">
+            <a href="<c:url value="/admin/revenue/list.do?time=daily" />" class="card-admin-item">
                 <div class="card-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
                 <div>
                     <h1>Revenue</h1>

@@ -10,11 +10,6 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 text-center mb-5">
-                <a href="<c:url value="/" />"><img src="<c:url value="/assets/img/logo.png" />" alt=""/></a>
-            </div>
-        </div>
-        <div class="row justify-content-center">
             <div class="col-md-12 col-lg-10">
                 <div class="wrap d-md-flex">
                     <div

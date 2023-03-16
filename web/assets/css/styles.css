@@ -1972,7 +1972,7 @@ ol {
     text-align: right;
 }
 
-.shop__cart__table tbody tr .cart__close span {
+.shop__cart__table tbody tr .cart__close a {
     height: 45px;
     width: 45px;
     background: #f2f2f2;
@@ -1994,7 +1994,8 @@ ol {
     text-align: right;
 }
 
-.cart__btn a {
+.cart__btn a,
+.cart__btn button{
     font-size: 14px;
     color: #111111;
     font-weight: 600;
@@ -2002,9 +2003,11 @@ ol {
     display: inline-block;
     padding: 14px 30px 12px;
     background: #f5f5f5;
+    border-radius: 0;
 }
 
-.cart__btn a span {
+.cart__btn a span,
+.cart__btn button span{
     color: #ca1515;
     font-size: 14px;
     margin-right: 5px;
@@ -2659,7 +2662,7 @@ table.table tr th:first-child {
     width: 60px;
 }
 table.table tr th:last-child {
-    width: 100px;
+    width: 136px;
 }
 table.table-striped tbody tr:nth-of-type(odd) {
     background-color: #fcfcfc;
@@ -2693,6 +2696,20 @@ table.table td a.edit {
 table.table td a.delete {
     color: #F44336;
 }
+
+table.table td a.seemore {
+    color: #03a9f4;
+}
+
+table.table td a.accept {
+    color: #28a745;
+}
+
+table.table td a.disabled {
+    color: #ccc;
+    pointer-events: none;
+}
+
 table.table td i {
     font-size: 19px;
 }

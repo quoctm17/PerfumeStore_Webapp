@@ -1,7 +1,7 @@
-    <%-- 
-    Document   : list
-    Created on : Feb 28, 2023, 4:16:03 PM
-    Author     : Beyond Nguyen
+<%-- 
+Document   : list
+Created on : Feb 28, 2023, 4:16:03 PM
+Author     : Beyond Nguyen
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -33,17 +33,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="profile" items="${OrdersProfiles}">
+                    <c:forEach var="o" items="${list}">
                         <tr>
-                            <td>${profile.value.id}</td>
-                            <td>${profile.key.user}</td>
-                            <td>${profile.key.email}</td>
-                            <td>${profile.key.phone}</td>
-                            <td>${profile.value.category}</td>
+                            <td>${o.id}</td>
+                            <td>${o.date}</td>
+                            <td>${o.customerId}</td>
+                            <td class="emp-id_${o.id}">${o.employeeId == 0 ? "NOT YET" : o.employeeId}</td>
                             <td>
-                                <a onclick="handleAccept(${profile.value.id})"><i class="material-icons fa fa-check" data-toggle="tooltip" title="Accept"></i></a>
-                                <a href="#editOrdersModal" onclick="handleEditCate(${profile.value.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
-                                <a href="#deleteOrdersModal" onclick="handleDeleteCate(${profile.value.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                                <c:if test="${o.status == null}">
+                                    <span class="order-status-${o.id} badge badge-warning">Pending</span>
+                                </c:if>
+                                <c:if test="${o.status != null}">
+                                    <span class="order-status-${o.id} badge badge-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span>
+                                </c:if>
+                            </td>
+                            <td>
+                                <a href="#!" onclick="handleAccept(${o.id})" class="accept ${o.status == "Failed" ? "disabled" : ""} accept-order-${o.id}"><i class="material-icons fa fa-check" data-toggle="tooltip" title="Accept"></i></a>
+                                <a href="#detailOrdersModal" onclick="handleDetailOrder(${o.id})" class="seemore" data-toggle="modal"><i class="fa-solid fa-eye" data-toggle="tooltip" title="See more"></i></a>
+                                <a href="#deleteOrdersModal" onclick="handleRejectModal(${o.id})" class="delete ${o.status == "Completed" ? "disabled" : ""} delete-order-${o.id}" data-toggle="modal"><i class="fa-solid fa-xmark" data-toggle="tooltip" title="Reject"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -111,54 +118,20 @@
     </div>
 </div>
 
-<!-- Edit Modal HTML -->
-<div id="editOrdersModal" class="modal fade">
-    <div class="modal-dialog">
+<!-- detail Modal HTML -->
+<div id="detailOrdersModal" class="modal fade">
+    <div class="modal-dialog" style="max-width: 680px;">
         <div class="modal-content">
-            <form action="<c:url value="/admin/Orders/update.do" />">
-                <div class="modal-header">						
-                    <h4 class="modal-title">Edit Product</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group col">
-                            <label>Id</label>
-                            <input style="pointer-events: none" type="text" name="id" class="form-control" required>
-                        </div>
-                        <div class="form-group col">
-                            <label>Category</label>
-                            <input type="text" name="category" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text"  name="name" class="form-control" required>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col">
-                            <label>Phone</label>
-                            <input type="text" name="phone" class="form-control" required>
-                        </div>
-                        <div class="form-group col">
-                            <label>Email</label>
-                            <input type="text" name="email" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" name="address" class="form-control" required>
-                    </div>  
-                    <div class="form-group">
-                        <label>Delivery Address</label>
-                        <input type="text" name="deliveryAddress" class="form-control" required>
-                    </div>  
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-info" value="Update">
-                </div>
-            </form>
+            <div class="modal-header">						
+                <h4 class="modal-title">Edit Product</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body" id="showTable">
+
+            </div>
+            <div class="modal-footer">
+                <input class="btn btn-info" data-dismiss="modal" value="Okay">
+            </div>
         </div>
     </div>
 </div>
@@ -167,19 +140,19 @@
 <div id="deleteOrdersModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/Orders/delete.do" />">
+            <form>
                 <div class="modal-header">						
-                    <h4 class="modal-title">Delete Employee</h4>
+                    <h4 class="modal-title">Reject Order</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">					
-                    <p>Are you sure you want to delete these Records?</p>
+                    <p>Are you sure you want to reject these Records?</p>
                     <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                     <input type="hidden" name="id" value="delete">
-                    <button type="submit" class="btn btn-danger" >Delete</button>
+                    <button onclick="handleReject()" type="submit" class="btn btn-danger" data-dismiss="modal" >Reject</button>
                 </div>
             </form>
         </div>
@@ -187,21 +160,112 @@
 </div>
 
 <script>
-    const handleEditCate = (id) => {
-        const url = "<c:url value="/admin/Orders/read.do?&id=" />" + id;
+
+    const handleAccept = id => {
+
+        const empId = "${sessionScope.acc.id}";
+        const empIdE = document.querySelector('td.emp-id_' + id);
+        empIdE.innerHTML = empId;
+
+        const label = document.querySelector('span.order-status-' + id);
+
+        label.classList.remove("badge-warning");
+        label.classList.add("badge-success");
+        label.innerHTML = 'Completed';
+
+        const deleteBtn = document.querySelector('a.delete-order-' + id);
+        deleteBtn.classList.add("disabled");
+
+        const url = "<c:url value="/admin/orders/accept.do?&id=" />" + id;
 
         $.ajax({
             type: 'GET',
             url: url,
             success: function (data) {
-                const cate = JSON.parse(data);
-                document.querySelector('#editOrdersModal input[name=id]').value = cate.id;
-                document.querySelector('#editOrdersModal input[name=name]').value = cate.name;
             }
         });
     }
 
-    const handleDeleteCate = (id) => {
+    const handleDetailOrder = (id) => {
+        const url = "<c:url value="/admin/orders/read.do?&id=" />" + id;
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data) {
+                const res = JSON.parse(data)
+                constructTable(res)
+            }
+        });
+    }
+
+    const handleRejectModal = (id) => {
         document.querySelector('#deleteOrdersModal input[name=id]').value = id;
+    }
+
+    const handleReject = () => {
+        const id = document.querySelector('#deleteOrdersModal input[name=id]').value;
+
+        const empId = "${sessionScope.acc.id}";
+        const empIdE = document.querySelector('td.emp-id_' + id);
+        empIdE.innerHTML = empId;
+
+        const label = document.querySelector('span.order-status-' + id);
+
+        label.classList.remove("badge-warning");
+        label.classList.add("badge-danger");
+        label.innerHTML = 'Failed';
+
+        const acceptBtn = document.querySelector('a.accept-order-' + id);
+        acceptBtn.classList.add("disabled");
+
+        const url = "<c:url value="/admin/orders/reject.do?&id=" />" + id;
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data) {
+            }
+        });
+    }
+
+    const constructTable = data => {
+        let col = [];
+        for (let i = 0; i < data.length; i++) {
+            for (let key in data[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        // Create a table.
+        const table = document.createElement("table");
+        table.classList.add('table');
+        table.classList.add('table-hover');
+        // Create table header row using the extracted headers above.
+        let tr = table.insertRow(-1);                   // table row.
+
+        for (let i = 0; i < col.length; i++) {
+            let th = document.createElement("th");      // table header.
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+        // add json data to the table as rows.
+        for (let i = 0; i < data.length; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (let j = 0; j < col.length; j++) {
+                let tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = data[i][col[j]];
+            }
+        }
+
+        // Now, add the newly created table with json data, to a container.
+        const divShowData = document.getElementById('showTable');
+        divShowData.innerHTML = "";
+        divShowData.appendChild(table);
     }
 </script>

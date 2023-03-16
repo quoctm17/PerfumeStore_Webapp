@@ -5,7 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="container-xl p-5">
     <!-- Tab bar navigation-->
@@ -48,7 +49,12 @@
                             <div class="caption text-muted mb-4">${cus.category} Customer</div>
                         </div>
                     </c:if>
-
+                        <c:if test="${acc.role != 'ROLE_CUSTOMER'}">
+                        <div class="card-title">Your salary</div>
+                        <div class="card-subtitle mb-4"><fmt:formatNumber value="${emp.salary}" type="currency"/></div>
+                        <div class="card-title">Department ID</div>
+                        <div class="card-subtitle mb-4">${emp.departmentId}</div>
+                    </c:if>
                 </div>
             </div>
         </div>
