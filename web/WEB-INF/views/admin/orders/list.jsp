@@ -57,15 +57,12 @@ Author     : Beyond Nguyen
                 </tbody>
             </table>
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                 <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    <li class="page-item ${currentPage == 1 ? "disabled" : ""}"><a href="<c:url value="/admin/orders/list.do?page=${currentPage - 1}" />"  class="page-link">Previous</a></li>
+                        <c:forEach var="page" begin="1" end="${numOfPages}">
+                        <li class="page-item ${currentPage == page ? "active" : ""}"><a href="<c:url value="/admin/orders/list.do?page=${page}" />" class="page-link">${page}</a></li>
+                        </c:forEach>
+                    <li class="page-item ${currentPage == numOfPages ? "disabled" : ""}"><a href="<c:url value="/admin/orders/list.do?page=${currentPage + 1}" />" class="page-link">Next</a></li>
                 </ul>
             </div>
         </div>

@@ -40,6 +40,7 @@ public class AdminController extends HttpServlet {
             if (AccountFacade.isLogin(request) != 3) {
                 switch (action) {
                     case "dashboard":
+                        request.setAttribute("activeTab", "dashboard");
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                         break;
                     default:

@@ -44,6 +44,7 @@ public class RevenueController extends HttpServlet {
         switch (action) {
             case "list":
                 request.setAttribute("time", time);
+                request.setAttribute("activeTab", "revenue");
                 request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 break;
             case "read":
