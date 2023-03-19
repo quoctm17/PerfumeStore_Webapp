@@ -31,7 +31,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                 <!--<div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />">-->
+<!--                 <div class="product__item__pic set-bg" data-setbg="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />">-->
                 <div class="product__details__pic">
                     <div class="product__details__pic__left product__thumb nice-scroll">
                         <a class="pt active" href="#product-1">
