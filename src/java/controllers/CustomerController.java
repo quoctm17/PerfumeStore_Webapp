@@ -98,7 +98,6 @@ public class CustomerController extends HttpServlet {
                         String deliveryAddress = request.getParameter("deliveryAddress");
 
                         af.createCustomerAccount(name, phone, email, address);
-                        System.out.println("????");
                         int id = af.getCustomerId(email);
                         cf.create(id, category, deliveryAddress);
 

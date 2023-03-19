@@ -117,7 +117,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#!" onclick="addToCart(${product.id})"><span class="icon_bag_alt"></span></a>
+                                    <a href="#!" onclick="addToCart(${product.id}, 1)"><span class="icon_bag_alt"></span></a>
                                 </li>
                             </ul>
                         </div>

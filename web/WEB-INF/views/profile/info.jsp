@@ -26,7 +26,7 @@
                     <div class="card-subtitle mb-4">This image will be publicly visible to other users.</div>
                     <div class="text-center">
                         <!-- Profile picture image-->
-                        <img id="avatar-preview" class="img-fluid rounded-circle mb-1" src="<c:url value="/assets/img/account/avatar-${sessionScope.acc.id}.jpg" />" alt="..." style="width: 150px; height: 150px; object-fit: cover;">
+                        <img id="avatar-preview" class="img-fluid rounded-circle mb-1" src="<c:url value="/assets/img/account/avatar-${sessionScope.acc.id}.jpg" />" alt="avatar" style="width: 150px; height: 150px; object-fit: cover;">
                         <!-- Profile picture help block-->
                         <div class="caption text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                         <!-- Profile picture upload button-->
@@ -68,7 +68,7 @@
                         <!-- Form Group (username)-->
                         <div class="mb-4 form-group">
                             <label class="label">Username</label>
-                            <input class="w-100 form-control" name="username" value="${acc.user}">
+                            <input class="w-100 form-control" name="username" value="${sessionScope.acc.user}">
                         </div>
                         <!-- Form Row-->
                         <div class="row">

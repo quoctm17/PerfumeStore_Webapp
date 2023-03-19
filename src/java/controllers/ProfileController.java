@@ -96,6 +96,7 @@ public class ProfileController extends HttpServlet {
 
                     af.updateNonSecurityInfo(id, map.get("username"), map.get("phone"), map.get("email"), map.get("address"));
                     cf.update(id, cf.read(id).getCategory(), map.get("deliveryAddress"));
+                    session.setAttribute("acc", af.getAnAccount(id));
 
                     response.sendRedirect(request.getContextPath() + "/profile/info.do");
                 } catch (SQLException ex) {

@@ -48,7 +48,7 @@
 
 
                         <tr>
-                            <td><img class="col" src="<c:url value="/assets/img/product/product-${p.id}_1.jpg" />" ></td>
+                            <td><img src="<c:url value="/assets/img/product/product-${p.id}_1.jpg" />" ></td>
                             <td>${p.name}</td>
                             <td class="line-clamp">${p.description}</td>
                             <td>${p.price}</td>

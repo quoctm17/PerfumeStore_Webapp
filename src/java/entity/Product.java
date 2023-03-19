@@ -32,11 +32,8 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    public String beforeDiscount() {
-        double bDiscount = price / (1 - discount);
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String beforeDiscount = decimalFormat.format(bDiscount);
-        return beforeDiscount;
+    public double beforeDiscount() {
+        return price / (1 - discount);
     }
 
     public int getId() {

@@ -88,8 +88,9 @@ public class ProductController extends HttpServlet {
                 break;
             case "create":
                 try {
-                    int id = p.getIncomingId();
+
                     HashMap<String, String> map = new HashMap<>();
+                    HashMap<Part, String> fileMap = new HashMap<>();
                     for (Part part : request.getParts()) {
                         String partName = part.getName();
                         if (!partName.startsWith("pImg-")) {
@@ -98,21 +99,28 @@ public class ProductController extends HttpServlet {
                         } else {
                             if (part.getContentType().startsWith("image/")) {
                                 String imgPos = partName.split("-")[1];
-                                String newFileName = "product-" + id + "_" + imgPos + ".jpg";
-                                String savePath = getServletContext().getRealPath("/assets/img/product/" + File.separator + newFileName);
-                                savePath = savePath.replace("\\build", "");
-                                part.write(savePath);
+                                fileMap.put(part, imgPos);
                             }
                         }
                     }
-                    
+
                     String name = map.get("name");
                     String description = map.get("description");
                     Double price = Double.parseDouble(map.get("price"));
                     Double discount = Double.parseDouble(map.get("discount"));
                     int categoryId = Integer.parseInt(map.get("categoryId"));
-                    Product pro = new Product(id, name, description, price, discount, categoryId);
+                    Product pro = new Product(1, name, description, price, discount, categoryId);
                     p.create(pro);
+
+                    int id = p.getLatestId();
+
+                    for (Part part : fileMap.keySet()) {
+                        String newFileName = "product-" + id + "_" + fileMap.get(part) + ".jpg";
+                        String savePath = getServletContext().getRealPath("/assets/img/product/" + File.separator + newFileName);
+                        savePath = savePath.replace("\\build", "");
+                        part.write(savePath);
+                    }
+
                     response.sendRedirect(request.getContextPath() + "/admin/product/list.do");
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,7 +143,7 @@ public class ProductController extends HttpServlet {
             case "update":
                 try {
                     int id = Integer.parseInt(request.getParameter("id"));
-                    
+
                     HashMap<String, String> map = new HashMap<>();
                     for (Part part : request.getParts()) {
                         String partName = part.getName();
@@ -183,7 +191,7 @@ public class ProductController extends HttpServlet {
 
         }
     }
-    
+
     public String convertISToString(InputStream is) throws IOException {
         int bufferSize = 1024;
         char[] buffer = new char[bufferSize];

@@ -139,7 +139,7 @@ public class ProductFacade {
         return list;
     }
     
-    public int getIncomingId() throws SQLException {
+    public int getLatestId() throws SQLException {
         int id = 0;
         Connection con = DBContext.getConnection();
 
@@ -150,7 +150,7 @@ public class ProductFacade {
             id = rs.getInt("id");
         }
         con.close();
-        return id + 1;
+        return id;
     }
 
     public void create(Product product) throws SQLException {
