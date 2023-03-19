@@ -19,17 +19,24 @@ public class Cart {
     public Cart() {
         map = new HashMap<>();
     }
+
     //da them property items
     public Collection<Item> getItems() {
         return map.values();
     }
-    public int getCount(){
+
+    public int cartLength() {
+        return map.size();
+    }
+
+    public int getCount() {
         int count = 0;
         for (Item item : map.values()) {
             count = count + item.getQuantity();
         }
         return count;
     }
+
     public void add(Item item) {
         int id = item.getProduct().getId();
         if (map.containsKey(id)) {
@@ -41,7 +48,8 @@ public class Cart {
             map.put(id, item);
         }
     }
-    public double getTotalCart(){
+
+    public double getTotalCart() {
         double total = 0;
         for (Item item : map.values()) {
             total += item.getCost();

@@ -52,6 +52,24 @@ public class CategoryController extends HttpServlet {
                     //Processing code here
                     try {
                         List<Category> list = cf.selectAll();
+
+                        int page = 0;
+                        if (request.getParameter("page") == null) {
+                            page = 1;
+                        } else {
+                            page = Integer.parseInt(request.getParameter("page"));
+                        }
+
+                        int numOfPages = (int) Math.ceil(list.size() / 9.0);
+                        if (page < numOfPages) {
+                            list = list.subList(9 * (page - 1), 9 * page);
+                        } else {
+                            list = list.subList(9 * (page - 1), list.size());
+                        }
+                        
+                        request.setAttribute("activeTab", "category");
+                        request.setAttribute("numOfPages", numOfPages);
+                        request.setAttribute("currentPage", page);
                         request.setAttribute("list", list);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     } catch (SQLException ex) {

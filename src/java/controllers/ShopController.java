@@ -97,10 +97,13 @@ public class ShopController extends HttpServlet {
                     p = pf.read(id);
 
                     Category c = cf.read(String.valueOf(p.getCategoryId()));
+                    
+                    List<Product> relatedList = pf.selectRelated(id);
 
                     //TODO
                     request.setAttribute("p", p);
                     request.setAttribute("category", c);
+                    request.setAttribute("list", relatedList);
                     request.setAttribute("tab", "shop");
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (IOException | SQLException | ServletException ex) {

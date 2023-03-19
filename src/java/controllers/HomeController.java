@@ -78,7 +78,7 @@ public class HomeController extends HttpServlet {
                 //Show error page
                 request.setAttribute("controller", "error");
                 request.setAttribute("action", "error404");
-                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
 
         }
     }

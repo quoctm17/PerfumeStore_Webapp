@@ -42,6 +42,29 @@ public class ProductFacade {
         con.close();
         return list;
     }
+    
+    public List<Product> selectRelated(String id) throws SQLException {
+        List<Product> list = null;
+        Connection con = DBContext.getConnection();
+
+        PreparedStatement stm = con.prepareStatement("select top(4) * from product where id != ? and categoryid = (select categoryid from product where id = ?)");
+        stm.setString(1, id);
+        stm.setString(2, id);
+        ResultSet rs = stm.executeQuery();
+        list = new ArrayList<>();
+        while (rs.next()) {
+            Product p = new Product();
+            p.setId(rs.getInt("id"));
+            p.setName(rs.getString("name"));
+            p.setDescription(rs.getString("description"));
+            p.setPrice(rs.getDouble("price"));
+            p.setDiscount(rs.getDouble("discount"));
+            p.setCategoryId(rs.getInt("categoryId"));
+            list.add(p);
+        }
+        con.close();
+        return list;
+    }
 
     public List<Product> selectTop8Newest() throws SQLException {
         List<Product> list = null;
@@ -168,7 +191,7 @@ public class ProductFacade {
     public static void main(String[] args) {
         ProductFacade pf = new ProductFacade();
         try {
-            System.out.println(pf.selectTop8Newest());
+            System.out.println(pf.selectRelated("1"));
         } catch (SQLException ex) {
             Logger.getLogger(ProductFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

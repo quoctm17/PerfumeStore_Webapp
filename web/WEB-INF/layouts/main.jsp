@@ -52,7 +52,7 @@
                 <li>
                     <a href="<c:url value="/cart/index.do"/>"
                        ><span class="icon_bag_alt"></span>
-                        <div class="tip">${cart.count}</div>
+                        <div class="tip cart-count">${cart.cartLength()}</div>
                     </a>
                 </li>
             </ul>
@@ -128,15 +128,16 @@
                                         <span class="icon_profile"></span>
                                         <ul class="dropdown">
                                             <li><a href="<c:url value="/profile/info.do"/>">View profile</a></li>
+                                            <li><a href="<c:url value="/profile/orders.do"/>">All orders</a></li>
                                             <li><a href="<c:url  value="/account/logout.do" />">Logout</a></li>
                                         </ul>
                                     </li>
                                 </c:if>
                                 <li><span class="icon_search search-switch"></span></li>
                                 <li>
-                                    <a href="<c:url  value="/cart/index.do" />"
+                                    <a href="<c:url value="/cart/index.do"/>"
                                        ><span class="icon_bag_alt"></span>
-                                        <div class="tip">${cart.count}</div>
+                                        <div class="tip cart-count">${cart.cartLength()}</div>
                                     </a>
                                 </li>
                             </ul>
@@ -198,7 +199,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-7">
                         <div class="footer__about">
                             <div class="footer__logo">
-                                <a href="./index.html"><img src="<c:url value="/assets/img/logo.png" />" alt="p-sephora" /></a>
+                                <a href="<c:url value="/" />"><img src="<c:url value="/assets/img/logo.png" />" alt="p-sephora" /></a>
                             </div>
 
                         </div>
@@ -207,10 +208,9 @@
                         <div class="footer__widget">
                             <h6>Quick links</h6>
                             <ul>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Blogs</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">FAQ</a></li>
+                                <li><a href="<c:url value="/home/aboutus.do" />">About</a></li>
+                                <li><a href="<c:url value="/shop/list.do" />">Shop</a></li>
+                                <li><a href="<c:url value="/cart/index.do" />">Shop Cart</a></li>
                             </ul>
                         </div>
                     </div>
@@ -218,10 +218,9 @@
                         <div class="footer__widget">
                             <h6>Account</h6>
                             <ul>
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Orders Tracking</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Wishlist</a></li>
+                                <li><a href="<c:url value="/profile/info.do" />">My Account</a></li>
+                                <li><a href="<c:url value="/profile/orders.do" />">Orders Tracking</a></li>
+                                <li><a href="<c:url value="/cart/checkout.do" />">Checkout</a></li>
                             </ul>
                         </div>
                     </div>
@@ -277,7 +276,6 @@
         <div id="toast"></div>
 
         <script>
-
             const toastObj = "${toast}";
             if (toastObj) {
                 const message = "${toast.message}"
@@ -300,6 +298,22 @@
             }
 
             window.addEventListener('load', () => toastCall())
+        </script>
+
+        <script>
+            const addToCart = (id, quantity) => {
+                const url = "<c:url value="/cart/add.do?id=" />" + id + "&quantity=" + quantity;
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function (data) {
+                        const cartCount = document.querySelectorAll(".cart-count");
+                        for (let i = 0; i < cartCount.length; i++) {
+                            cartCount[i].innerHTML = data;
+                        }
+                    }
+                });
+            }
         </script>
 
 

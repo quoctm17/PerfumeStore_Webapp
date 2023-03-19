@@ -5,8 +5,12 @@
  */
 package controllers;
 
-import dao.AccountFacade;
+import com.google.gson.Gson;
+import dao.OrderFacade;
+import entity.Revenue;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Beyond Nguyen
  */
-@WebServlet(name = "AdminController", urlPatterns = {"/admin"})
-public class AdminController extends HttpServlet {
+@WebServlet(name = "RevenueController", urlPatterns = {"/admin/revenue"})
+public class RevenueController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,23 +40,49 @@ public class AdminController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
-        if (AccountFacade.isLogin(request) != 0) {
-            if (AccountFacade.isLogin(request) != 3) {
-                switch (action) {
-                    case "dashboard":
-                        request.setAttribute("activeTab", "dashboard");
-                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                        break;
-                    default:
-                        request.setAttribute("controller", "error");
-                        request.setAttribute("action", "error404");
-                        request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
+        String time = request.getParameter("time");
+        switch (action) {
+            case "list":
+                request.setAttribute("time", time);
+                request.setAttribute("activeTab", "revenue");
+                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                break;
+            case "read":
+                try {
+                    List<Revenue> list = null;
+                    OrderFacade od = new OrderFacade();
+                    String[] timeSelect = new String[2];
+
+                    String _time = request.getParameter("time");
+                    switch (_time) {
+                        case "daily":
+                            timeSelect[0] = request.getParameter("month");
+                            timeSelect[1] = request.getParameter("year");
+                            list = od.getRevenue("day", timeSelect);
+                            break;
+                        case "monthly":
+                            timeSelect[0] = request.getParameter("year");
+                            list = od.getRevenue("month", timeSelect);
+                            break;
+                        case "yearly":
+                            timeSelect[0] = request.getParameter("year");
+                            timeSelect[1] = request.getParameter("endYear");
+                            list = od.getRevenue("year", timeSelect);
+                            System.out.println(timeSelect[0]);
+                            System.out.println(timeSelect[1]);
+                            System.out.println(list);
+                            break;
+                    }
+
+                    Gson gson = new Gson();
+                    PrintWriter out = response.getWriter();
+                    out.print(gson.toJson(list));
+                    out.flush();
+                    out.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-            } else {
-                response.sendRedirect(request.getContextPath() + "/home/index.do");
-            }
-        } else {
-            response.sendRedirect(request.getContextPath() + "/account/login.do");
+                break;
         }
 
     }

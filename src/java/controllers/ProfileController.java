@@ -2,8 +2,12 @@ package controllers;
 
 import dao.AccountFacade;
 import dao.CustomerFacade;
+import dao.EmployeeFacade;
+import dao.OrderFacade;
 import entity.Account;
 import entity.Customer;
+import entity.Employee;
+import entity.FullOrder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +16,7 @@ import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -52,14 +57,19 @@ public class ProfileController extends HttpServlet {
         String id = Integer.toString(acc.getId());
         AccountFacade af = new AccountFacade();
         CustomerFacade cf = new CustomerFacade();
+        EmployeeFacade ef = new EmployeeFacade();
         switch (action) {
             case "info":
                 try {
+                    if (acc.getRole().equals("ROLE_CUSTOMER")) {
+                        Customer cus;
+                        cus = cf.read(id);
+                        request.setAttribute("cus", cus);
+                    } else {
+                        Employee emp = ef.read(id);
+                        request.setAttribute("emp", emp);
+                    }
 
-                    Customer cus;
-                    cus = cf.read(id);
-
-                    request.setAttribute("cus", cus);
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,6 +119,16 @@ public class ProfileController extends HttpServlet {
                         af.updateSecurityInfo(newPassword, id);
                     }
                     response.sendRedirect(request.getContextPath() + "/profile/security.do");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            case "orders":
+                try {
+                    OrderFacade of = new OrderFacade();
+                    List<FullOrder> list = of.selectFullOrders(acc.getId());
+                    request.setAttribute("list", list);
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

@@ -36,7 +36,7 @@
                             <div class="categories__text">
                                 <h4>Chanel</h4>
                                 <p>10+ items</p>
-                                <a href="<c:url value="/shop/list.do?categoryId=1" />">Shop now</a>
+                                <a href="<c:url value="/shop/list.do?category=1" />">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                             <div class="categories__text">
                                 <h4>Gucci</h4>
                                 <p>10+ items</p>
-                                <a href="<c:url value="/shop/list.do?categoryId=2" />">Shop now</a>
+                                <a href="<c:url value="/shop/list.do?category=2" />">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                             <div class="categories__text">
                                 <h4>Valentino</h4>
                                 <p>10+ items</p>
-                                <a href="<c:url value="/shop/list.do?categoryId=3" />">Shop now</a>
+                                <a href="<c:url value="/shop/list.do?category=3" />">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                             <div class="categories__text">
                                 <h4>Lancome</h4>
                                 <p>10+ items</p>
-                                <a href="<c:url value="/shop/list.do?categoryId=4" />">Shop now</a>
+                                <a href="<c:url value="/shop/list.do?category=4" />">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#"><span class="icon_bag_alt"></span></a>
+                                    <a href="#!" onclick="addToCart(${product.id})"><span class="icon_bag_alt"></span></a>
                                 </li>
                             </ul>
                         </div>

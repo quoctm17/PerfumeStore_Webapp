@@ -10,11 +10,6 @@
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 text-center mb-5">
-                <a href="<c:url value="/" />"><img src="<c:url value="/assets/img/logo.png" />" alt=""/></a>
-            </div>
-        </div>
-        <div class="row justify-content-center">
             <div class="col-md-12 col-lg-10">
                 <div class="wrap d-md-flex">
                     <div
@@ -67,8 +62,10 @@
                             </div>
                             <div class="form-group d-md-flex">
                                 <div class="w-50 text-left">
-                                    <label class="checkbox-wrap checkbox-primary mb-0">Remember Me</label>
-                                    <input class="checkmark mb-0" type="checkbox" value="1" name="remember"/>
+                                    <label class="checkbox-wrap checkbox-primary mb-0">Remember Me
+                                        <input type="checkbox" value="1" name="remember"/>
+                                        <span class="checkmark"></span>
+                                    </label>
                                 </div>
 
                             </div>

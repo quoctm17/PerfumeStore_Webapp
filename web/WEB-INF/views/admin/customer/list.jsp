@@ -34,32 +34,29 @@ Author     : Beyond Nguyen
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="profile" items="${customerProfiles}">
+                    <c:forEach var="profile" items="${list}">
                         <tr>
-                            <td>${profile.value.id}</td>
-                            <td>${profile.key.user}</td>
-                            <td>${profile.key.email}</td>
-                            <td>${profile.key.phone}</td>
-                            <td>${profile.value.category}</td>
-                            <td class="line-clamp">${profile.value.deliveryAddress}</td>
+                            <td>${profile.customer.id}</td>
+                            <td>${profile.account.user}</td>
+                            <td>${profile.account.email}</td>
+                            <td>${profile.account.phone}</td>
+                            <td>${profile.customer.category}</td>
+                            <td class="line-clamp">${profile.customer.deliveryAddress}</td>
                             <td>
-                                <a href="#editCustomerModal" onclick="handleEditCate(${profile.value.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
-                                <a href="#deleteCustomerModal" onclick="handleDeleteCate(${profile.value.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#editCustomerModal" onclick="handleEditCate(${profile.customer.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
+                                <a href="#deleteCustomerModal" onclick="handleDeleteCate(${profile.customer.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                 <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    <li class="page-item ${currentPage == 1 ? "disabled" : ""}"><a href="<c:url value="/admin/orders/list.do?page=${currentPage - 1}" />"  class="page-link">Previous</a></li>
+                        <c:forEach var="page" begin="1" end="${numOfPages}">
+                        <li class="page-item ${currentPage == page ? "active" : ""}"><a href="<c:url value="/admin/customer/list.do?page=${page}" />" class="page-link">${page}</a></li>
+                        </c:forEach>
+                    <li class="page-item ${currentPage == numOfPages ? "disabled" : ""}"><a href="<c:url value="/admin/orders/list.do?page=${currentPage + 1}" />" class="page-link">Next</a></li>
                 </ul>
             </div>
         </div>
@@ -194,12 +191,12 @@ Author     : Beyond Nguyen
             type: 'GET',
             url: url,
             success: function (data) {
-               
+
                 const list = data.split('***');
                 const account = JSON.parse(list[0]);
                 const customer = JSON.parse(list[1]);
                 const profile = {...customer, ...account}
-                
+
                 document.querySelector('#editCustomerModal input[name=id]').value = profile.id;
                 document.querySelector('#editCustomerModal input[name=category]').value = profile.category;
                 document.querySelector('#editCustomerModal input[name=name]').value = profile.user;

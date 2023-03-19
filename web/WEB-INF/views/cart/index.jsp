@@ -7,6 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!--hiển thị và chỉnh sửa giỏ giỏ hàng ở đây-->
 
 <!-- Breadcrumb Begin -->
@@ -27,67 +28,65 @@
 <!-- Shop Cart Section Begin -->
 <section class="shop-cart spad">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="shop__cart__table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="p" items="${sessionScope.cart.items}">
+        <form action="<c:url value="/cart/update.do"/>" method="post">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td class="cart__product__item">
-                                        <img src="<c:url value="/assets/img/product/product-${p.product.id}_2.jpg" />" alt="">
-                                        <div class="cart__product__item__title">
-                                            <h6>${p.product.name}</h6>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">${p.product.price} VNĐ</td>
-                                    <td class="cart__quantity">
-                                        <form action="<c:url value="/cart/update.do"/>" method="post">
-                                            <div class="pro-qty">
-                                                <input type="text" name="newQuantity" value="${p.quantity}">
-                                                <input type="hidden" name="idneettoupdate" value="${p.product.id}">
-                                            </div>
-                                        </form>
-
-                                    </td>
-                                    <td class="cart__total">
-                                        <script>
-                                            document.write(Number(${p.cost}).toLocaleString() + " VNĐ");
-                                        </script>
-                                    </td>
-                                    <td class="cart__close">                                     
-                                        <form action="<c:url value="/cart/delete.do"/>">
-                                            <button class="icon_close" name="idneedtodelete" value="${p.product.id}"></button>
-                                        </form>
-                                    </td>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>                           
+                                <c:forEach var="p" items="${sessionScope.cart.items}">
+                                    <tr>
+                                        <td class="cart__product__item">
+                                            <img src="<c:url value="/assets/img/product/product-${p.product.id}_2.jpg" />" alt="">
+                                            <div class="cart__product__item__title">
+                                                <h6>${p.product.name}</h6>
+                                            </div>
+                                        </td>
+                                        <td class="cart__price">
+                                            <fmt:formatNumber value="${p.product.price}" type="currency" />
+                                        </td>
+                                        <td class="cart__quantity">
+
+                                            <div class="pro-qty">
+                                                <input type="text" name="newQuantity_${p.product.id}" value="${p.quantity}" />
+                                            </div>
+
+                                        </td>
+                                        <td class="cart__total">
+                                            <fmt:formatNumber value="${p.cost}" type="currency" />
+                                        </td>
+                                        <td class="cart__close">     
+                                            <a href="<c:url value="/cart/delete.do?idneedtodelete=${p.product.id}"/>" class="icon_close"></a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="cart__btn">
-                    <a href="<c:url value="/shop/list.do" />">Continue Shopping</a>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="<c:url value="/shop/list.do" />">Continue Shopping</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn update__btn">
+                        <button type="submit" class="btn"><span class="icon_loading"></span> Update cart</button>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="cart__btn update__btn">
-                    <a href="<c:url value="/cart/index.do" />"><span class="icon_loading"></span> Update cart</a>
-                </div>
-            </div>
-        </div>
+        </form>
         <div class="row">
             <div class="col-lg-6">
             </div>

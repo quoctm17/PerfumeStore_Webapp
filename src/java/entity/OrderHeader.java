@@ -67,7 +67,5 @@ public class OrderHeader {
 
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
-    }
-    
-    
+    } 
 }

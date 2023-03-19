@@ -5,9 +5,14 @@
  */
 package controllers;
 
+import com.google.gson.Gson;
 import dao.CategoryFacade;
+import dao.OrderFacade;
 import dao.ProductFacade;
+import entity.Account;
 import entity.Category;
+import entity.OrderDetail;
+import entity.OrderHeader;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,16 +49,68 @@ public class OrdersController extends HttpServlet {
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
 
+        OrderFacade of = new OrderFacade();
+        HttpSession session = request.getSession();
         switch (action) {
             case "list":
                 //Processing code here
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                try {
+                    List<OrderHeader> list = of.selectAll();
+
+                    int page = 0;
+                    if (request.getParameter("page") == null) {
+                        page = 1;
+                    } else {
+                        page = Integer.parseInt(request.getParameter("page"));
+                    }
+
+                    int numOfPages = (int) Math.ceil(list.size() / 9.0);
+                    if (page < numOfPages) {
+                        list = list.subList(9 * (page - 1), 9 * page);
+                    } else {
+                        list = list.subList(9 * (page - 1), list.size());
+                    }
+
+                    request.setAttribute("numOfPages", numOfPages);
+                    request.setAttribute("currentPage", page);
+                    request.setAttribute("activeTab", "order");
+                    request.setAttribute("list", list);
+                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 break;
-            case "detail":
-                //Processing code here
-                //Forward request & response to the main layout
-               
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+            case "accept":
+                try {
+                    int orderId = Integer.parseInt(request.getParameter("id"));
+                    int empId = ((Account) session.getAttribute("acc")).getId();
+                    of.updateStatus(orderId, empId, "Completed");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            case "reject":
+                try {
+                    int orderId = Integer.parseInt(request.getParameter("id"));
+                    int empId = ((Account) session.getAttribute("acc")).getId();
+                    of.updateStatus(orderId, empId, "Failed");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            case "read":
+                try {
+                    int orderId = Integer.parseInt(request.getParameter("id"));
+                    List<OrderDetail> listDetail = of.selectOrderDetail(orderId);
+
+                    Gson gson = new Gson();
+                    PrintWriter out = response.getWriter();
+                    out.print(gson.toJson(listDetail));
+                    out.flush();
+                    out.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 break;
             default:
                 //Show error page

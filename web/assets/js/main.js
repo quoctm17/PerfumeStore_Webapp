@@ -211,7 +211,7 @@ title = '',
         message = '',
         type = 'info',
         duration = 5000
-        }){
+}){
     const main = document.getElementById('toast');
 
     if (main) {

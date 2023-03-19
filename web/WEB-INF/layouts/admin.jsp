@@ -38,18 +38,18 @@
             <div id="sidebar-wrapper">
                 <div class="sidebar-heading"><a href="/psephora/"><img src="<c:url value="/assets/img/logo.png" />" alt="logo"/></a></div>
                 <div class="border p-3">
-                    <img class="w-100" src="<c:url value="/assets/img/user-avatar.png" />" alt=""/>
+                    <img style="height: 214px; object-fit: cover;" class="w-100 rounded-circle" src="<c:url value="/assets/img/account/avatar-${sessionScope.acc.id}.jpg" />" alt=""/>
                     <div class="text-center mt-2">Hello <strong>Administrator</strong>  <i class="fa-solid fa-heart"></i></div>
                 </div>
                 <div class="sidebar-list">
-                    <a class="sidebar-item active p-3" href="<c:url value="/admin/dashboard.do" />"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
-                    <a class="sidebar-item p-3" href="<c:url value="/admin/product/list.do" />"><i class="fa-solid fa-gear"></i>Manage Product</a>
+                    <a class="sidebar-item ${activeTab == "dashboard" ? "active" : ""} p-3" href="<c:url value="/admin/dashboard.do" />"><i class="fa-solid fa-gauge"></i>Dashboard</a>
+                    <a class="sidebar-item ${activeTab == "product" ? "active" : ""} p-3" href="<c:url value="/admin/product/list.do" />"><i class="fa-solid fa-gear"></i>Manage Product</a>
                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
-                        <a class="sidebar-item p-3" href="<c:url value="/admin/category/list.do" />"><i class="fa-solid fa-list-check"></i>Manage Category</a>
-                        <a class="sidebar-item p-3" href="<c:url value="/admin/revenue.do" />"><i class="fa-solid fa-money-bill-trend-up"></i>Revenue</a>
-                        <a class="sidebar-item p-3" href="<c:url value="/admin/customer/list.do" />"><i class="fa-solid fa-user"></i></i>Manage customer</a>
+                        <a class="sidebar-item ${activeTab == "category" ? "active" : ""} p-3" href="<c:url value="/admin/category/list.do" />"><i class="fa-solid fa-list-check"></i>Manage Category</a>
+                        <a class="sidebar-item ${activeTab == "revenue" ? "active" : ""} p-3" href="<c:url value="/admin/revenue/list.do?time=daily" />"><i class="fa-solid fa-money-bill-trend-up"></i>Revenue</a>
+                        <a class="sidebar-item ${activeTab == "customer" ? "active" : ""} p-3" href="<c:url value="/admin/customer/list.do" />"><i class="fa-solid fa-user"></i></i>Manage customer</a>
                     </c:if>
-                    <a class="sidebar-item p-3" href="<c:url value="/admin/orders/list.do" />"><i class="fa-solid fa-file-invoice"></i>Orders list</a>
+                    <a class="sidebar-item ${activeTab == "order" ? "active" : ""} p-3" href="<c:url value="/admin/orders/list.do" />"><i class="fa-solid fa-file-invoice"></i>Orders list</a>
                     <a class="sidebar-item p-3" href="<c:url value="/profile/info.do" />"><i class="fa-solid fa-address-card"></i>View profile</a>
                     <a class="sidebar-item p-3" href="<c:url value="/account/logout.do" />"><i class="fa-solid fa-right-from-bracket"></i>Log out</a>
                 </div>
@@ -73,6 +73,7 @@
         <!-- Js Plugins -->
         <script src="<c:url value="/assets/js/jquery-3.3.1.min.js" />"></script>
         <script src="<c:url value="/assets/js/bootstrap.min.js"/>"></script>
+        <script src="<c:url value="/assets/js/Chart.min.js"/>"></script>
         <script>window.addEventListener('DOMContentLoaded', event => {
 
                 // Toggle the side navigation

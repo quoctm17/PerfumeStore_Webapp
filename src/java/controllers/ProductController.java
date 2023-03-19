@@ -52,6 +52,7 @@ public class ProductController extends HttpServlet {
                     List<Category> list = cf.selectAll();
                     request.setAttribute("LIST_CATEGORY", list);
                     request.setAttribute("LIST_ALL_PRODUCTS", p.selectAll());
+                    request.setAttribute("activeTab", "product");
                     request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);

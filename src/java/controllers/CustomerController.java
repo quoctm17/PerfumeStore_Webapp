@@ -10,10 +10,11 @@ import dao.AccountFacade;
 import dao.CustomerFacade;
 import entity.Account;
 import entity.Customer;
+import entity.CustomerProfile;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,13 +56,30 @@ public class CustomerController extends HttpServlet {
 
                         List<Account> accList = af.selectCustomerAccounts();
                         List<Customer> cusList = cf.selectAll();
-
-                        HashMap<Account, Customer> customerProfiles = new HashMap<Account, Customer>();
+                        
+                        List<CustomerProfile> list = new ArrayList();
                         for (int i = 0; i < accList.size(); ++i) {
-                            customerProfiles.put(accList.get(i), cusList.get(i));
+                            list.add(new CustomerProfile(accList.get(i), cusList.get(i)));
                         }
 
-                        request.setAttribute("customerProfiles", customerProfiles);
+                        int page = 0;
+                        if (request.getParameter("page") == null) {
+                            page = 1;
+                        } else {
+                            page = Integer.parseInt(request.getParameter("page"));
+                        }
+
+                        int numOfPages = (int) Math.ceil(list.size() / 9.0);
+                        if (page < numOfPages) {
+                            list = list.subList(9 * (page - 1), 9 * page);
+                        } else {
+                            list = list.subList(9 * (page - 1), list.size());
+                        }
+
+                        request.setAttribute("numOfPages", numOfPages);
+                        request.setAttribute("currentPage", page);
+                        request.setAttribute("activeTab", "customer");
+                        request.setAttribute("list", list);
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     } catch (SQLException ex) {
                         Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
