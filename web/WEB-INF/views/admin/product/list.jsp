@@ -20,7 +20,7 @@
                         <h2>Manage <b>Product</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons fa fa-plus-circle"></i> <span>Add New Product</span></a>
+                        <a href="#addProductModal" class="btn btn-success" data-toggle="modal"><i class="material-icons fa fa-plus-circle"></i> <span>Add New Product</span></a>
 
                     </div>
                 </div>
@@ -28,7 +28,6 @@
 
             <%
                 List<Category> listCategory = (List<Category>) request.getAttribute("LIST_CATEGORY");
-
             %>
 
 
@@ -49,30 +48,27 @@
 
 
                         <tr>
-                            <td><img src="<c:url value="/assets/img/product/product-${p.id}_1.jpg" />" ></td>
+                            <td><img class="col" src="<c:url value="/assets/img/product/product-${p.id}_1.jpg" />" ></td>
                             <td>${p.name}</td>
                             <td class="line-clamp">${p.description}</td>
                             <td>${p.price}</td>
                             <td>${p.discount}</td>
                             <td>${p.categoryId}</td>
                             <td>
-                                <a href="#editCategoryModal" onclick="handleEditCate(${p.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
-                                <a href="#deleteCategoryModal"  onclick="handleDeleteCate(${p.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#editProductModal" onclick="handleEditCate(${p.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
+                                <a href="#deleteProductModal"  onclick="handleDeleteCate(${p.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                 <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    <li class="page-item ${currentPage == 1 ? "disabled" : ""}"><a href="<c:url value="/admin/product/list.do?page=${currentPage - 1}" />"  class="page-link">Previous</a></li>
+                        <c:forEach var="page" begin="1" end="${numOfPages}">
+                        <li class="page-item ${currentPage == page ? "active" : ""}"><a href="<c:url value="/admin/product/list.do?page=${page}" />" class="page-link">${page}</a></li>
+                        </c:forEach>
+                    <li class="page-item ${currentPage == numOfPages ? "disabled" : ""}"><a href="<c:url value="/admin/product/list.do?page=${currentPage + 1}" />" class="page-link">Next</a></li>
                 </ul>
             </div>
         </div>
@@ -81,10 +77,10 @@
 
 
 <!-- Add Modal HTML -->
-<div id="addEmployeeModal" class="modal fade">
+<div id="addProductModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/product/create.do" />">
+            <form action="<c:url value="/admin/product/create.do" />" enctype="multipart/form-data" method="post">
                 <div class="modal-header">						
                     <h4 class="modal-title">Add product</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -110,13 +106,38 @@
                     </div>
                     <div class="form-group">
                         <label>Category</label>
-                        <select name="categoryId">
+                        <select name="categoryId" class="form-control">
                             <%
                                 for (Category ca : listCategory) {
                             %>
                             <option value="<%= ca.getId()%>"><%= ca.getName()%></option>
                             <%}%>
                         </select>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <img class="col preview-1" src="" />
+                        </div>
+                        <div class="col">
+                            <img class="col preview-2" src="" />
+                        </div>
+                        <div class="col">
+                            <img class="col preview-3" src="" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label>Image</label>
+                            <input onchange="handleChangeImage(1, '#addProductModal')" type="file" accept="image/*" name="pImg-1" class="form-control-file input-file-1" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Image</label>
+                            <input onchange="handleChangeImage(2, '#addProductModal')" type="file" accept="image/*" name="pImg-2" class="form-control-file input-file-2" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Image</label>
+                            <input onchange="handleChangeImage(3, '#addProductModal')" type="file" accept="image/*" name="pImg-3" class="form-control-file input-file-3" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -129,19 +150,32 @@
 </div>
 
 <!-- Edit Modal HTML -->
-<div id="editCategoryModal" class="modal fade">
+<div id="editProductModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/product/update.do" />">
+            <form action="<c:url value="/admin/product/update.do" />" enctype="multipart/form-data" method="post">
                 <div class="modal-header">						
                     <h4 class="modal-title">Add Product</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>Id</label>
-                        <input style="pointer-events: none" type="text" name="id" class="form-control" required>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label>Id</label>
+                            <input style="pointer-events: none" type="text" name="id" class="form-control" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Category</label>
+                            <select name="categoryId" class="form-control">
+                                <%
+                                    for (Category ca : listCategory) {
+                                %>
+                                <option value="<%= ca.getId()%>"><%= ca.getName()%></option>
+                                <%}%>
+                            </select>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="name" class="form-control" required>
@@ -160,15 +194,30 @@
                             <input type="number" step="0.1" min="0" max="1"  name="discount" class="form-control" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select name="categoryId">
-                            <%
-                                for (Category ca : listCategory) {
-                            %>
-                            <option value="<%= ca.getId()%>"><%= ca.getName()%></option>
-                            <%}%>
-                        </select>
+                    <div class="row">
+                        <div class="col">
+                            <img class="col preview-1" src="<c:url value="/assets/img/product/product-1_1.jpg" />" />
+                        </div>
+                        <div class="col">
+                            <img class="col preview-2" src="<c:url value="/assets/img/product/product-1_2.jpg" />" />
+                        </div>
+                        <div class="col">
+                            <img class="col preview-3" src="<c:url value="/assets/img/product/product-1_3.jpg" />" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label>Image</label>
+                            <input onchange="handleChangeImage(1, '#editProductModal')" type="file" accept="image/*" name="pImg-1" class="form-control-file input-file-1" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Image</label>
+                            <input onchange="handleChangeImage(2, '#editProductModal')" type="file" accept="image/*" name="pImg-2" class="form-control-file input-file-2" required>
+                        </div>
+                        <div class="form-group col">
+                            <label>Image</label>
+                            <input onchange="handleChangeImage(3, '#editProductModal')" type="file" accept="image/*" name="pImg-3" class="form-control-file input-file-3" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -182,7 +231,7 @@
 
 
 <!-- Delete Modal HTML -->
-<div id="deleteCategoryModal" class="modal fade">
+<div id="deleteProductModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="<c:url value="/admin/product/delete.do" />">
@@ -204,12 +253,6 @@
     </div>
 </div>
 
-
-
-
-
-
-
 <script>
     const handleEditCate = (id) => {
         const url = "<c:url value="/admin/product/read.do?&id=" />" + id;
@@ -219,16 +262,24 @@
             url: url,
             success: function (data) {
                 const cate = JSON.parse(data);
-                document.querySelector('#editCategoryModal input[name=id]').value = cate.id;
-                document.querySelector('#editCategoryModal input[name=name]').value = cate.name;
-                document.querySelector('#editCategoryModal textarea[name=description]').value = cate.description;
-                document.querySelector('#editCategoryModal input[name=price]').value = cate.price;
-                document.querySelector('#editCategoryModal input[name=discount]').value = cate.discount;
+                document.querySelector('#editProductModal input[name=id]').value = cate.id;
+                document.querySelector('#editProductModal input[name=name]').value = cate.name;
+                document.querySelector('#editProductModal textarea[name=description]').value = cate.description;
+                document.querySelector('#editProductModal input[name=price]').value = cate.price;
+                document.querySelector('#editProductModal input[name=discount]').value = cate.discount;
+                for (let i = 1; i <= 3; i++) {
+                    document.querySelector('#editProductModal img.preview-' + i).src = "<c:url value="/assets/img/product/" />" + "product-" + id + "_" + i + ".jpg"
+                }
             }
         });
     }
 
     const handleDeleteCate = (id) => {
-        document.querySelector('#deleteCategoryModal input[name=id]').value = id;
+        document.querySelector('#deleteProductModal input[name=id]').value = id;
+    }
+
+    function handleChangeImage(i, id) {
+        const e = document.querySelector(id + ' .input-file-' + i);
+        document.querySelector(id + ' img.preview-' + i).src = URL.createObjectURL(e.files[0]);
     }
 </script>

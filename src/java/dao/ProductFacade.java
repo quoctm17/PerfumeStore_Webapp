@@ -42,7 +42,7 @@ public class ProductFacade {
         con.close();
         return list;
     }
-    
+
     public List<Product> selectRelated(String id) throws SQLException {
         List<Product> list = null;
         Connection con = DBContext.getConnection();
@@ -88,29 +88,31 @@ public class ProductFacade {
     }
 
     public List<Product> selectWithConditions(Object search, Object categoryId, Object sortOptions) throws SQLException {
-        String sql = "select * from product where 1=1 ";
+        String sql = "select p.* from product p where 1=1 ";
 
         if (search != null) {
-            sql += "and [name] like N'%" + search + "%' ";
+            sql += "and p.[name] like N'%" + search + "%' ";
         }
 
         if (categoryId != null) {
-            sql += "and categoryId = " + categoryId + " ";
+            sql += "and p.categoryId = " + categoryId + " ";
         }
 
         if (sortOptions != null) {
             switch ((String) sortOptions) {
                 case "newest":
-                    sql += "order by id desc";
+                    sql += "order by p.id desc";
                     break;
                 case "popular":
-                    sql += "";
+                    int pos = sql.indexOf("where");
+                    sql = sql.substring(0, pos) + ", orderdetail o " + sql.substring(pos);
+                    sql += "and p.id = o.productId group by p.categoryId, p.description, p.discount, p.id, p.[name], p.price order by sum (o.quantity) desc";
                     break;
                 case "low_price":
-                    sql += "order by price asc";
+                    sql += "order by p.price asc";
                     break;
                 case "high_price":
-                    sql += "order by price desc";
+                    sql += "order by p.price desc";
                     break;
 
             }
@@ -136,13 +138,31 @@ public class ProductFacade {
         con.close();
         return list;
     }
+    
+    public int getIncomingId() throws SQLException {
+        int id = 0;
+        Connection con = DBContext.getConnection();
+
+        Statement stm = con.createStatement();
+        ResultSet rs = stm.executeQuery("select top(1) id from product order by id desc");
+        
+        if (rs.next()) {
+            id = rs.getInt("id");
+        }
+        con.close();
+        return id + 1;
+    }
 
     public void create(Product product) throws SQLException {
 
         Connection con = DBContext.getConnection();
         Statement stm = con.createStatement();
         PreparedStatement pstm = con.prepareStatement("insert product values(?, ?, ?, ?, ?)");
-
+        pstm.setString(1, product.getName());
+        pstm.setString(2, product.getDescription());
+        pstm.setDouble(3, product.getPrice());
+        pstm.setDouble(4, product.getDiscount());
+        pstm.setInt(5, product.getCategoryId());
         int count = pstm.executeUpdate();
 
         con.close();
@@ -172,10 +192,18 @@ public class ProductFacade {
 
         Connection con = DBContext.getConnection();
         Statement stm = con.createStatement();
-        PreparedStatement pstm = con.prepareStatement("update product...");
-
-        int count = pstm.executeUpdate();
-
+        PreparedStatement pstm = con.prepareStatement("update product set name = ?, description = ?, price = ?, discount = ?, categoryId = ? where id = ?");
+        try {
+            pstm.setString(1, Product.getName());
+            pstm.setString(2, Product.getDescription());
+            pstm.setDouble(3, Product.getPrice());
+            pstm.setDouble(4, Product.getDiscount());
+            pstm.setInt(5, Product.getCategoryId());
+            pstm.setInt(6, Product.getId());
+            int count = pstm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
         con.close();
     }
 
@@ -197,4 +225,3 @@ public class ProductFacade {
         }
     }
 }
-
