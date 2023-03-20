@@ -6,6 +6,7 @@ Author     : Beyond Nguyen
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="container-fluid p-lg-5">
     <div class="table-responsive">
@@ -36,14 +37,14 @@ Author     : Beyond Nguyen
                     <c:forEach var="o" items="${list}">
                         <tr>
                             <td>${o.id}</td>
-                            <td>${o.date}</td>
+                            <td><fmt:formatDate value="${o.date}" pattern="dd/MM/yyyy" /></td>
                             <td>${o.customerId}</td>
                             <td class="emp-id_${o.id}">${o.employeeId == 0 ? "NOT YET" : o.employeeId}</td>
                             <td>
-                                <c:if test="${o.status == null}">
-                                    <span class="order-status-${o.id} badge badge-warning">Pending</span>
+                                <c:if test="${o.status == 'Pending'}">
+                                    <span class="order-status-${o.id} badge badge-warning">${o.status}</span>
                                 </c:if>
-                                <c:if test="${o.status != null}">
+                                <c:if test="${o.status != 'Pending'}">
                                     <span class="order-status-${o.id} badge badge-${o.status == "Completed" ? "success" : "danger"}">${o.status}</span>
                                 </c:if>
                             </td>

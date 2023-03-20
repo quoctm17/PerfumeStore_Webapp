@@ -40,7 +40,8 @@ CREATE TABLE [dbo].[Product](
 	[description] [NVARCHAR](max) NOT NULL,
 	[price] [FLOAT] NOT NULL,
 	[discount] [FLOAT] NOT NULL,
-	[categoryId] [INT] REFERENCES Category(id) NOT NULL
+	[categoryId] [INT] REFERENCES Category(id) NOT NULL,
+	[enabled] [bit] NOT NULL default(1)
 )
 GO
 
@@ -61,7 +62,7 @@ GO
 CREATE TABLE [dbo].[OrderHeader](
 	[id] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[date] [datetime] NOT NULL,
-	[status] [varchar](30) NULL,
+	[status] [varchar](30) NOT NULL default('Pending'),
 	[customerId] [int] references Customer(id) NOT NULL,
 	[employeeId] [int] references Employee(id) NULL,
 	[note] [nvarchar](max) NULL
@@ -247,7 +248,7 @@ INSERT [dbo].[Employee] ([id], [salary], [departmentId]) VALUES
 (4, 15000000, 2)
 GO
 
-INSERT dbo.OrderHeader(date, status, customerId, employeeId, note) VALUES
+INSERT dbo.OrderHeader([date], [status], customerId, employeeId, note) VALUES
 ('2019-01-29', 'Completed', 5, 1, NULL),
 ('2019-02-17', 'Completed', 6, 3, NULL),
 ('2019-04-01', 'Completed', 8, 2, NULL),
@@ -287,7 +288,7 @@ INSERT dbo.OrderDetail (orderHeaderId, productId, quantity, price, discount) VAL
 (7, 27, 3, 9450000, 0.2)
 GO
 
-INSERT dbo.OrderHeader VALUES
+INSERT dbo.OrderHeader([date], [status], customerId, employeeId, note) VALUES
 ('2020-01-21', 'Completed', 6, 1, NULL),
 ('2020-03-26', 'Completed', 6, 2, NULL),
 ('2020-04-15', 'Completed', 7, 3, NULL),
@@ -329,7 +330,7 @@ VALUES
 
 GO
 
-INSERT dbo.OrderHeader VALUES
+INSERT dbo.OrderHeader([date], [status], customerId, employeeId, note) VALUES
 ('2021-02-19', 'Completed', 5, 4, NULL),
 ('2021-03-17', 'Completed', 6, 2, NULL),
 ('2021-05-20', 'Completed', 7, 1, NULL),
@@ -372,7 +373,7 @@ VALUES
 
 GO
 
-INSERT dbo.OrderHeader VALUES
+INSERT dbo.OrderHeader([date], [status], customerId, employeeId, note) VALUES
 ('2022-02-17', 'Completed', 8, 1, NULL),
 ('2022-04-23', 'Completed', 6, 2, NULL),
 ('2022-05-19', 'Completed', 10, 3, NULL),
@@ -412,7 +413,7 @@ VALUES
 
 GO
 
-INSERT dbo.OrderHeader VALUES
+INSERT dbo.OrderHeader([date], [status], customerId, employeeId, note) VALUES
 ('2023-01-18', 'Completed', 10, 2, NULL),
 ('2023-01-20', 'Failed', 5, 3, NULL),
 ('2023-01-28', 'Completed', 6, 4, NULL),

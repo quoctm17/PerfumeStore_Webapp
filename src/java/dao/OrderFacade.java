@@ -71,6 +71,7 @@ public class OrderFacade {
             oh.setCustomerId(rs.getInt("customerid"));
             oh.setEmployeeId(rs.getInt("employeeid"));
             oh.setStatus(rs.getString("status"));
+            oh.setNote(rs.getString("note"));
             list.add(oh);
         }
         con.close();
@@ -81,7 +82,7 @@ public class OrderFacade {
         List<FullOrder> list = null;
         Connection con = DBContext.getConnection();
 
-        PreparedStatement stm = con.prepareStatement("select * from OrderHeader where customerid = ?");
+        PreparedStatement stm = con.prepareStatement("select * from OrderHeader where customerid = ? order by id desc");
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         list = new ArrayList<>();
@@ -92,6 +93,7 @@ public class OrderFacade {
             oh.setCustomerId(rs.getInt("customerid"));
             oh.setEmployeeId(rs.getInt("employeeid"));
             oh.setStatus(rs.getString("status"));
+            oh.setNote(rs.getString("note"));
             
             HashMap<OrderDetail, String> map = this.selectOrderDetailWithName(rs.getInt("id"));
             

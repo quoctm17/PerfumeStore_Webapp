@@ -86,13 +86,4 @@ public class CategoryFacade {
         int count = pstm.executeUpdate();
         con.close();
     }
-
-    public static void main(String[] args) {
-        CategoryFacade cf = new CategoryFacade();
-        try {
-            System.out.println(cf.selectAll());
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoryFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

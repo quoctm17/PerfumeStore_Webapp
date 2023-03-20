@@ -77,10 +77,10 @@
                         <div class="quantity">
                             <span>Quantity:</span>
                             <div class="pro-qty">
-                                <input type="text" name="quantity" value="1">
+                                <input type="text" name="quantity" value="1" min="1">
                             </div>
                         </div>
-                        <a href="#!" onclick="addCartHandler(${p.id})" class="cart-btn"><span class="icon_bag_alt"></span> Add to cart</a>
+                        <a href="#!" onclick="addCartHandler(${p.id})" class="cart-btn ${p.enabled == true ? "" : "disabled"}"><span class="icon_bag_alt"></span> Add to cart</a>
                     </div>
                     <div class="product__details__widget">
                         <ul>
@@ -88,7 +88,7 @@
                                 <span>Availability:</span>
                                 <div class="stock__checkbox">
                                     <label for="stockin">
-                                        In Stock
+                                        ${p.enabled == true ? 'In Stock' : 'Out of stock'}
                                         <input type="checkbox" id="stockin" checked >
                                         <span class="checkmark"></span>
                                     </label>
@@ -132,7 +132,7 @@
                             <div class="label new">New</div>
                             <ul class="product__hover">
                                 <li><a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg"/>" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#!" onclick="addToCart(${product.id})"><span class="icon_bag_alt"></span></a></li>
+                                <li><a href="#!" onclick="addToCart(${product.id}, 1)"><span class="icon_bag_alt"></span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">

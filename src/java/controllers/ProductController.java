@@ -111,11 +111,9 @@ public class ProductController extends HttpServlet {
                         Double price = Double.parseDouble(map.get("price"));
                         Double discount = Double.parseDouble(map.get("discount"));
                         int categoryId = Integer.parseInt(map.get("categoryId"));
-                        Product pro = new Product(1, name, description, price, discount, categoryId);
-                        p.create(pro);
-
-                        int id = p.getLatestId();
-
+                        Product pro = new Product(1, name, description, price, discount, categoryId, true);
+                        int id = p.create(pro);
+                        
                         for (Part part : fileMap.keySet()) {
                             String newFileName = "product-" + id + "_" + fileMap.get(part) + ".jpg";
                             String savePath = getServletContext().getRealPath("/assets/img/product/" + File.separator + newFileName);
@@ -168,7 +166,7 @@ public class ProductController extends HttpServlet {
                         Double price = Double.valueOf(request.getParameter("price"));
                         Double discount = Double.valueOf(request.getParameter("discount"));
                         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-                        Product pro = new Product(id, name, description, price, discount, categoryId);
+                        Product pro = new Product(id, name, description, price, discount, categoryId, true);
                         p.update(pro);
                         response.sendRedirect(request.getContextPath() + "/admin/product/list.do");
                     } catch (SQLException ex) {

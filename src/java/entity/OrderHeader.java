@@ -17,16 +17,18 @@ public class OrderHeader {
     private String status;
     private int customerId;
     private int employeeId;
+    private String note;
 
     public OrderHeader() {
     }
 
-    public OrderHeader(int id, Date date, String status, int customerId, int employeeId) {
+    public OrderHeader(int id, Date date, String status, int customerId, int employeeId, String note) {
         this.id = id;
         this.date = date;
         this.status = status;
         this.customerId = customerId;
         this.employeeId = employeeId;
+        this.note = note;
     }
 
     public int getId() {
@@ -68,4 +70,12 @@ public class OrderHeader {
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
     } 
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }

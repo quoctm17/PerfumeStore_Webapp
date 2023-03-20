@@ -42,18 +42,18 @@ public class AccountFacade {
         return list;
     }
 
-    public int getCustomerId(String email) throws SQLException {
-        Connection con = DBContext.getConnection();
-
-        PreparedStatement stm = con.prepareStatement("select id from account where [email]=?");
-        stm.setString(1, email);
-        //Thực thi lệnh sql
-        ResultSet rs = stm.executeQuery();
-        if (rs.next()) {
-            return rs.getInt("id");
-        }
-        return -1;
-    }
+//    public int getCustomerId(String email) throws SQLException {
+//        Connection con = DBContext.getConnection();
+//
+//        PreparedStatement stm = con.prepareStatement("select id from account where [email]=?");
+//        stm.setString(1, email);
+//        //Thực thi lệnh sql
+//        ResultSet rs = stm.executeQuery();
+//        if (rs.next()) {
+//            return rs.getInt("id");
+//        }
+//        return -1;
+//    }
 
     public Account getAnAccount(String id) throws SQLException {
         Connection con = DBContext.getConnection();
@@ -75,17 +75,31 @@ public class AccountFacade {
         return null;
     }
 
-    public void createCustomerAccount(String name, String phone, String email, String address) throws SQLException {
-
+    public int createCustomerAccount(String name, String phone, String email, String address) throws SQLException {
+        int insertedId = -1;
+        
         Connection con = DBContext.getConnection();
-        PreparedStatement pstm = con.prepareStatement("insert Account (username, address, phone, email) values (?, ?, ?, ?)");
+        PreparedStatement pstm = con.prepareStatement("insert Account (username, address, phone, email) values (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         pstm.setString(1, name);
         pstm.setString(2, address);
         pstm.setString(3, phone);
         pstm.setString(4, email);
         int count = pstm.executeUpdate();
 
+        if (count == 0) {
+            throw new SQLException("Creating account failed, no rows affected.");
+        }
+        
+        try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                insertedId = generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        }
+
         con.close();
+        return insertedId;
     }
 
     public void updateNonSecurityInfo(String id, String name, String phone, String email, String address) throws SQLException {
@@ -101,7 +115,7 @@ public class AccountFacade {
 
         con.close();
     }
-    
+
     public int updateSecurityInfo(String password, String id) throws SQLException, NoSuchAlgorithmException {
 
         Connection con = DBContext.getConnection();
@@ -182,7 +196,7 @@ public class AccountFacade {
         while (rs.next()) {
             id = rs.getInt("id");
         }
-        
+
         stm = con.prepareStatement("Insert customer ([id], [category], [deliveryAddress]) values (?, ?, ?)");
         stm.setInt(1, id);
         stm.setString(2, "Copper");

@@ -1603,6 +1603,11 @@ ol {
     margin-bottom: 10px;
 }
 
+.product__details__button .cart-btn.disabled {
+    background: #ccc;
+    pointer-events: none;
+}
+
 .product__details__button ul {
     float: left;
 }

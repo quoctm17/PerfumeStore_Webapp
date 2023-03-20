@@ -96,9 +96,8 @@ public class CustomerController extends HttpServlet {
                         String category = request.getParameter("category");
                         String address = request.getParameter("address");
                         String deliveryAddress = request.getParameter("deliveryAddress");
-
-                        af.createCustomerAccount(name, phone, email, address);
-                        int id = af.getCustomerId(email);
+                        
+                        int id = af.createCustomerAccount(name, phone, email, address);
                         cf.create(id, category, deliveryAddress);
 
                         response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");

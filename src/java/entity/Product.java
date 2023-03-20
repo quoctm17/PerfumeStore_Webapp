@@ -17,17 +17,19 @@ public class Product {
     private double price;
     private double discount;
     private int categoryId;
+    private boolean enabled;
 
     public Product() {
     }
 
-    public Product(int id, String name, String description, double price, double discount, int categoryId) {
+    public Product(int id, String name, String description, double price, double discount, int categoryId, boolean enabled) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.discount = discount;
         this.categoryId = categoryId;
+        this.enabled = enabled;
     }
 
     public double beforeDiscount() {
@@ -80,6 +82,14 @@ public class Product {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
 }

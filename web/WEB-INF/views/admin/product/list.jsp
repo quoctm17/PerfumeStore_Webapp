@@ -40,6 +40,7 @@
                         <th>Price</th>
                         <th>Discount</th>
                         <th>Category</th>
+                        <th>Enabled</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -54,9 +55,10 @@
                             <td>${p.price}</td>
                             <td>${p.discount}</td>
                             <td>${p.categoryId}</td>
+                            <td>${p.enabled == true ? "Available" : "Not available"}</td>
                             <td>
-                                <a href="#editProductModal" onclick="handleEditCate(${p.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
-                                <a href="#deleteProductModal"  onclick="handleDeleteCate(${p.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#editProductModal" onclick="handleEditProduct(${p.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
+                                <a href="#deleteProductModal"  onclick="handleDeleteProduct(${p.id})" class="delete ${p.enabled == true ? "" : "disabled"}" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -127,15 +129,15 @@
                     </div>
                     <div class="row">
                         <div class="form-group col">
-                            <label>Image</label>
+                            <label>Image 1</label>
                             <input onchange="handleChangeImage(1, '#addProductModal')" type="file" accept="image/*" name="pImg-1" class="form-control-file input-file-1" required>
                         </div>
                         <div class="form-group col">
-                            <label>Image</label>
+                            <label>Image 2</label>
                             <input onchange="handleChangeImage(2, '#addProductModal')" type="file" accept="image/*" name="pImg-2" class="form-control-file input-file-2" required>
                         </div>
                         <div class="form-group col">
-                            <label>Image</label>
+                            <label>Image 3</label>
                             <input onchange="handleChangeImage(3, '#addProductModal')" type="file" accept="image/*" name="pImg-3" class="form-control-file input-file-3" required>
                         </div>
                     </div>
@@ -155,7 +157,7 @@
         <div class="modal-content">
             <form action="<c:url value="/admin/product/update.do" />" enctype="multipart/form-data" method="post">
                 <div class="modal-header">						
-                    <h4 class="modal-title">Add Product</h4>
+                    <h4 class="modal-title">Edit Product</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -207,16 +209,16 @@
                     </div>
                     <div class="row">
                         <div class="form-group col">
-                            <label>Image</label>
-                            <input onchange="handleChangeImage(1, '#editProductModal')" type="file" accept="image/*" name="pImg-1" class="form-control-file input-file-1" required>
+                            <label>Image 1</label>
+                            <input onchange="handleChangeImage(1, '#editProductModal')" type="file" accept="image/*" name="pImg-1" class="form-control-file input-file-1">
                         </div>
                         <div class="form-group col">
-                            <label>Image</label>
-                            <input onchange="handleChangeImage(2, '#editProductModal')" type="file" accept="image/*" name="pImg-2" class="form-control-file input-file-2" required>
+                            <label>Image 2</label>
+                            <input onchange="handleChangeImage(2, '#editProductModal')" type="file" accept="image/*" name="pImg-2" class="form-control-file input-file-2">
                         </div>
                         <div class="form-group col">
-                            <label>Image</label>
-                            <input onchange="handleChangeImage(3, '#editProductModal')" type="file" accept="image/*" name="pImg-3" class="form-control-file input-file-3" required>
+                            <label>Image 3</label>
+                            <input onchange="handleChangeImage(3, '#editProductModal')" type="file" accept="image/*" name="pImg-3" class="form-control-file input-file-3">
                         </div>
                     </div>
                 </div>
@@ -254,19 +256,20 @@
 </div>
 
 <script>
-    const handleEditCate = (id) => {
+    const handleEditProduct = (id) => {
         const url = "<c:url value="/admin/product/read.do?&id=" />" + id;
 
         $.ajax({
             type: 'GET',
             url: url,
             success: function (data) {
-                const cate = JSON.parse(data);
-                document.querySelector('#editProductModal input[name=id]').value = cate.id;
-                document.querySelector('#editProductModal input[name=name]').value = cate.name;
-                document.querySelector('#editProductModal textarea[name=description]').value = cate.description;
-                document.querySelector('#editProductModal input[name=price]').value = cate.price;
-                document.querySelector('#editProductModal input[name=discount]').value = cate.discount;
+                const product = JSON.parse(data);
+                document.querySelector('#editProductModal input[name=id]').value = product.id;
+                document.querySelector('#editProductModal input[name=name]').value = product.name;
+                document.querySelector('#editProductModal textarea[name=description]').value = product.description;
+                document.querySelector('#editProductModal input[name=price]').value = product.price;
+                document.querySelector('#editProductModal input[name=discount]').value = product.discount;
+                document.querySelector('#editProductModal select[name=categoryId] option[value="'+product.categoryId+'"]').setAttribute("selected", true);
                 for (let i = 1; i <= 3; i++) {
                     document.querySelector('#editProductModal img.preview-' + i).src = "<c:url value="/assets/img/product/" />" + "product-" + id + "_" + i + ".jpg"
                 }
@@ -274,7 +277,7 @@
         });
     }
 
-    const handleDeleteCate = (id) => {
+    const handleDeleteProduct = (id) => {
         document.querySelector('#deleteProductModal input[name=id]').value = id;
     }
 

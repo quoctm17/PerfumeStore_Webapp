@@ -37,6 +37,7 @@ public class ProductFacade {
             p.setPrice(rs.getDouble("price"));
             p.setDiscount(rs.getDouble("discount"));
             p.setCategoryId(rs.getInt("categoryId"));
+            p.setEnabled(rs.getBoolean("enabled"));
             list.add(p);
         }
         con.close();
@@ -60,6 +61,7 @@ public class ProductFacade {
             p.setPrice(rs.getDouble("price"));
             p.setDiscount(rs.getDouble("discount"));
             p.setCategoryId(rs.getInt("categoryId"));
+            p.setEnabled(rs.getBoolean("enabled"));
             list.add(p);
         }
         con.close();
@@ -72,7 +74,7 @@ public class ProductFacade {
 
         Statement stm = con.createStatement();
         ResultSet rs = stm.executeQuery("select top (8) * from product order by id desc");
-        list = new ArrayList<>();
+        list = new ArrayList<>();   
         while (rs.next()) {
             Product p = new Product();
             p.setId(rs.getInt("id"));
@@ -81,6 +83,7 @@ public class ProductFacade {
             p.setPrice(rs.getDouble("price"));
             p.setDiscount(rs.getDouble("discount"));
             p.setCategoryId(rs.getInt("categoryId"));
+            p.setEnabled(rs.getBoolean("enabled"));
             list.add(p);
         }
         con.close();
@@ -106,7 +109,7 @@ public class ProductFacade {
                 case "popular":
                     int pos = sql.indexOf("where");
                     sql = sql.substring(0, pos) + ", orderdetail o " + sql.substring(pos);
-                    sql += "and p.id = o.productId group by p.categoryId, p.description, p.discount, p.id, p.[name], p.price order by sum (o.quantity) desc";
+                    sql += "and p.id = o.productId group by p.categoryId, p.description, p.discount, p.id, p.[name], p.price, p.enabled order by sum (o.quantity) desc";
                     break;
                 case "low_price":
                     sql += "order by p.price asc";
@@ -133,31 +136,18 @@ public class ProductFacade {
             p.setPrice(rs.getDouble("price"));
             p.setDiscount(rs.getDouble("discount"));
             p.setCategoryId(rs.getInt("categoryId"));
+            p.setEnabled(rs.getBoolean("enabled"));
             list.add(p);
         }
         con.close();
         return list;
     }
-    
-    public int getLatestId() throws SQLException {
-        int id = 0;
-        Connection con = DBContext.getConnection();
 
-        Statement stm = con.createStatement();
-        ResultSet rs = stm.executeQuery("select top(1) id from product order by id desc");
-        
-        if (rs.next()) {
-            id = rs.getInt("id");
-        }
-        con.close();
-        return id;
-    }
-
-    public void create(Product product) throws SQLException {
+    public int create(Product product) throws SQLException {
+        int insertedId = -1;
 
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
-        PreparedStatement pstm = con.prepareStatement("insert product values(?, ?, ?, ?, ?)");
+        PreparedStatement pstm = con.prepareStatement("insert product ([name] , [description], [price], [discount], [categoryId]) values(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         pstm.setString(1, product.getName());
         pstm.setString(2, product.getDescription());
         pstm.setDouble(3, product.getPrice());
@@ -165,14 +155,26 @@ public class ProductFacade {
         pstm.setInt(5, product.getCategoryId());
         int count = pstm.executeUpdate();
 
+        if (count == 0) {
+            throw new SQLException("Creating account failed, no rows affected.");
+        }
+        
+        try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                insertedId = generatedKeys.getInt(1);
+            } else {
+                throw new SQLException("Creating user failed, no ID obtained.");
+            }
+        }
+
         con.close();
+        return insertedId;
     }
 
     public Product read(String id) throws SQLException {
         Product product = new Product();
 
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
         PreparedStatement pstm = con.prepareStatement("select * from product where id= ?");
         pstm.setString(1, id);
         ResultSet rs = pstm.executeQuery();
@@ -183,6 +185,7 @@ public class ProductFacade {
             product.setPrice(rs.getDouble("price"));
             product.setDiscount(rs.getDouble("discount"));
             product.setCategoryId(rs.getInt("categoryId"));
+            product.setEnabled(rs.getBoolean("enabled"));
         }
         con.close();
         return product;
@@ -191,8 +194,7 @@ public class ProductFacade {
     public void update(Product Product) throws SQLException {
 
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
-        PreparedStatement pstm = con.prepareStatement("update product set name = ?, description = ?, price = ?, discount = ?, categoryId = ? where id = ?");
+        PreparedStatement pstm = con.prepareStatement("update product set name = ?, description = ?, price = ?, discount = ?, categoryId = ?, [enabled] = 1 where id = ?");
         try {
             pstm.setString(1, Product.getName());
             pstm.setString(2, Product.getDescription());
@@ -209,8 +211,7 @@ public class ProductFacade {
 
     public void delete(String id) throws SQLException {
         Connection con = DBContext.getConnection();
-        Statement stm = con.createStatement();
-        PreparedStatement pstm = con.prepareStatement("delete from product where id= ?");
+        PreparedStatement pstm = con.prepareStatement("update product set [enabled] = 0 where id= ?");
         pstm.setString(1, id);
         int count = pstm.executeUpdate();
         con.close();

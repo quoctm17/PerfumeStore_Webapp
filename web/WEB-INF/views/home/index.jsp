@@ -105,15 +105,16 @@
         <div class="row property__gallery">
             <c:forEach var="product" items="${pList}">
                 <div class="col-lg-3 col-md-4 col-sm-6 mix <c:forEach var="cate" items="${cList}"><c:if test="${cate.id == product.categoryId}">${cate.name}</c:if></c:forEach>">
-                            <div class="product__item sale">
+                            <div class="product__item ${product.enabled == true ? "sale"  : ""}">
                                 <div
                                     class="product__item__pic set-bg"
                                     data-setbg="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />"
                             >
-                            <div class="label new">New</div>
-                            <ul class="product__hover">
-                                <li>
-                                    <a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a>
+                            <c:if test="${product.enabled == true}"><div class="label new">New</div></c:if>
+                            <c:if test="${product.enabled == false}"><div class="label stockout">out of stock</div></c:if>
+                                <ul class="product__hover">
+                                    <li>
+                                        <a href="<c:url value="/assets/img/product/product-${product.id}_1.jpg" />" class="image-popup"><span class="arrow_expand"></span></a>
                                 </li>
 
                                 <li>

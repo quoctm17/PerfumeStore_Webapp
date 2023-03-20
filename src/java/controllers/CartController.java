@@ -180,8 +180,7 @@ public class CartController extends HttpServlet {
                             request.getRequestDispatcher("cart").forward(request, response);
                         }
 
-                        af.createCustomerAccount(name, phone, email, address);
-                        customerId = af.getCustomerId(email);
+                        customerId = af.createCustomerAccount(name, phone, email, address);
                         cusf.create(customerId, "Copper", deliveryAddress);
                     }
 //                    At this line, you have customer id already, save product order to database here
