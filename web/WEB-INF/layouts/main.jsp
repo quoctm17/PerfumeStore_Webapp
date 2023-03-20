@@ -101,11 +101,11 @@
                                                 <li><a href="<c:url value="/admin/dashboard.do"/>">Dashboard</a></li>
                                                 <li><a href="<c:url value="/admin/product/list.do"/>">Manage Product</a></li>
                                                     <c:if test="${sessionScope.acc.role == 'ROLE_ADMIN'}">
-                                                    <li><a href="<c:url value="/admin/category.do"/>">Manage Category</a></li>
-                                                    <li><a href="<c:url value="/admin/revenue.do"/>">Revenue</a></li>
+                                                    <li><a href="<c:url value="/admin/category/list.do"/>">Manage Category</a></li>
+                                                    <li><a href="<c:url value="/admin/revenue/list.do?time=daily"/>">Revenue</a></li>
                                                     <li><a href="<c:url value="/admin/customer/list.do"/>">Manage Customer</a></li>
-                                                    <li><a href="<c:url value="/admin/orders/list.do"/>">Order List</a></li>
                                                     </c:if>
+                                                <li><a href="<c:url value="/admin/orders/list.do"/>">Order List</a></li>
                                             </ul>
                                         </li>
                                     </c:if>
