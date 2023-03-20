@@ -89,6 +89,9 @@
         </form>
         <div class="row">
             <div class="col-lg-6">
+                <div class="cart__btn">
+                    <a href="<c:url value="/cart/clearCart.do"/>">Delete All Products In Cart</a>
+                </div> 
             </div>
             <div class="col-lg-4 offset-lg-2">
                 <div class="cart__total__procced">
