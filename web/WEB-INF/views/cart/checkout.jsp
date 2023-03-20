@@ -46,11 +46,6 @@
                                 </div>
                             </div>
                         </c:if>
-<!--                        String name = request.getParameter("name");
-                        String address = request.getParameter("address");
-                        String deliveryAddress = request.getParameter("deliveryAddress");
-                        String phone = request.getParameter("phone");
-                        String email = request.getParameter("email");-->
 
                         <div class="col-lg-12">
                             <div class="checkout__form__input">

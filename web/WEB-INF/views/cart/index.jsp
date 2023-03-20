@@ -82,8 +82,8 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="cart__btn">
-                        <a href="<c:url value="/cart/clearCart.do"/>">Delete All Products In Cart</a>
-                    </div> 
+                        <a href="<c:url value="/shop/list.do" />">Continue Shopping</a>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="cart__btn update__btn">
@@ -93,7 +93,8 @@
             </div>
         </form>
         <div class="row">
-
+            <div class="col-lg-6">
+            </div>
             <div class="col-lg-4 offset-lg-2">
                 <div class="cart__total__procced">
                     <h6>Cart total</h6>
