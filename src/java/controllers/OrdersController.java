@@ -6,6 +6,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import dao.AccountFacade;
 import dao.OrderFacade;
 import entity.Account;
 import entity.OrderDetail;
@@ -44,73 +45,77 @@ public class OrdersController extends HttpServlet {
 
         OrderFacade of = new OrderFacade();
         HttpSession session = request.getSession();
-        switch (action) {
-            case "list":
-                //Processing code here
-                try {
-                    List<OrderHeader> list = of.selectAll();
+        if (AccountFacade.isLogin(request) != 0 && AccountFacade.isLogin(request) != 3) {
+            switch (action) {
+                case "list":
+                    //Processing code here
+                    try {
+                        List<OrderHeader> list = of.selectAll();
 
-                    int page = 0;
-                    if (request.getParameter("page") == null) {
-                        page = 1;
-                    } else {
-                        page = Integer.parseInt(request.getParameter("page"));
+                        int page = 0;
+                        if (request.getParameter("page") == null) {
+                            page = 1;
+                        } else {
+                            page = Integer.parseInt(request.getParameter("page"));
+                        }
+
+                        int numOfPages = (int) Math.ceil(list.size() / 9.0);
+                        if (page < numOfPages) {
+                            list = list.subList(9 * (page - 1), 9 * page);
+                        } else {
+                            list = list.subList(9 * (page - 1), list.size());
+                        }
+
+                        request.setAttribute("numOfPages", numOfPages);
+                        request.setAttribute("currentPage", page);
+                        request.setAttribute("activeTab", "order");
+                        request.setAttribute("list", list);
+                        request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-
-                    int numOfPages = (int) Math.ceil(list.size() / 9.0);
-                    if (page < numOfPages) {
-                        list = list.subList(9 * (page - 1), 9 * page);
-                    } else {
-                        list = list.subList(9 * (page - 1), list.size());
+                    break;
+                case "accept":
+                    try {
+                        int orderId = Integer.parseInt(request.getParameter("id"));
+                        int empId = ((Account) session.getAttribute("acc")).getId();
+                        of.updateStatus(orderId, empId, "Completed");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
+                    break;
+                case "reject":
+                    try {
+                        int orderId = Integer.parseInt(request.getParameter("id"));
+                        int empId = ((Account) session.getAttribute("acc")).getId();
+                        of.updateStatus(orderId, empId, "Failed");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    break;
+                case "read":
+                    try {
+                        int orderId = Integer.parseInt(request.getParameter("id"));
+                        List<OrderDetail> listDetail = of.selectOrderDetail(orderId);
 
-                    request.setAttribute("numOfPages", numOfPages);
-                    request.setAttribute("currentPage", page);
-                    request.setAttribute("activeTab", "order");
-                    request.setAttribute("list", list);
-                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                break;
-            case "accept":
-                try {
-                    int orderId = Integer.parseInt(request.getParameter("id"));
-                    int empId = ((Account) session.getAttribute("acc")).getId();
-                    of.updateStatus(orderId, empId, "Completed");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                break;
-            case "reject":
-                try {
-                    int orderId = Integer.parseInt(request.getParameter("id"));
-                    int empId = ((Account) session.getAttribute("acc")).getId();
-                    of.updateStatus(orderId, empId, "Failed");
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                break;
-            case "read":
-                try {
-                    int orderId = Integer.parseInt(request.getParameter("id"));
-                    List<OrderDetail> listDetail = of.selectOrderDetail(orderId);
+                        Gson gson = new Gson();
+                        PrintWriter out = response.getWriter();
+                        out.print(gson.toJson(listDetail));
+                        out.flush();
+                        out.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    break;
+                default:
+                    //Show error page
+                    request.setAttribute("controller", "error");
+                    request.setAttribute("action", "error404");
+                    request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
 
-                    Gson gson = new Gson();
-                    PrintWriter out = response.getWriter();
-                    out.print(gson.toJson(listDetail));
-                    out.flush();
-                    out.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                break;
-            default:
-                //Show error page
-                request.setAttribute("controller", "error");
-                request.setAttribute("action", "error404");
-                request.getRequestDispatcher("/WEB-INF/layouts/fullscreen.jsp").forward(request, response);
-
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/account/login.do");
         }
     }
 

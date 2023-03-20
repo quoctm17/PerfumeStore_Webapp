@@ -9,7 +9,6 @@ import dao.AccountFacade;
 import entity.Account;
 import entity.Toast;
 import java.io.IOException;
-import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -124,10 +123,10 @@ public class AccountController extends HttpServlet {
                 Cookie cookiePass = new Cookie("cookPass", password);
                 Cookie cookRemember = new Cookie("cookRem", remember);
 
-                cookieEmail.setMaxAge(60 * 60);
+                cookieEmail.setMaxAge(60);
 
                 if (remember != null) {
-                    cookiePass.setMaxAge(60 * 60);
+                    cookiePass.setMaxAge(60);
                 } else {
                     cookiePass.setMaxAge(0);
                 }
@@ -193,7 +192,7 @@ public class AccountController extends HttpServlet {
             ex.printStackTrace();
             request.setAttribute("message", ex.getMessage());
             request.setAttribute("controller", "error");
-            request.setAttribute("action", "error");
+            request.setAttribute("action", "error404");
         }
     }
 

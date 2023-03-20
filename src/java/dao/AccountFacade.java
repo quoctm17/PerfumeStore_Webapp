@@ -174,6 +174,20 @@ public class AccountFacade {
         stm.setString(5, hash(account.getPass()));
         //Thực thi lệnh sql
         int count = stm.executeUpdate();
+        int id = 0;
+        stm = con.prepareStatement("select * from account where [email]=?");
+        stm.setString(1, account.getEmail());
+        //Thực thi lệnh sql
+        ResultSet rs = stm.executeQuery();
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+        
+        stm = con.prepareStatement("Insert customer ([id], [category], [deliveryAddress]) values (?, ?, ?)");
+        stm.setInt(1, id);
+        stm.setString(2, "Copper");
+        stm.setString(3, account.getAddress());
+        count = stm.executeUpdate();
         //Đóng kết nối
         con.close();
     }

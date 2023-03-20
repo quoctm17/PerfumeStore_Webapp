@@ -108,6 +108,17 @@ public class CartController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/cart/index.do");
     }
 
+    protected void clearCart(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+        Cart cart = (Cart) session.getAttribute("cart");
+        CartFacade cartFacade = new CartFacade();
+        cart.empty();
+        session.setAttribute("cart", cart);
+        //Quay ve home page
+        response.sendRedirect(request.getContextPath() + "/cart/index.do");
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -168,7 +179,7 @@ public class CartController extends HttpServlet {
                             request.setAttribute("action", "checkout");
                             request.getRequestDispatcher("cart").forward(request, response);
                         }
-                        
+
                         af.createCustomerAccount(name, phone, email, address);
                         customerId = af.getCustomerId(email);
                         cusf.create(customerId, "Copper", deliveryAddress);
@@ -204,6 +215,15 @@ public class CartController extends HttpServlet {
             case "delete":
                 try {
                     delete(request, response);
+                } catch (IOException | SQLException | ServletException ex) { //in thong báo loi chi tiet cho developer
+                    //in thong báo loi chi tiet cho developer
+                    request.setAttribute("message", ex.getMessage());
+                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
+                }
+                break;
+            case "clearCart":
+                try {
+                    clearCart(request, response);
                 } catch (IOException | SQLException | ServletException ex) { //in thong báo loi chi tiet cho developer
                     //in thong báo loi chi tiet cho developer
                     request.setAttribute("message", ex.getMessage());
