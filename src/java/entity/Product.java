@@ -5,8 +5,6 @@
  */
 package entity;
 
-import java.text.DecimalFormat;
-
 /**
  *
  * @author Beyond Nguyen
