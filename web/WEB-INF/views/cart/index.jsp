@@ -80,9 +80,9 @@
                         <a href="<c:url value="/shop/list.do" />">Continue Shopping</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="col-lg-4 col-md-4 col-sm-4 text-center">
                     <div class="cart__btn">
-                        <a href="<c:url value="/shop/list.do" />">Continue Shopping</a>
+                        <a href="<c:url value="/cart/clearCart.do" />">Clear all products</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
