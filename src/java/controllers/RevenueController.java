@@ -6,6 +6,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import dao.AccountFacade;
 import dao.OrderFacade;
 import entity.Revenue;
 import java.io.IOException;
@@ -41,50 +42,53 @@ public class RevenueController extends HttpServlet {
         String action = (String) request.getAttribute("action");
 
         String time = request.getParameter("time");
-        switch (action) {
-            case "list":
-                request.setAttribute("time", time);
-                request.setAttribute("activeTab", "revenue");
-                request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
-                break;
-            case "read":
-                try {
-                    List<Revenue> list = null;
-                    OrderFacade od = new OrderFacade();
-                    String[] timeSelect = new String[2];
+        if (AccountFacade.isLogin(request) == 1) {
+            switch (action) {
+                case "list":
+                    request.setAttribute("time", time);
+                    request.setAttribute("activeTab", "revenue");
+                    request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
+                    break;
+                case "read":
+                    try {
+                        List<Revenue> list = null;
+                        OrderFacade od = new OrderFacade();
+                        String[] timeSelect = new String[2];
 
-                    String _time = request.getParameter("time");
-                    switch (_time) {
-                        case "daily":
-                            timeSelect[0] = request.getParameter("month");
-                            timeSelect[1] = request.getParameter("year");
-                            list = od.getRevenue("day", timeSelect);
-                            break;
-                        case "monthly":
-                            timeSelect[0] = request.getParameter("year");
-                            list = od.getRevenue("month", timeSelect);
-                            break;
-                        case "yearly":
-                            timeSelect[0] = request.getParameter("year");
-                            timeSelect[1] = request.getParameter("endYear");
-                            list = od.getRevenue("year", timeSelect);
-                            System.out.println(timeSelect[0]);
-                            System.out.println(timeSelect[1]);
-                            System.out.println(list);
-                            break;
+                        String _time = request.getParameter("time");
+                        switch (_time) {
+                            case "daily":
+                                timeSelect[0] = request.getParameter("month");
+                                timeSelect[1] = request.getParameter("year");
+                                list = od.getRevenue("day", timeSelect);
+                                break;
+                            case "monthly":
+                                timeSelect[0] = request.getParameter("year");
+                                list = od.getRevenue("month", timeSelect);
+                                break;
+                            case "yearly":
+                                timeSelect[0] = request.getParameter("year");
+                                timeSelect[1] = request.getParameter("endYear");
+                                list = od.getRevenue("year", timeSelect);
+                                System.out.println(timeSelect[0]);
+                                System.out.println(timeSelect[1]);
+                                System.out.println(list);
+                                break;
+                        }
+
+                        Gson gson = new Gson();
+                        PrintWriter out = response.getWriter();
+                        out.print(gson.toJson(list));
+                        out.flush();
+                        out.close();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-
-                    Gson gson = new Gson();
-                    PrintWriter out = response.getWriter();
-                    out.print(gson.toJson(list));
-                    out.flush();
-                    out.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                break;
+                    break;
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/account/login.do");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
