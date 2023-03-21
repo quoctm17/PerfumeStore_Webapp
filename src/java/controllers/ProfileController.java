@@ -8,6 +8,7 @@ import entity.Account;
 import entity.Customer;
 import entity.Employee;
 import entity.FullOrder;
+import entity.Toast;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,6 +84,15 @@ public class ProfileController extends HttpServlet {
                         String partName = part.getName();
                         if (!partName.equals("avatar")) {
                             String partValue = convertISToString(part.getInputStream());
+                            
+                            if (partName.equals("email")) {
+                                if (af.checkAccountExist(partValue) != null) {
+                                    Toast toast = new Toast("Existing email!", "failed");
+                                    request.setAttribute("toast", toast);
+                                    request.getRequestDispatcher("/profile/info.do").forward(request, response);
+                                }
+                            }
+                            
                             map.put(partName, partValue);
                         } else {
                             if (part.getContentType().startsWith("image/")) {
@@ -94,32 +104,39 @@ public class ProfileController extends HttpServlet {
                         }
                     }
 
-                    af.updateNonSecurityInfo(id, map.get("username"), map.get("phone"), map.get("email"), map.get("address"));
+                    af.updateNonSecurityInfo(id, map.get("username"), map.get("phone"), map.get("email"), map.get("address"), true);
                     cf.update(id, cf.read(id).getCategory(), map.get("deliveryAddress"));
                     session.setAttribute("acc", af.getAnAccount(id));
-
-                    response.sendRedirect(request.getContextPath() + "/profile/info.do");
+                    
+                    Toast toast = new Toast("Updated!", "success");
+                    request.setAttribute("toast", toast);
+                    request.getRequestDispatcher("/profile/info.do").forward(request, response);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             }
             break;
             case "security":
-
                 request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 break;
             case "updatePass":
                 try {
+                    Toast toast = null;
                     String password = request.getParameter("password");
                     String newPassword = request.getParameter("newPassword");
                     String confirmPassword = request.getParameter("confirmPassword");
 
-                    if (!newPassword.equals(confirmPassword)) {
-                        response.sendRedirect(request.getContextPath() + "/profile/security.do");
+                    if (!acc.getPass().equals(af.hash(password))) {
+                        toast = new Toast("Current password does not correct!", "failed");
+                    } else if (!newPassword.equals(confirmPassword)) {
+                        toast = new Toast("Confirmation is differ from new password", "failed");
                     } else {
                         af.updateSecurityInfo(newPassword, id);
+                        toast = new Toast("Changed password successfully", "success");
                     }
-                    response.sendRedirect(request.getContextPath() + "/profile/security.do");
+
+                    request.setAttribute("toast", toast);
+                    request.getRequestDispatcher("/profile/security.do").forward(request, response);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

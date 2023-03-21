@@ -16,20 +16,20 @@ public class Account {
     private String phone;
     private String email;
     private String pass;
-    private int isEnabled;
+    private boolean enabled;
     private String role;
 
     public Account() {
     }
 
-    public Account(int id, String user, String address, String phone, String email, String pass, int isEnabled, String role) {
+    public Account(int id, String user, String address, String phone, String email, String pass, boolean enabled, String role) {
         this.id = id;
         this.user = user;
         this.address = address;
         this.phone = phone;
         this.email = email;
         this.pass = pass;
-        this.isEnabled = isEnabled;
+        this.enabled = enabled;
         this.role = role;
     }
 
@@ -81,20 +81,20 @@ public class Account {
         this.pass = pass;
     }
 
-    public int getIsEnabled() {
-        return isEnabled;
-    }
-
-    public void setIsEnabled(int isEnabled) {
-        this.isEnabled = isEnabled;
-    }
-
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
     
 }

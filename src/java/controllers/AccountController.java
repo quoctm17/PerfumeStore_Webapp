@@ -151,14 +151,13 @@ public class AccountController extends HttpServlet {
             throws ServletException, IOException {
         try {
             // Đọc dữ liệu từ client gửi lên
-
             String username = request.getParameter("user");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
             String email = request.getParameter("email");
             String password = request.getParameter("pass");
             String conpass = request.getParameter("conpass");
-            Account account = new Account(0, username, address, phone, email, password, 1, "");
+            Account account = new Account(0, username, address, phone, email, password, true, "");
             if (!password.equals(conpass)) { // Confirm Password không giống với Password đã nhập
 
                 request.setAttribute("message", "Confirm Password must be the same as Password");

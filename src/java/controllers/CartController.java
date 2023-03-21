@@ -7,8 +7,6 @@ package controllers;
 
 import dao.AccountFacade;
 import dao.CartFacade;
-import dao.CategoryFacade;
-import dao.CustomerFacade;
 import dao.ProductFacade;
 import entity.Account;
 import entity.Cart;
@@ -17,10 +15,9 @@ import entity.Product;
 import entity.Toast;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -76,7 +73,6 @@ public class CartController extends HttpServlet {
         //Lay gio tu session
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
-        ProductFacade pf = new ProductFacade();
 
         Enumeration<String> names = request.getParameterNames();
         while (names.hasMoreElements()) {
@@ -84,9 +80,6 @@ public class CartController extends HttpServlet {
             if (name.startsWith("newQuantity_")) {
                 int quantity = Integer.parseInt(request.getParameter(name));
                 String id = name.substring(12);
-
-                Product product = pf.read(id);
-                Item item = new Item(product, quantity);
 
                 //update item vao cart
                 cart.update(Integer.parseInt(id), quantity);
@@ -112,7 +105,6 @@ public class CartController extends HttpServlet {
             throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
-        CartFacade cartFacade = new CartFacade();
         cart.empty();
         session.setAttribute("cart", cart);
         //Quay ve home page
@@ -125,9 +117,6 @@ public class CartController extends HttpServlet {
 
         String controller = (String) request.getAttribute("controller");
         String action = (String) request.getAttribute("action");
-        ProductFacade pf = new ProductFacade();
-        CategoryFacade cf = new CategoryFacade();
-        List<Product> list = new ArrayList<>();
 
         switch (action) {
             case "index":
@@ -147,6 +136,7 @@ public class CartController extends HttpServlet {
                 break;
             case "order":
                 try {
+                    AccountFacade af = new AccountFacade();
                     int customerId = 0;
 
                     String newAccount = request.getParameter("newAccount");
@@ -158,30 +148,22 @@ public class CartController extends HttpServlet {
                         } else {
                             Toast toast = new Toast("You must login before checking out", "info");
                             request.setAttribute("toast", toast);
-                            request.setAttribute("controller", "cart");
-                            request.setAttribute("action", "checkout");
-                            request.getRequestDispatcher("cart").forward(request, response);
+                            request.getRequestDispatcher("/cart/checkout.do").forward(request, response);
                         }
                     } else if (newAccount.equalsIgnoreCase("true")) {
                         String name = request.getParameter("name");
                         String address = request.getParameter("address");
-                        String deliveryAddress = request.getParameter("deliveryAddress");
                         String phone = request.getParameter("phone");
                         String email = request.getParameter("email");
-
-                        AccountFacade af = new AccountFacade();
-                        CustomerFacade cusf = new CustomerFacade();
 
                         if (af.checkAccountExist(email) != null) {
                             Toast toast = new Toast("The email has existed already! Please try again.", "failed");
                             request.setAttribute("toast", toast);
-                            request.setAttribute("controller", "cart");
-                            request.setAttribute("action", "checkout");
-                            request.getRequestDispatcher("cart").forward(request, response);
+                            request.getRequestDispatcher("/cart/checkout.do").forward(request, response);
                         }
-
-                        customerId = af.createCustomerAccount(name, phone, email, address);
-                        cusf.create(customerId, "Copper", deliveryAddress);
+                        
+                        Account newAcc = new Account(0, name, address, phone, email, "1", true, "ROLL_CUSTOMER");
+                        customerId = af.signup(newAcc);
                     }
 //                    At this line, you have customer id already, save product order to database here
                     String noteOfDetailHeader = request.getParameter("noteOfDetailHeader");
@@ -191,13 +173,12 @@ public class CartController extends HttpServlet {
                     cartFacade.addOrder(customerId, noteOfDetailHeader, cart);
                     cart.empty();
                     session.setAttribute("cart", cart);
-
+                    session.setAttribute("acc", af.getAnAccount((Integer.toString(customerId))));
+                    
                     Toast toast = new Toast("Order confirmed! Thank you <3", "success");
                     request.setAttribute("toast", toast);
-                    request.setAttribute("controller", "home");
-                    request.setAttribute("action", "index");
-                    request.getRequestDispatcher("home").forward(request, response);
-                } catch (IOException | SQLException ex) {
+                    request.getRequestDispatcher("/home/index.do").forward(request, response);
+                } catch (IOException | SQLException | NoSuchAlgorithmException ex) {
                     request.setAttribute("message", ex.getMessage());
                     request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
                 }

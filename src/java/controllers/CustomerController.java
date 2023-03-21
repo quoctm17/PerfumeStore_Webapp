@@ -136,7 +136,7 @@ public class CustomerController extends HttpServlet {
                         String address = request.getParameter("address");
                         String deliveryAddress = request.getParameter("deliveryAddress");
 
-                        af.updateNonSecurityInfo(id, name, phone, email, address);
+                        af.updateNonSecurityInfo(id, name, phone, email, address, true);
                         cf.update(id, category, deliveryAddress);
 
                         response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
@@ -149,7 +149,6 @@ public class CustomerController extends HttpServlet {
                 case "delete":
                     try {
                         String id = request.getParameter("id");
-                        cf.delete(id);
                         af.delete(id);
                         response.sendRedirect(request.getContextPath() + "/admin/customer/list.do");
                     } catch (SQLException ex) {

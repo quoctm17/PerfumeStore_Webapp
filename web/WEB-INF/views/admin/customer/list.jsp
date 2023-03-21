@@ -29,7 +29,8 @@ Author     : Beyond Nguyen
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Category</th>
-                        <th>Delivery Addr.</th>
+                        <th>Delivery</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -42,9 +43,10 @@ Author     : Beyond Nguyen
                             <td>${profile.account.phone}</td>
                             <td>${profile.customer.category}</td>
                             <td class="line-clamp">${profile.customer.deliveryAddress}</td>
+                            <td>${profile.account.enabled}</td>
                             <td>
                                 <a href="#editCustomerModal" onclick="handleEditCate(${profile.customer.id})" class="edit" data-toggle="modal"><i class="material-icons fa fa-pencil" data-toggle="tooltip" title="Edit"></i></a>
-                                <a href="#deleteCustomerModal" onclick="handleDeleteCate(${profile.customer.id})" class="delete" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#deleteCustomerModal" onclick="handleDeleteCate(${profile.customer.id})" class="delete ${profile.account.enabled == true ? "" : "disabled"}" data-toggle="modal"><i class="material-icons fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                     </c:forEach>

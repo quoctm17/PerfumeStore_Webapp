@@ -59,12 +59,14 @@
                                 <input type="text" name="address" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="checkout__form__input">
-                                <p>Delivery Address <span>*</span></p>
-                                <input type="text" name="deliveryAddress" value="${sessionScope.acc.address}" ${sessionScope.acc != null ? "disabled" : ""}>
+                        <c:if test="${sessionScope.acc != null}">
+                            <div class="col-lg-12">
+                                <div class="checkout__form__input">
+                                    <p>Delivery Address <span>*</span></p>
+                                    <input type="text" name="deliveryAddress" value="${sessionScope.acc.address}" disabled>
+                                </div>
                             </div>
-                        </div>
+                        </c:if>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="checkout__form__input">
                                 <p>Phone <span>*</span></p>
@@ -111,7 +113,7 @@
                                 <li>Total 
                                     <span>
                                         <script>
-                                    document.write(Number(${cart.totalCart}).toLocaleString() + " VNĐ");
+                                            document.write(Number(${cart.totalCart}).toLocaleString() + " VNĐ");
                                         </script>
                                     </span>
                                 </li>

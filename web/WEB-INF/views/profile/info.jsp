@@ -115,4 +115,9 @@
         document.querySelector("#avatar-preview").src = URL.createObjectURL(e.target.files[0]);
         document.querySelector("input[name=isAvaChange]").value = true;
     })
+    
+    document.querySelector("#avatar-preview").addEventListener("error", (e) => {
+        e.target.src = "<c:url value="/assets/img/user-avatar.png" />";
+    })
+    
 </script>

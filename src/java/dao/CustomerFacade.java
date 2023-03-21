@@ -80,14 +80,6 @@ public class CustomerFacade {
         con.close();
     }
 
-    public void delete(String id) throws SQLException {
-        Connection con = DBContext.getConnection();
-        PreparedStatement pstm = con.prepareStatement("delete from customer where id= ?");
-        pstm.setString(1, id);
-        int count = pstm.executeUpdate();
-        con.close();
-    }
-
     public static void main(String[] args) {
         CustomerFacade cf = new CustomerFacade();
         try {

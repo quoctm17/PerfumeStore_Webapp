@@ -34,26 +34,13 @@ public class AccountFacade {
             a.setPhone(rs.getString("phone"));
             a.setEmail(rs.getString("email"));
             a.setPass(rs.getString("password"));
-            a.setIsEnabled(rs.getInt("enabled"));
+            a.setEnabled(rs.getBoolean("enabled"));
             a.setRole(rs.getString("role"));
             list.add(a);
         }
         con.close();
         return list;
     }
-
-//    public int getCustomerId(String email) throws SQLException {
-//        Connection con = DBContext.getConnection();
-//
-//        PreparedStatement stm = con.prepareStatement("select id from account where [email]=?");
-//        stm.setString(1, email);
-//        //Thực thi lệnh sql
-//        ResultSet rs = stm.executeQuery();
-//        if (rs.next()) {
-//            return rs.getInt("id");
-//        }
-//        return -1;
-//    }
 
     public Account getAnAccount(String id) throws SQLException {
         Connection con = DBContext.getConnection();
@@ -69,7 +56,7 @@ public class AccountFacade {
                     rs.getString("phone"),
                     rs.getString("email"),
                     rs.getString("password"),
-                    rs.getInt("enabled"),
+                    rs.getBoolean("enabled"),
                     rs.getString("role"));
         }
         return null;
@@ -77,7 +64,7 @@ public class AccountFacade {
 
     public int createCustomerAccount(String name, String phone, String email, String address) throws SQLException {
         int insertedId = -1;
-        
+
         Connection con = DBContext.getConnection();
         PreparedStatement pstm = con.prepareStatement("insert Account (username, address, phone, email) values (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         pstm.setString(1, name);
@@ -89,7 +76,7 @@ public class AccountFacade {
         if (count == 0) {
             throw new SQLException("Creating account failed, no rows affected.");
         }
-        
+
         try (ResultSet generatedKeys = pstm.getGeneratedKeys()) {
             if (generatedKeys.next()) {
                 insertedId = generatedKeys.getInt(1);
@@ -102,10 +89,10 @@ public class AccountFacade {
         return insertedId;
     }
 
-    public void updateNonSecurityInfo(String id, String name, String phone, String email, String address) throws SQLException {
+    public void updateNonSecurityInfo(String id, String name, String phone, String email, String address, boolean enabled) throws SQLException {
 
         Connection con = DBContext.getConnection();
-        PreparedStatement pstm = con.prepareStatement("update account set [username] = ?, phone = ?, email = ?, address = ?  where id = ?");
+        PreparedStatement pstm = con.prepareStatement("update account set [username] = ?, phone = ?, email = ?, address = ?, enabled = 1  where id = ?");
         pstm.setString(1, name);
         pstm.setString(2, phone);
         pstm.setString(3, email);
@@ -130,7 +117,7 @@ public class AccountFacade {
 
     public void delete(String id) throws SQLException {
         Connection con = DBContext.getConnection();
-        PreparedStatement pstm = con.prepareStatement("delete from account where id= ?");
+        PreparedStatement pstm = con.prepareStatement("update account set enabled = 0 where id= ?");
         pstm.setString(1, id);
         int count = pstm.executeUpdate();
         con.close();
@@ -139,7 +126,7 @@ public class AccountFacade {
     public Account login(String email, String pass) throws SQLException, NoSuchAlgorithmException {
         Connection con = DBContext.getConnection();
         //Tạo đối tượng PreparedStatement
-        PreparedStatement stm = con.prepareStatement("select * from account where [email]=? and password=?");
+        PreparedStatement stm = con.prepareStatement("select * from account where [email]=? and password=? and enabled = 1");
         stm.setString(1, email);
         stm.setString(2, hash(pass));
         //Thực thi lệnh sql
@@ -151,7 +138,7 @@ public class AccountFacade {
                     rs.getString("phone"),
                     rs.getString("email"),
                     rs.getString("password"),
-                    rs.getInt("enabled"),
+                    rs.getBoolean("enabled"),
                     rs.getString("role"));
         }
         return null;
@@ -171,39 +158,48 @@ public class AccountFacade {
                     rs.getString("phone"),
                     rs.getString("email"),
                     rs.getString("password"),
-                    rs.getInt("enabled"),
+                    rs.getBoolean("enabled"),
                     rs.getString("role"));
         }
         return null;
     }
 
-    public void signup(Account account) throws SQLException, NoSuchAlgorithmException {
+    public int signup(Account account) throws SQLException, NoSuchAlgorithmException {
+        int id = -1;
         Connection con = DBContext.getConnection();
-        //Tạo đối tượng PreparedStatement
-        PreparedStatement stm = con.prepareStatement("Insert account ([username], [address], [phone], [email], [password]) values (?, ?, ?, ?, ? )");
-        stm.setString(1, account.getUser());
-        stm.setString(2, account.getAddress());
-        stm.setString(3, account.getPhone());
-        stm.setString(4, account.getEmail());
-        stm.setString(5, hash(account.getPass()));
-        //Thực thi lệnh sql
-        int count = stm.executeUpdate();
-        int id = 0;
-        stm = con.prepareStatement("select * from account where [email]=?");
-        stm.setString(1, account.getEmail());
-        //Thực thi lệnh sql
-        ResultSet rs = stm.executeQuery();
-        while (rs.next()) {
-            id = rs.getInt("id");
-        }
+        try {
+            con.setAutoCommit(false);
+            //Tạo đối tượng PreparedStatement
+            PreparedStatement stm = con.prepareStatement("Insert account ([username], [address], [phone], [email], [password]) values (?, ?, ?, ?, ? )", Statement.RETURN_GENERATED_KEYS);
+            stm.setString(1, account.getUser());
+            stm.setString(2, account.getAddress());
+            stm.setString(3, account.getPhone());
+            stm.setString(4, account.getEmail());
+            stm.setString(5, hash(account.getPass()));
+            //Thực thi lệnh sql
+            int count = stm.executeUpdate();
 
-        stm = con.prepareStatement("Insert customer ([id], [category], [deliveryAddress]) values (?, ?, ?)");
-        stm.setInt(1, id);
-        stm.setString(2, "Copper");
-        stm.setString(3, account.getAddress());
-        count = stm.executeUpdate();
-        //Đóng kết nối
-        con.close();
+            try (ResultSet rs = stm.getGeneratedKeys()) {
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
+
+            stm = con.prepareStatement("Insert customer ([id], [category], [deliveryAddress]) values (?, ?, ?)");
+            stm.setInt(1, id);
+            stm.setString(2, "Copper");
+            stm.setString(3, account.getAddress());
+            count = stm.executeUpdate();
+
+            con.commit();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            con.rollback();
+            throw new SQLException(ex.getMessage());
+        } finally {
+            con.close();
+            return id;
+        }
     }
 
     public static int isLogin(HttpServletRequest request) {
