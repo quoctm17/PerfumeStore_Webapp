@@ -74,7 +74,7 @@ Author     : Beyond Nguyen
 <div id="addOrdersModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<c:url value="/admin/Orders/create.do" />">
+            <form method="post" id="formAddOrder" action="<c:url value="/admin/orders/create.do" />">
                 <div class="modal-header">						
                     <h4 class="modal-title">Add Orders</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -82,21 +82,26 @@ Author     : Beyond Nguyen
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Customer</label>
-                        <select name="categoryId" class="form-control">
-
-                            <option value="">gfdgfd</option>
-
+                        <select name="customerId" class="form-control">
+                            <c:forEach items="${customerList}" var="customer">
+                                <option value="${customer.id}">${customer.user}</option>
+                            </c:forEach>
                         </select>
                     </div>
-                    <div class="form-group product-template">
-                        <label>Product</label>
-                        <select name="categoryId" class="form-control">
-
-                            <option value="">gfdgfd</option>
-
-                        </select>
+                    <div class="row product-template">
+                        <div class="form-group col">
+                            <label>Product</label>
+                            <select name="productId" class="form-control">
+                                <c:forEach items="${productList}" var="product">
+                                    <option value="${product.id}">${product.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label>Quantity</label>
+                            <input class="form-control" value="1" type="number" min="1" name="quantity"/>
+                        </div>
                     </div>
-
                 </div>
                 <div style="text-align: right; padding: 20px">
                     <span onclick="appendProduct()" class="btn btn-info">More product</span>
@@ -115,7 +120,7 @@ Author     : Beyond Nguyen
     <div class="modal-dialog" style="max-width: 680px;">
         <div class="modal-content">
             <div class="modal-header">						
-                <h4 class="modal-title">Edit Product</h4>
+                <h4 class="modal-title">Edit Order</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body" id="showTable">
@@ -265,4 +270,16 @@ Author     : Beyond Nguyen
         const node = document.querySelector('.product-template').cloneNode(true);
         document.querySelector('#addOrdersModal .modal-body').appendChild(node);
     }
+
+    document.querySelector('#formAddOrder').addEventListener('submit', e => {
+        e.preventDefault();
+        const template = e.target.querySelectorAll('.product-template');
+
+        for (let i = 0; i < template.length; i++) {
+            const productId = template[i].querySelector('select[name=productId]').value;
+            template[i].querySelector('input[name=quantity]').setAttribute('name', "quantity-"+productId);  
+        }
+        
+        e.target.submit();
+    })
 </script>

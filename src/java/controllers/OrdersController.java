@@ -7,10 +7,16 @@ package controllers;
 
 import com.google.gson.Gson;
 import dao.AccountFacade;
+import dao.CartFacade;
 import dao.OrderFacade;
+import dao.ProductFacade;
 import entity.Account;
+import entity.Cart;
+import entity.Item;
 import entity.OrderDetail;
 import entity.OrderHeader;
+import entity.Product;
+import entity.Toast;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -44,6 +50,8 @@ public class OrdersController extends HttpServlet {
         String action = (String) request.getAttribute("action");
 
         OrderFacade of = new OrderFacade();
+        AccountFacade af = new AccountFacade();
+        ProductFacade pf = new ProductFacade();
         HttpSession session = request.getSession();
         if (AccountFacade.isLogin(request) != 0 && AccountFacade.isLogin(request) != 3) {
             switch (action) {
@@ -70,10 +78,36 @@ public class OrdersController extends HttpServlet {
                         request.setAttribute("currentPage", page);
                         request.setAttribute("activeTab", "order");
                         request.setAttribute("list", list);
+                        request.setAttribute("customerList", af.selectCustomerAccounts());
+                        request.setAttribute("productList", pf.selectAll());
                         request.getRequestDispatcher("/WEB-INF/layouts/admin.jsp").forward(request, response);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
+                    break;
+                case "create":
+
+                    try {
+                        String customerId = request.getParameter("customerId");
+                        String[] idArr = request.getParameterValues("productId");
+                        Cart cart = new Cart();
+                        for (int i = 0; i < idArr.length; i++) {
+                            String id = idArr[i];
+                            Product product = pf.read(id);
+                            int quantity = Integer.parseInt(request.getParameter("quantity-" + id));
+                            Item item = new Item(product, quantity);
+                            cart.add(item);
+                        }
+                        CartFacade cf = new CartFacade();
+                        cf.addOrder(Integer.parseInt(customerId), "", cart);
+
+                        Toast toast = new Toast("Added successfully!", "success");
+                        request.setAttribute("toast", toast);
+                        request.getRequestDispatcher("/admin/orders/list.do").forward(request, response);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
                     break;
                 case "accept":
                     try {

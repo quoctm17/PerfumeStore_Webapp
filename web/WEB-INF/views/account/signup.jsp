@@ -31,8 +31,6 @@
 
                         </div>
                         <form action="<c:url value="/account/signup_handler.do"/>" class="signin-form" method="post">
-                            <p class ="text-danger"> ${message} </p>
-                            
                             <div class="form-group mb-3">
                                 <label class="label" for="email">Email</label>
                                 <input
@@ -44,9 +42,9 @@
                                     value="${account.email}"
                                     required
                                     />
+                                <i class ="text-danger small"> ${message.emailExist} </i>
                             </div>
-                                    
-                                    <div class="form-group mb-3">
+                            <div class="form-group mb-3">
                                 <label class="label" for="username">Name</label>
                                 <input
                                     id="user"
@@ -58,7 +56,7 @@
                                     required
                                     />
                             </div>
-                                    <div class="form-group mb-3">
+                            <div class="form-group mb-3">
                                 <label class="label" for="addr">Address</label>
                                 <input
                                     id="addr"
@@ -104,6 +102,7 @@
                                     placeholder="Confirm Password"
                                     required
                                     />
+                                <i class ="text-danger small"> ${message.passConfirm} </i>
                             </div>
                             <div class="form-group">
                                 <button

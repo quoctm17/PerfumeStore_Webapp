@@ -9,6 +9,7 @@ import dao.AccountFacade;
 import entity.Account;
 import entity.Toast;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -76,11 +77,6 @@ public class AccountController extends HttpServlet {
             case "signup_handler":
                 // Xử lý signup form
                 signup_handler(request, response);
-                if (request.getAttribute("action").equals("login_handler")) {
-                    request.getRequestDispatcher("/account").forward(request, response);
-                } else {
-                    request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-                }
                 break;
             case "logout":
                 HttpSession session = request.getSession();
@@ -150,6 +146,8 @@ public class AccountController extends HttpServlet {
     protected void signup_handler(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            boolean isValid = true;
+            HashMap<String, String> message = new HashMap<>();
             // Đọc dữ liệu từ client gửi lên
             String username = request.getParameter("user");
             String address = request.getParameter("address");
@@ -159,33 +157,31 @@ public class AccountController extends HttpServlet {
             String conpass = request.getParameter("conpass");
             Account account = new Account(0, username, address, phone, email, password, true, "");
             if (!password.equals(conpass)) { // Confirm Password không giống với Password đã nhập
+                isValid = false;
+                message.put("passConfirm", "Confirm Password must be the same as Password");
+            }
 
-                request.setAttribute("message", "Confirm Password must be the same as Password");
-                request.setAttribute("controller", "account");
-                request.setAttribute("action", "signup");
+            AccountFacade af = new AccountFacade();
+            Account a = af.checkAccountExist(account.getEmail());
+            if (a != null) {
+                isValid = false;
+                // Không được signup do đã tồn tại Username trong DB
+                message.put("emailExist", "Email already exists. Please use a different!");
+            }
+
+            if (isValid) {
+                // Được signup
+                af.signup(account);
+                request.setAttribute("email", account.getEmail());
+                request.setAttribute("pass", account.getPass());
+                // Tiến hành đăng nhập tự động khi đã signup thành công
+                request.getRequestDispatcher("/account/login_handler.do").forward(request, response);
+            } else {
                 // Lưu account vào request để bảo tồn trạng thái của form
                 request.setAttribute("account", account);
-                request.getRequestDispatcher("/WEB-INF/layouts/main.jsp").forward(request, response);
-            } else {
-                AccountFacade af = new AccountFacade();
-                Account a = af.checkAccountExist(account.getEmail());
-                if (a == null) {
-                    // Được signup
-                    af.signup(account);
-                    request.setAttribute("email", account.getEmail());
-                    request.setAttribute("pass", account.getPass());
-                    // Tiến hành đăng nhập tự động khi đã signup thành công
-                    request.setAttribute("controller", "account");
-                    request.setAttribute("action", "login_handler");
-                } else {
-                    // Không được signup do đã tồn tại Username trong DB
-                    request.setAttribute("message", "Email already exists. Please use a different!");
-                    // Lưu account vào request để bảo tồn trạng thái của form
-                    request.setAttribute("account", account);
-                    // Chuyển về trang signup để yêu cầu người dùng nhập lại thông tin
-                    request.setAttribute("controller", "account");
-                    request.setAttribute("action", "signup");
-                }
+                request.setAttribute("message", message);
+                // Chuyển về trang signup để yêu cầu người dùng nhập lại thông tin
+                request.getRequestDispatcher("/account/signup.do").forward(request, response);
             }
         } catch (Exception ex) { // Hiển thị lỗi
             ex.printStackTrace();
@@ -195,7 +191,7 @@ public class AccountController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

@@ -74,6 +74,7 @@
         <script src="<c:url value="/assets/js/jquery-3.3.1.min.js" />"></script>
         <script src="<c:url value="/assets/js/bootstrap.min.js"/>"></script>
         <script src="<c:url value="/assets/js/Chart.min.js"/>"></script>
+        <script src="<c:url value="/assets/js/main.js"/>"></script>
         <script>window.addEventListener('DOMContentLoaded', event => {
 
                 // Toggle the side navigation
@@ -91,5 +92,33 @@
                 }
 
             });</script>
+
+        <!--toast-->
+        <div id="toast"></div>
+
+        <script>
+            const toastObj = "${toast}";
+            if (toastObj) {
+                const message = "${toast.message}"
+                const type = "${toast.type}"
+                console.log(type)
+                function toastCall() {
+                    switch (type) {
+                        case "success":
+                            showSuccessToast(message, type);
+                            break;
+                        case "info":
+                            showInfoToast(message, type);
+                            break;
+                        case "failed":
+                            showFailedToast(message, type);
+                            break;
+                    }
+
+                }
+            }
+
+            window.addEventListener('load', () => toastCall())
+        </script>
     </body>
 </html>
